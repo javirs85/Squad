@@ -16,6 +16,9 @@ public class GameController : MonoBehaviour
 	public GameObject AlphaObject;
 	AlphaMarkerController Alpha;
 
+	[Header("HUD")]
+	public GameObject HUD;
+
 	float CurrentAlphaPosition = 0.0f;
 	float CurrentAlphaReference = 0.0f;
 
@@ -24,6 +27,7 @@ public class GameController : MonoBehaviour
 	void Start()
     {
         Alpha = AlphaObject.GetComponent<AlphaMarkerController>();
+		HideHUD(0.1f);
     }
 
 	// Update is called once per frame
@@ -71,7 +75,34 @@ public class GameController : MonoBehaviour
 			SetAlphaReference(0.0f);
 		if (Input.GetKeyUp(KeyCode.X))
 			SetAlphaReference(1.0f);
+		if(Input.GetKeyUp(KeyCode.C))
+			ToggleHUD();
 
+	}
+
+
+	private bool isHUDon = false;
+	void ShowHUD() { 
+		var Children = HUD.GetComponentsInChildren<Transform>();
+		foreach (var Child in Children)
+		{
+			StartCoroutine(FadeINOUTHelper.FadeInAndOut(Child.gameObject, true, 1.0f));
+		}
+		isHUDon = true;
+		HUD.SetActive(true);
+	}
+	void HideHUD(float Time = 1.0f) {
+		var Children = HUD.GetComponentsInChildren<Transform>();
+		foreach (var Child in Children)
+		{
+			StartCoroutine(FadeINOUTHelper.FadeInAndOut(Child.gameObject, false, Time));
+		}
+		isHUDon = false;
+	}
+	void ToggleHUD()
+	{
+		if(isHUDon) HideHUD();
+		else ShowHUD();
 	}
 
 	void ToggleObjectInScreen(GameObject obj)

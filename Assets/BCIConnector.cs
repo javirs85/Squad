@@ -2,24 +2,32 @@ using Gtec.Bandpower;
 using Gtec.Chain.Common.Nodes.InputNodes;
 using Gtec.Chain.Common.Templates.DataAcquisitionUnit;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
+using static UnityEngine.Rendering.GPUSort;
 
 public class BCIConnector : MonoBehaviour
 {
 	private Device _bci;
-	private GameController _controller;
+	public GameController Game;
 	private string connectedSN;
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
 	{
-		//_bci = GetComponent<Device>();
-		//_bci.OnDevicesAvailable.AddListener(UpdateAvailableDevices);
-		//_bci.OnDeviceStateChanged.AddListener(OnDeviceStateChanged);
-		//_bci.OnBandpowerMeanAvailable.AddListener(OnBandPowerChanges);
-		//_bci.OnSignalQualityAvailable.AddListener(OnNewSignalQualityChanges);
-		//_controller = GetComponent<GameController>();
+		_bci = GetComponent<Device>();
+		if(_bci is not null)
+		{
+			_bci.OnDevicesAvailable.AddListener(UpdateAvailableDevices);
+			_bci.OnDeviceStateChanged.AddListener(OnDeviceStateChanged);
+			_bci.OnBandpowerMeanAvailable.AddListener(OnBandPowerChanges);
+			_bci.OnSignalQualityAvailable.AddListener(OnNewSignalQualityChanges);
+		}
+		
+		Game = GetComponent<GameController>();		
 	}
 
 	List<ChannelQuality.ChannelStates> CurrentQualities = new List<ChannelQuality.ChannelStates>();
@@ -36,9 +44,9 @@ public class BCIConnector : MonoBehaviour
 		{
 			if(arg0[i] != CurrentQualities[i])
 			{
-				if (arg0[i] == ChannelQuality.ChannelStates.BadFloating) _controller.MakeFriendJerk(i);
-				else if (arg0[i] == ChannelQuality.ChannelStates.BadGrounded) _controller.HideFriend(i);
-				else if (arg0[i] == ChannelQuality.ChannelStates.Good) _controller.MakeFriendHappy(i);
+				if (arg0[i] == ChannelQuality.ChannelStates.BadFloating) Game.MakeFriendJerk(i);
+				else if (arg0[i] == ChannelQuality.ChannelStates.BadGrounded) Game.HideFriend(i);
+				else if (arg0[i] == ChannelQuality.ChannelStates.Good) Game.MakeFriendHappy(i);
 			}
 		}
 	}
@@ -58,15 +66,38 @@ public class BCIConnector : MonoBehaviour
 	private void OnDeviceStateChanged(DataAcquisitionUnit.States arg0)
 	{
 		Debug.Log(connectedSN + " changed to: " + arg0.ToString());
-		if(arg0 == DataAcquisitionUnit.States.Acquiring) _controller.ShowAllFriends();
-		if(arg0 == DataAcquisitionUnit.States.Disconnected) _controller.HideAllFriends();
+		if(arg0 == DataAcquisitionUnit.States.Acquiring) Game.ShowAllFriends();
+		if(arg0 == DataAcquisitionUnit.States.Disconnected) Game.HideAllFriends();
 	}
 
 	//get's the list of all available devices
 	private void UpdateAvailableDevices(List<string> arg0)
 	{
-		//connectedSN = arg0[0];
-		//_bci.Connect(connectedSN);
+		if (arg0 is not null)
+		{
+			if (arg0.Count == 1)
+			{
+				connectedSN = arg0[0];
+				_bci.Connect(connectedSN);
+			}
+			if (arg0.Count > 0)
+			{
+				Task.Run(() => StartDeviceSelection(arg0.ToList()));
+			}
+		}
+	}
+
+	async Task StartDeviceSelection(List<string> options)
+	{
+		var SelectedAmplifier = string.Empty;
+		while(string.IsNullOrEmpty(SelectedAmplifier))
+		{
+			Debug.Log($"Starting amp selection");
+			SelectedAmplifier = await Game.GetUserSelection(options);
+		}
+		Debug.Log($"Selected amp: {SelectedAmplifier}");
+		await Game.DestroyAmplifiersOnScreenAsync();
+		await Game.StartTheGame();
 	}
 
 	// Update is called once per frame

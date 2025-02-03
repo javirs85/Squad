@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class AlphaMarkerController : MonoBehaviour
@@ -15,8 +16,14 @@ public class AlphaMarkerController : MonoBehaviour
 	public GameObject MaxValuePosition;
 	public GameObject MinValuePosition;
 
-	float ReferenceValue = 0.5f;
 	bool IsReferenceSet = false;
+	private Vector3 Destination;
+
+	[HideInInspector]
+	public float AlphaValue = 0f;
+	[HideInInspector]
+	public float ReferenceValue = 0.5f;
+
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
@@ -40,9 +47,11 @@ public class AlphaMarkerController : MonoBehaviour
 	/// <param name="alpha">0..1 value for alpha level</param>
 	public void SetAlphaPosition(float alpha)
 	{
+		AlphaValue = alpha;
 		var MinToMaxVector = MinValuePosition.transform.localPosition - MaxValuePosition.transform.localPosition;
 		var AppliedVector = MinToMaxVector * alpha;
-		AlphaMarker.transform.localPosition = MinValuePosition.transform.localPosition - AppliedVector;
+
+		Destination = MinValuePosition.transform.localPosition - AppliedVector;
 
 		if (IsReferenceSet)
 		{
@@ -76,7 +85,10 @@ public class AlphaMarkerController : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        
-    }
+	{
+		AlphaMarker.transform.localPosition = Vector3.Lerp(
+			AlphaMarker.transform.localPosition,
+			Destination,
+			10.0f * Time.deltaTime);
+	}
 }

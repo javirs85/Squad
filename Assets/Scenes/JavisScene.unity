@@ -1012,9 +1012,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abe8ad7a8546a154081b745db73d26fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
+  SimulatorAlphaLevelUv: 20
+  AdvancedSettings: 0
   BuffersizeInSamples: 250
   BufferOverlapInSamples: 225
-  DebugMessagesEnabled: 1
+  Delta: {x: 1, y: 4}
+  Theta: {x: 4, y: 8}
+  Alpha: {x: 8, y: 12}
+  BetaLow: {x: 12, y: 16}
+  BetaMid: {x: 16, y: 20}
+  BetaHigh: {x: 20, y: 30}
+  Gamma: {x: 30, y: 50}
   OnDevicesAvailable:
     m_PersistentCalls:
       m_Calls: []
@@ -1042,7 +1051,13 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnBandpowerMeanAvailable:
+  OnMeanBandpowerAvailable:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRatiosAvailable:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMeanRatiosAvailable:
     m_PersistentCalls:
       m_Calls: []
   OnSignalQualityAvailable:
@@ -3727,7 +3742,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1965020512402592405, guid: 81aed58e52f31dd4993677f1af01696c, type: 3}
       propertyPath: m_LocalScale.x
-      value: -39.7
+      value: 39.7
       objectReference: {fileID: 0}
     - target: {fileID: 1965020512402592405, guid: 81aed58e52f31dd4993677f1af01696c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3775,6 +3790,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1965020512402592405, guid: 81aed58e52f31dd4993677f1af01696c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1965020512402592405, guid: 81aed58e52f31dd4993677f1af01696c, type: 3}
+      propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2603247199446896411, guid: 81aed58e52f31dd4993677f1af01696c, type: 3}

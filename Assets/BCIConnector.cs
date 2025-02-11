@@ -115,7 +115,11 @@ public class BCIConnector : MonoBehaviour
 				connectedSN = arg0[0];
 				_bci.Connect(connectedSN);
 			}
-			if (arg0.Count > 2) // the "only on simulator mode needs to be fixed"
+			else if (arg0.Count == 2)
+			{
+				Task.Run(() => StartDeviceSelection(arg0.ToList()));
+			}
+			else if (arg0.Count > 2) // the "only on simulator mode needs to be fixed"
 			{
 				Task.Run(() => StartDeviceSelection(arg0.ToList()));
 			}

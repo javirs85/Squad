@@ -32,34 +32,69 @@ public class BCIConnector : MonoBehaviour
 
 	List<ChannelQuality.ChannelStates> CurrentQualities = new List<ChannelQuality.ChannelStates>();
 
-	private void OnNewSignalQualityChanges(List<ChannelQuality.ChannelStates> arg0)
+	public void OnNewSignalQualityChanges(List<ChannelQuality.ChannelStates> arg0)
 	{
 		if(CurrentQualities.Count != arg0.Count)
 		{
 			CurrentQualities.Clear();
-			CurrentQualities.AddRange(arg0);
+			for(int i=0; i<arg0.Count; i++) CurrentQualities.Add(ChannelQuality.ChannelStates.Good);
 		}
+		string dbg = "";
+		foreach(var ch in arg0)
+		{
+			dbg += ch.ToString() + ", ";
+		}
+		//Debug.Log(dbg);
 
 		for (int i = 0; i < arg0.Count; i++)
 		{
 			if(arg0[i] != CurrentQualities[i])
 			{
-				if (arg0[i] == ChannelQuality.ChannelStates.BadFloating) Game.MakeFriendJerk(i);
-				else if (arg0[i] == ChannelQuality.ChannelStates.BadGrounded) Game.HideFriend(i);
-				else if (arg0[i] == ChannelQuality.ChannelStates.Good) Game.MakeFriendHappy(i);
+				if (arg0[i] == ChannelQuality.ChannelStates.BadFloating)
+					Game.MakeFriendJerk(i);
+				else if (arg0[i] == ChannelQuality.ChannelStates.BadGrounded) 
+					Game.HideFriend(i);
+				else if (arg0[i] == ChannelQuality.ChannelStates.Good) 
+					Game.MakeFriendHappy(i);
+
+				CurrentQualities[i] = arg0[i];
 			}
 		}
 	}
 
-	private void OnBandPowerChanges(Dictionary<string, double> arg0)
+	List<double> AlphaValues = new List<double>();
+	int FirstSamplesIgnored = 10;
+
+	public void OnBandPowerChanges(Dictionary<string, double> arg0)
 	{
-		string s = string.Empty;
-		foreach (KeyValuePair<string, double> kvp in arg0)
-		{
-			s += kvp.Key + " : ";
-			s += "[" + kvp.Value.ToString() + "]\n";
+
+		double alpha = arg0["alpha"];
+
+		if (FirstSamplesIgnored >  0)
+		{ 
+			FirstSamplesIgnored--;
 		}
-		Debug.Log(s);
+		else
+		{
+			AlphaValues.Add(alpha);
+			if (AlphaValues.Count > 50)
+			{
+				AlphaValues.Add(alpha);
+				if (AlphaValues.Count > 100)
+					AlphaValues.RemoveAt(0);
+
+				//float alphaPercent = Mathf.InverseLerp((float)AlphaValues.Min(), (float)AlphaValues.Max(), (float)alpha) * 100f;
+				//Debug.Log($"{alpha.ToString("F2")}: ({AlphaValues.Min().ToString("F2")} / {AlphaValues.Max().ToString("F2")}) => {alphaPercent} [{AlphaValues.Average()}]");
+
+
+				var ScreenValue = Mathf.InverseLerp(-1.0f, 8.0f, (float)alpha);
+				Debug.Log(ScreenValue);
+				Game.SetAlphaCurrentPosition(ScreenValue);
+			}
+			else
+				Debug.Log($"Loading ... {AlphaValues.Count*2}%");
+		}
+
 	}
 
 	//only for the already connected device
@@ -80,7 +115,7 @@ public class BCIConnector : MonoBehaviour
 				connectedSN = arg0[0];
 				_bci.Connect(connectedSN);
 			}
-			if (arg0.Count > 0)
+			if (arg0.Count > 2) // the "only on simulator mode needs to be fixed"
 			{
 				Task.Run(() => StartDeviceSelection(arg0.ToList()));
 			}
@@ -96,6 +131,9 @@ public class BCIConnector : MonoBehaviour
 			SelectedAmplifier = await Game.GetUserSelection(options);
 		}
 		Debug.Log($"Selected amp: {SelectedAmplifier}");
+
+		_bci.Connect(SelectedAmplifier);
+
 		await Game.DestroyAmplifiersOnScreenAsync();
 		await Game.StartTheGame();
 	}

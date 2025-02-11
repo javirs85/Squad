@@ -19,6 +19,8 @@ namespace Gtec.Bandpower
 
         public enum DeviceType { AllDevices, UnicornBCICore, Simulator  }
 
+        public enum SimulatorSignal { Grounded, Floating, GoodEEG}
+
         #endregion
 
         #region Properties...
@@ -43,6 +45,8 @@ namespace Gtec.Bandpower
         [Tooltip("Filter for certain device types.")]
         public DeviceType Type = Device.DeviceType.AllDevices;
         [SerializeField]
+        [Tooltip("The signal the simulator is generating.")]
+        public SimulatorSignal Signal = Device.SimulatorSignal.GoodEEG;
         [Tooltip("The alpha level in µV.")]
         [Range(0, 100)]
         public float SimulatorAlphaLevelUv = 20;
@@ -55,24 +59,31 @@ namespace Gtec.Bandpower
         [SerializeField]
         [Tooltip("The buffer size in samples.")]
         public int BufferOverlapInSamples = 225;
+        [FrequencyBand]
         [SerializeField]
         [Tooltip("The cutoff frequencies for the delta frequency band.")]
         public Vector2 Delta = new Vector2(1.0f,4.0f);
+        [FrequencyBand]
         [SerializeField]
         [Tooltip("The cutoff frequencies for the theta frequency band.")]
         public Vector2 Theta = new Vector2(4.0f, 8.0f);
+        [FrequencyBand]
         [SerializeField]
         [Tooltip("The cutoff frequencies for the alpha frequency band.")]
         public Vector2 Alpha = new Vector2(8.0f, 12.0f);
+        [FrequencyBand]
         [SerializeField]
         [Tooltip("The cutoff frequencies for the beta-low frequency band.")]
         public Vector2 BetaLow = new Vector2(12.0f, 16.0f);
+        [FrequencyBand]
         [SerializeField]
         [Tooltip("The cutoff frequencies for the beta-mid frequency band.")]
         public Vector2 BetaMid = new Vector2(16.0f, 20.0f);
+        [FrequencyBand]
         [SerializeField]
         [Tooltip("The cutoff frequencies for the beta-high frequency band.")]
         public Vector2 BetaHigh = new Vector2(20.0f, 30.0f);
+        [FrequencyBand]
         [SerializeField]
         [Tooltip("The cutoff frequencies for the gamma frequency band.")]
         public Vector2 Gamma = new Vector2(30.0f, 50.0f);
@@ -436,6 +447,12 @@ namespace Gtec.Bandpower
 
             //create and attach sq pipeline
             _sqPipelineConfig = new SQPipelineConfiguration();
+            _sqPipelineConfig.BpSQLowCutoff = 1;
+            _sqPipelineConfig.BpSQHighCutoff = 50;
+            _sqPipelineConfig.BpSQFilterOrder = 2;
+            _sqPipelineConfig.SignalQualityGroundedThreshold = 3;
+            _sqPipelineConfig.SignalQualityFloatingThreshold = 30;
+
             _sqPipeline = new SQPipeline();
             _sqPipeline.PipelineStateChanged += OnPipelineStateChangedInternal;
             _sqPipeline.DataAvailable += OnSQDataAvailable;
@@ -487,7 +504,7 @@ namespace Gtec.Bandpower
                 {
                     _sqPipeline.Uninitialize();
                     _sqPipeline.PipelineStateChanged -= OnPipelineStateChangedInternal;
-                    _sqPipeline.DataAvailable -= OnBandpowerDataAvailable;
+                    _sqPipeline.DataAvailable -= OnSQDataAvailable;
                     _sqPipeline.RuntimeExceptionOccured -= OnRuntimeExceptionOccuredInternal;
                 }
 
@@ -497,7 +514,7 @@ namespace Gtec.Bandpower
                 {
                     _dlPipeline.Uninitialize();
                     _dlPipeline.PipelineStateChanged -= OnPipelineStateChangedInternal;
-                    _dlPipeline.DataAvailable -= OnBandpowerDataAvailable;
+                    _dlPipeline.DataAvailable -= OnDataLostDataAvailable;
                     _dlPipeline.RuntimeExceptionOccured -= OnRuntimeExceptionOccuredInternal;
                 }
 
@@ -506,7 +523,7 @@ namespace Gtec.Bandpower
                 {
                     _batPipeline.Uninitialize();
                     _batPipeline.PipelineStateChanged -= OnPipelineStateChangedInternal;
-                    _batPipeline.DataAvailable -= OnBandpowerDataAvailable;
+                    _batPipeline.DataAvailable -= OnBatteryDataAvailable;
                     _batPipeline.RuntimeExceptionOccured -= OnRuntimeExceptionOccuredInternal;
                 }
 
@@ -533,10 +550,11 @@ namespace Gtec.Bandpower
 
 
         /// <summary>
-        /// Simulates alpha activity for Unicorn BCI Core 4/8 devices
+        /// Simulates alpha activity and noisw for Unicorn BCI Core 4/8 devices
         /// </summary>
         /// <param name="alphaLevel">Alpha level in microvolts</param>
-        public void SetAlphaLevel(float alphaLevel)
+        /// <param name="noiseLevel">Noise level in microvolts</param>
+        private void SetSimulatorSignals(float alphaLevel, float noiseLevel)
         {
             if (_device != null && (_device.GetType().Equals(typeof(UnicornBCICore4Simulator)) || _device.GetType().Equals(typeof(UnicornBCICore8Simulator))))
             {
@@ -550,6 +568,18 @@ namespace Gtec.Bandpower
                 {
                     UnicornBCICore8Simulator deviceTemp = (UnicornBCICore8Simulator)_device;
                     deviceTemp.SetAlphaLevel(alphaLevel);
+                }
+
+                if (_device.GetType().Equals(typeof(UnicornBCICore4Simulator)))
+                {
+                    UnicornBCICore4Simulator deviceTemp = (UnicornBCICore4Simulator)_device;
+                    deviceTemp.SetNoiseLevel(noiseLevel);
+                }
+
+                if (_device.GetType().Equals(typeof(UnicornBCICore8Simulator)))
+                {
+                    UnicornBCICore8Simulator deviceTemp = (UnicornBCICore8Simulator)_device;
+                    deviceTemp.SetNoiseLevel(noiseLevel);
                 }
             }
         }
@@ -623,7 +653,13 @@ namespace Gtec.Bandpower
         public void Update()
         {
             EventHandler.Instance.DequeueAll();
-            SetAlphaLevel(SimulatorAlphaLevelUv);
+            
+            if(Signal == SimulatorSignal.GoodEEG)
+                SetSimulatorSignals(SimulatorAlphaLevelUv, 1);
+            else if (Signal == SimulatorSignal.Grounded)
+                SetSimulatorSignals(0, 0);
+            else if (Signal == SimulatorSignal.Floating)
+                SetSimulatorSignals(50, 50);
         }
     }
 }

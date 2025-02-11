@@ -20,6 +20,23 @@ namespace Gtec.Bandpower
             {
                 _bci = null;
             }
+            AttachEvents();
+        }
+
+        private void OnDestroy()
+        {
+            RemoveEvents();
+            _bci = null;
+        }
+
+        private void OnApplicationQuit()
+        {
+            RemoveEvents();
+            _bci = null;
+        }
+
+        public void AttachEvents()
+        {
             if (_bci != null)
             {
                 _bci.OnDevicesAvailable.AddListener(LogDevicesAvailable);
@@ -33,6 +50,24 @@ namespace Gtec.Bandpower
                 _bci.OnSignalQualityAvailable.AddListener(LogSignalQuality);
                 _bci.OnBatteryLevelAvailable.AddListener(LogBatteryLevel);
                 _bci.OnDataLost.AddListener(LogDataLost);
+            }
+        }
+
+        public void RemoveEvents()
+        {
+            if (_bci != null)
+            {
+                _bci.OnDevicesAvailable.RemoveListener(LogDevicesAvailable);
+                _bci.OnDeviceStateChanged.RemoveListener(LogDeviceState);
+                _bci.OnPipelineStateChanged.RemoveListener(LogPipelineState);
+                _bci.OnRuntimeExceptionOccured.RemoveListener(LogRuntimeException);
+                _bci.OnBandpowerAvailable.RemoveListener(LogBandpower);
+                _bci.OnMeanBandpowerAvailable.RemoveListener(LogMeanBandpower);
+                _bci.OnRatiosAvailable.RemoveListener(LogRatios);
+                _bci.OnMeanRatiosAvailable.RemoveListener(LogMeanRatios);
+                _bci.OnSignalQualityAvailable.RemoveListener(LogSignalQuality);
+                _bci.OnBatteryLevelAvailable.RemoveListener(LogBatteryLevel);
+                _bci.OnDataLost.RemoveListener(LogDataLost);
             }
         }
 

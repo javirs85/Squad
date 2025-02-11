@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -27,11 +28,7 @@ namespace Gtec.Bandpower
             {
                 _bci = null;
             }
-            if (_bci != null)
-            {
-                _bci.OnDevicesAvailable.AddListener(UpdateAvailableDevices);
-                _bci.OnDeviceStateChanged.AddListener(OnDeviceStateChanged);
-            }
+            AttachEvents();
 
             _ddDevices = this.GetComponentInChildren<TMP_Dropdown>();
 
@@ -57,6 +54,36 @@ namespace Gtec.Bandpower
             _connected = false;
 
             _btnConnect.onClick.AddListener(btnConnect_OnClick);
+        }
+
+        private void OnDestroy()
+        {
+            RemoveEvents();
+            _bci = null;
+        }
+
+        private void OnApplicationQuit()
+        {
+            RemoveEvents();
+            _bci = null;
+        }
+
+        public void AttachEvents()
+        {
+            if (_bci != null)
+            {
+                _bci.OnDevicesAvailable.AddListener(UpdateAvailableDevices);
+                _bci.OnDeviceStateChanged.AddListener(OnDeviceStateChanged);
+            }
+        }
+
+        public void RemoveEvents()
+        {
+            if (_bci != null)
+            {
+                _bci.OnDevicesAvailable.RemoveListener(UpdateAvailableDevices);
+                _bci.OnDeviceStateChanged.RemoveListener(OnDeviceStateChanged);
+            }
         }
 
         public void UpdateAvailableDevices(List<string> devices)

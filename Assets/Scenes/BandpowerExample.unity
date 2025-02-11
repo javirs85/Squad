@@ -549,11 +549,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2326639794766828271, guid: 8b64c04a46c91d045b520782ad7c0c34, type: 3}
       propertyPath: Type
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2326639794766828271, guid: 8b64c04a46c91d045b520782ad7c0c34, type: 3}
       propertyPath: AdvancedSettings
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2326639794766828271, guid: 8b64c04a46c91d045b520782ad7c0c34, type: 3}
+      propertyPath: SimulatorAlphaLevelUv
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2326639794766828271, guid: 8b64c04a46c91d045b520782ad7c0c34, type: 3}
+      propertyPath: SimulatorNoiseLevelUv
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7196261133609074480, guid: 8b64c04a46c91d045b520782ad7c0c34, type: 3}
       propertyPath: m_LocalPosition.x

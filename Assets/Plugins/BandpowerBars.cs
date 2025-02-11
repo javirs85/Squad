@@ -20,10 +20,7 @@ namespace Gtec.Bandpower
             {
                 _bci = null;
             }
-            if (_bci != null)
-            {
-                _bci.OnMeanBandpowerAvailable.AddListener(SetMeanBandpowerRatios);
-            }
+            AttachEvents();
 
             _bars = new Dictionary<string, GameObject>();
             Transform[] bars = GetComponentsInChildren<Transform>();
@@ -56,6 +53,34 @@ namespace Gtec.Bandpower
                 pos.x = 0;
                 kvp.Value.transform.localPosition = pos;
                 kvp.Value.transform.transform.localScale = new Vector3(0, 0.2f, 0.2f);
+            }
+        }
+
+        private void OnDestroy()
+        {
+            RemoveEvents();
+            _bci = null;
+        }
+
+        private void OnApplicationQuit()
+        {
+            RemoveEvents();
+            _bci = null;
+        }
+
+        public void AttachEvents()
+        {
+            if (_bci != null)
+            {
+                _bci.OnMeanBandpowerAvailable.AddListener(SetMeanBandpowerRatios);
+            }
+        }
+
+        public void RemoveEvents()
+        {
+            if (_bci != null)
+            {
+                _bci.OnMeanBandpowerAvailable.RemoveListener(SetMeanBandpowerRatios);
             }
         }
 

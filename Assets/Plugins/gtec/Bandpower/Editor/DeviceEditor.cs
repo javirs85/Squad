@@ -1,4 +1,3 @@
-//using NiceIO.Sysroot;
 using System;
 using UnityEditor;
 using UnityEngine;
@@ -12,6 +11,7 @@ namespace Gtec.Bandpower
 
         SerializedProperty Type;
         SerializedProperty SimulatorAlphaLevelUv;
+        SerializedProperty Signal;
         SerializedProperty AdvancedSettings;
         SerializedProperty BuffersizeInSamples;
         SerializedProperty BufferOverlapInSamples;
@@ -41,6 +41,7 @@ namespace Gtec.Bandpower
 
             Type = serializedObject.FindProperty("Type");
             SimulatorAlphaLevelUv = serializedObject.FindProperty("SimulatorAlphaLevelUv");
+            Signal = serializedObject.FindProperty("Signal");
             AdvancedSettings = serializedObject.FindProperty("AdvancedSettings");
             BuffersizeInSamples = serializedObject.FindProperty("BuffersizeInSamples");
             BufferOverlapInSamples = serializedObject.FindProperty("BufferOverlapInSamples");
@@ -77,14 +78,17 @@ namespace Gtec.Bandpower
             s.fontSize = 12;
             s.fontStyle = FontStyle.Bold;
             s.padding = new RectOffset(10, 10, 10, 10);
-            EditorGUILayout.HelpBox("The 'device' prefab is designed to interact with your physical BCI device. It manages the device state and interfaces connected signal processing pipelines.", MessageType.None);
+            
+            EditorGUILayout.HelpBox(string.Format("The 'device' prefab is designed to interact with your physical BCI device. It manages the device state and interfaces connected signal processing pipelines.\n\nVersion: {0}", Gtec.Bandpower.Utilities.Version), MessageType.None);
             EditorGUILayout.Space();
             EditorGUILayout.Space();
 
             EditorGUILayout.PropertyField(Type);
             if ((Gtec.Bandpower.Device.DeviceType)Type.enumValueIndex == Gtec.Bandpower.Device.DeviceType.AllDevices || (Gtec.Bandpower.Device.DeviceType)Type.enumValueIndex == Gtec.Bandpower.Device.DeviceType.Simulator)
             {
-                EditorGUILayout.PropertyField(SimulatorAlphaLevelUv);
+                EditorGUILayout.PropertyField(Signal);
+                if ((Gtec.Bandpower.Device.SimulatorSignal)Signal.enumValueIndex == Gtec.Bandpower.Device.SimulatorSignal.GoodEEG)
+                    EditorGUILayout.PropertyField(SimulatorAlphaLevelUv);
             }
 
             EditorGUILayout.Space();

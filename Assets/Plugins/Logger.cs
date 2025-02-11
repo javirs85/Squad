@@ -9,6 +9,33 @@ namespace Gtec.Bandpower
 {
     public class Logger : MonoBehaviour
     {
+        private Device _bci;
+        void Start()
+        {
+            try
+            {
+                _bci = GetComponentInParent<Device>();
+            }
+            catch
+            {
+                _bci = null;
+            }
+            if (_bci != null)
+            {
+                _bci.OnDevicesAvailable.AddListener(LogDevicesAvailable);
+                _bci.OnDeviceStateChanged.AddListener(LogDeviceState);
+                _bci.OnPipelineStateChanged.AddListener(LogPipelineState);
+                _bci.OnRuntimeExceptionOccured.AddListener(LogRuntimeException);
+                _bci.OnBandpowerAvailable.AddListener(LogBandpower);
+                _bci.OnMeanBandpowerAvailable.AddListener(LogMeanBandpower);
+                _bci.OnRatiosAvailable.AddListener(LogRatios);
+                _bci.OnMeanRatiosAvailable.AddListener(LogMeanRatios);
+                _bci.OnSignalQualityAvailable.AddListener(LogSignalQuality);
+                _bci.OnBatteryLevelAvailable.AddListener(LogBatteryLevel);
+                _bci.OnDataLost.AddListener(LogDataLost);
+            }
+        }
+
         public void LogBandpower(Dictionary<string, double[]> bandpower)
         {
             string s = string.Empty;
@@ -22,7 +49,31 @@ namespace Gtec.Bandpower
             Debug.Log(s);
         }
 
-        public void LogBandpowerMean(Dictionary<string, double> bandpowerMean)
+        public void LogMeanBandpower(Dictionary<string, double> bandpowerMean)
+        {
+            string s = string.Empty;
+            foreach (KeyValuePair<string, double> kvp in bandpowerMean)
+            {
+                s += kvp.Key + " : ";
+                s += "[" + kvp.Value.ToString() + "]\n";
+            }
+            Debug.Log(s);
+        }
+
+        public void LogRatios(Dictionary<string, double[]> bandpower)
+        {
+            string s = string.Empty;
+            foreach (KeyValuePair<string, double[]> kvp in bandpower)
+            {
+                s += kvp.Key + " : ";
+                s += "[";
+                s += string.Join(", ", kvp.Value.Select(n => n.ToString()));
+                s += "]\n";
+            }
+            Debug.Log(s);
+        }
+
+        public void LogMeanRatios(Dictionary<string, double> bandpowerMean)
         {
             string s = string.Empty;
             foreach (KeyValuePair<string, double> kvp in bandpowerMean)
@@ -38,7 +89,7 @@ namespace Gtec.Bandpower
             Debug.Log(string.Format("{0}:{1}\n{2}", e.Source.ToString(), e.Message, e.StackTrace));
         }
 
-        public void LogAvailableDevices(List<string> devices)
+        public void LogDevicesAvailable(List<string> devices)
         {
             string s = string.Empty;
             foreach (string device in devices)

@@ -6,7 +6,7 @@ namespace Gtec.Bandpower
     public sealed class EventHandler
     {
         private static EventHandler instance = null;
-        private static readonly object padlock = new object();
+        private static readonly object _lock = new object();
 
         private Queue<Action> _queue;
 
@@ -19,7 +19,7 @@ namespace Gtec.Bandpower
         {
             get
             {
-                lock (padlock)
+                lock (_lock)
                 {
                     if (instance == null)
                     {

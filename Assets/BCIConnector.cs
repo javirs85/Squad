@@ -23,7 +23,7 @@ public class BCIConnector : MonoBehaviour
 		{
 			_bci.OnDevicesAvailable.AddListener(UpdateAvailableDevices);
 			_bci.OnDeviceStateChanged.AddListener(OnDeviceStateChanged);
-			_bci.OnBandpowerMeanAvailable.AddListener(OnBandPowerChanges);
+			_bci.OnMeanBandpowerAvailable.AddListener(OnBandPowerChanges);
 			_bci.OnSignalQualityAvailable.AddListener(OnNewSignalQualityChanges);
 		}
 		

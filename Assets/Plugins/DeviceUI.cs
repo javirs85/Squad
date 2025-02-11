@@ -34,14 +34,22 @@ namespace Gtec.Bandpower
             }
 
             _ddDevices = this.GetComponentInChildren<TMP_Dropdown>();
-            _btnConnect = this.GetComponentInChildren<Button>();
-            _btnText = _btnConnect.GetComponentInChildren<TextMeshProUGUI>();
 
             if (_ddDevices == null)
                 throw new System.Exception("Could not get dropdown UI element");
+            _ddDevices.ClearOptions();
+
+            Button[] buttons = this.GetComponentsInChildren<Button>();
+            foreach (Button button in buttons)
+            {
+                if (button.name.Equals("btnConnect"))
+                    _btnConnect = button;
+            }
 
             if (_btnConnect == null)
                 throw new System.Exception("Could not get button UI element");
+
+            _btnText = _btnConnect.GetComponentInChildren<TextMeshProUGUI>();
 
             if (_btnText == null)
                 throw new System.Exception("Could not get button text UI element");
@@ -62,13 +70,23 @@ namespace Gtec.Bandpower
         {
             if (state == States.Connected)
             {
+                _btnConnect.enabled = true;
                 _ddDevices.enabled = false;
                 _btnText.text = "Disconnect";
                 _connected = true;
             }
 
+            if(state == States.Connecting)
+            {
+                _btnConnect.enabled = false;
+                _ddDevices.enabled = false;
+                _btnText.text = "Connecting...";
+                _connected = false;
+            }
+
             if (state == States.Disconnected)
             {
+                _btnConnect.enabled = true;
                 _ddDevices.enabled = true;
                 _btnText.text = "Connect";
                 _connected = false;

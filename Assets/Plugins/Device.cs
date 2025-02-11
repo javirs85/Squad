@@ -2,11 +2,11 @@ using Gtec.Chain.Common.Nodes.Devices;
 using Gtec.Chain.Common.SignalProcessingPipelines;
 using Gtec.Chain.Common.Templates.DataAcquisitionUnit;
 using Gtec.Chain.Common.Templates.Utilities;
-using Gtec.Chain.Common.Nodes.Devices;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.Android;
 using UnityEngine.Events;
 using static Gtec.Chain.Common.Nodes.InputNodes.ChannelQuality;
 using static Gtec.Chain.Common.Templates.DataAcquisitionUnit.DataAcquisitionUnit;
@@ -15,15 +15,71 @@ namespace Gtec.Bandpower
 {
     public class Device : MonoBehaviour
     {
+        #region Enumerations...
+
+        public enum DeviceType { AllDevices, UnicornBCICore, Simulator  }
+
+        #endregion
+
+        #region Properties...
+
+        public string Serial
+        {
+            get
+            {
+                if (_device != null)
+                    return _device.Serial;
+                else
+                    return String.Empty;
+            }
+        }
+
+        #endregion
+
+        #region Public members...
+
         [Header("Settings")]
+        [SerializeField]
+        [Tooltip("Filter for certain device types.")]
+        public DeviceType Type = Device.DeviceType.AllDevices;
+        [SerializeField]
+        [Tooltip("The alpha level in µV.")]
+        [Range(0, 100)]
+        public float SimulatorAlphaLevelUv = 20;
+        [SerializeField]
+        [Tooltip("Show/hide advanced settings..")]
+        public bool AdvancedSettings = false;
         [SerializeField]
         [Tooltip("The buffer overlap in samples.")]
         public int BuffersizeInSamples = 250;
         [SerializeField]
         [Tooltip("The buffer size in samples.")]
         public int BufferOverlapInSamples = 225;
-        [Tooltip("Show or hide debug messages.")]
-        public bool DebugMessagesEnabled = true;
+        [SerializeField]
+        [Tooltip("The cutoff frequencies for the delta frequency band.")]
+        public Vector2 Delta = new Vector2(1.0f,4.0f);
+        [SerializeField]
+        [Tooltip("The cutoff frequencies for the theta frequency band.")]
+        public Vector2 Theta = new Vector2(4.0f, 8.0f);
+        [SerializeField]
+        [Tooltip("The cutoff frequencies for the alpha frequency band.")]
+        public Vector2 Alpha = new Vector2(8.0f, 12.0f);
+        [SerializeField]
+        [Tooltip("The cutoff frequencies for the beta-low frequency band.")]
+        public Vector2 BetaLow = new Vector2(12.0f, 16.0f);
+        [SerializeField]
+        [Tooltip("The cutoff frequencies for the beta-mid frequency band.")]
+        public Vector2 BetaMid = new Vector2(16.0f, 20.0f);
+        [SerializeField]
+        [Tooltip("The cutoff frequencies for the beta-high frequency band.")]
+        public Vector2 BetaHigh = new Vector2(20.0f, 30.0f);
+        [SerializeField]
+        [Tooltip("The cutoff frequencies for the gamma frequency band.")]
+        public Vector2 Gamma = new Vector2(30.0f, 50.0f);
+
+        #endregion
+
+        #region Events...
 
         [Header("Events")]
         [SerializeField]
@@ -43,7 +99,13 @@ namespace Gtec.Bandpower
         public UnityEvent<Dictionary<string, double[]>> OnBandpowerAvailable;
         [SerializeField]
         [Tooltip("The event called averaged bandpower values over all channels are available.")]
-        public UnityEvent<Dictionary<string, double>> OnBandpowerMeanAvailable;
+        public UnityEvent<Dictionary<string, double>> OnMeanBandpowerAvailable;
+        [SerializeField]
+        [Tooltip("The event called when bandpower ratios for each channel are available.")]
+        public UnityEvent<Dictionary<string, double[]>> OnRatiosAvailable;
+        [SerializeField]
+        [Tooltip("The event called averaged bandpower ratios over all channels are available.")]
+        public UnityEvent<Dictionary<string, double>> OnMeanRatiosAvailable;
         [SerializeField]
         [Tooltip("The event called when new signal quality values are available.")]
         public UnityEvent<List<ChannelStates>> OnSignalQualityAvailable;
@@ -53,6 +115,9 @@ namespace Gtec.Bandpower
         [SerializeField]
         [Tooltip("The event called when data is lost.")]
         public UnityEvent OnDataLost;
+        [Tooltip("Show or hide debug messages.")]
+
+        #endregion
 
         private DataAcquisitionUnit _device;
         private List<DataAcquisitionUnit> _devices;
@@ -68,6 +133,30 @@ namespace Gtec.Bandpower
         private bool _discoveryThreadRunning;
         private Thread _discoveryThread;
 
+		/// <summary>
+        /// Requests required android permissions.
+        /// </summary>
+        private void RequestBluetoothPermissions()
+        {
+            // Check if permissions are already granted
+            if (!Permission.HasUserAuthorizedPermission("android.permission.BLUETOOTH_SCAN") ||
+                !Permission.HasUserAuthorizedPermission("android.permission.BLUETOOTH_CONNECT"))
+
+            {
+                // Request the necessary Bluetooth permissions
+                string[] permissions = {
+                "android.permission.BLUETOOTH_SCAN",
+                "android.permission.BLUETOOTH_CONNECT",
+            };
+                Permission.RequestUserPermissions(permissions);
+                Debug.Log("Bluetooth permissions granted.");
+            }
+            else
+            {
+                Debug.Log("Bluetooth permissions already granted.");
+            }
+        }
+
         /// <summary>
         /// Initializes device list.
         /// </summary>
@@ -76,9 +165,13 @@ namespace Gtec.Bandpower
             try
             {
                 _devices = new List<DataAcquisitionUnit>();
-                _devices.Add(new UnicornBCICore4Simulator());
-                _devices.Add(new UnicornBCICore8Simulator());
-                _devices.Add(new GtecBLEDevice());
+                if(Type == DeviceType.AllDevices || Type == DeviceType.Simulator)
+                {
+                    _devices.Add(new UnicornBCICore4Simulator());
+                    _devices.Add(new UnicornBCICore8Simulator());
+                }
+                if (Type == DeviceType.AllDevices || Type == DeviceType.UnicornBCICore)
+                    _devices.Add(new GtecBLEDevice());
             }
             catch (Exception ex)
             {
@@ -116,6 +209,7 @@ namespace Gtec.Bandpower
                     {
                         Gtec.Chain.Common.Nodes.Devices.GtecBLEDevice d = (Gtec.Chain.Common.Nodes.Devices.GtecBLEDevice)device;
                         d.StartDeviceDiscovery();
+                        Debug.Log("Start scanning...");
                     }
                 }
 
@@ -138,6 +232,7 @@ namespace Gtec.Bandpower
                     {
                         Gtec.Chain.Common.Nodes.Devices.GtecBLEDevice d = (Gtec.Chain.Common.Nodes.Devices.GtecBLEDevice)device;
                         d.StopDeviceDiscovery();
+                        Debug.Log("Stop scanning...");
                     }
                 }
 
@@ -154,7 +249,7 @@ namespace Gtec.Bandpower
         {
             while (_discoveryThreadRunning)
             {
-                GetAvailableDevices();
+                EventHandler.Instance.Enqueue(() => { GetAvailableDevices();});
                 Thread.Sleep(500);
             }
         }
@@ -195,7 +290,7 @@ namespace Gtec.Bandpower
                 }
                 catch (Exception ex)
                 {
-                    Debug.Log(string.Format("Could not get available devices for '{0}'. Exception: {1}", device.GetType().Name, ex.Message));
+                    Debug.Log(string.Format("Could not get available devices for '{0}'.\nException: {1}\nStackTrace: {2}", device.GetType().Name, ex.Message, ex.StackTrace));
                 }
             }
 
@@ -206,10 +301,18 @@ namespace Gtec.Bandpower
 
         void Start()
         {
-            //Thread apartment state must be set properly for windows
+            _device = null;
+            RuntimePlatform platform = Application.platform;
+
 #if PLATFORM_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-            ThreadApartmentState.Initialize();
+            //Thread apartment state must be set properly for windows
+            if (platform == RuntimePlatform.WindowsPlayer || platform == RuntimePlatform.WindowsEditor)
+                ThreadApartmentState.Initialize();
 #endif
+            //Permissions must be acquired for Android
+            if (platform == RuntimePlatform.Android)
+                RequestBluetoothPermissions();
+
             InitializeDevices();
             StartDiscoveryThread();
         }
@@ -219,11 +322,21 @@ namespace Gtec.Bandpower
         /// </summary>
         private void OnDestroy()
         {
-            //TODO: CHECK IF DISCONNECT CAN OR MUST BE CALLED HERE
-            if(_device is not null && (_device.State == States.Connected ||  _device.State == States.Acquiring))
-                Disconnect();
+			Disconnect();
             StopDiscoveryThread();
             UninitializeDevices();
+			GC.Collect();
+        }
+		
+		/// <summary>
+        /// Stops all threads if running.
+        /// </summary>
+        private void OnApplicationQuit()
+        { 
+			Disconnect();
+            StopDiscoveryThread();
+            UninitializeDevices();
+			GC.Collect();
         }
 
         /// <summary>
@@ -233,8 +346,12 @@ namespace Gtec.Bandpower
         /// <exception cref="Exception"></exception>
         public void Connect(string serial)
         {
+            //clean up if device is already connected
+            if (_device != null)
+                Disconnect();
+
             //get device object by serial
-            WriteDebugMessage(string.Format("Connecting to '{0}'...", serial));
+            Debug.Log(string.Format("Connecting to '{0}'...", serial));
             if (_deviceSerials == null || _devices == null)
                 InitializeDevices();
 
@@ -277,6 +394,40 @@ namespace Gtec.Bandpower
             _bpConfig = new BandpowerPipelineConfiguration();
             _bpConfig.BufferSizeInSamples = BuffersizeInSamples;
             _bpConfig.BufferOverlapInSamples = BufferOverlapInSamples;
+            _bpConfig.FrequencyBands[BandpowerConstants.Delta][0] = Delta[0];
+            _bpConfig.FrequencyBands[BandpowerConstants.Delta][1] = Delta[1];
+            _bpConfig.FrequencyBands[BandpowerConstants.Theta][0] = Theta[0];
+            _bpConfig.FrequencyBands[BandpowerConstants.Theta][1] = Theta[1];
+            _bpConfig.FrequencyBands[BandpowerConstants.Alpha][0] = Alpha[0];
+            _bpConfig.FrequencyBands[BandpowerConstants.Alpha][1] = Alpha[1];
+            _bpConfig.FrequencyBands[BandpowerConstants.BetaLow][0] = BetaLow[0];
+            _bpConfig.FrequencyBands[BandpowerConstants.BetaLow][1] = BetaLow[1];
+            _bpConfig.FrequencyBands[BandpowerConstants.BetaMid][0] = BetaMid[0];
+            _bpConfig.FrequencyBands[BandpowerConstants.BetaMid][1] = BetaMid[1];
+            _bpConfig.FrequencyBands[BandpowerConstants.BetaHigh][0] = BetaHigh[0];
+            _bpConfig.FrequencyBands[BandpowerConstants.BetaHigh][1] = BetaHigh[1];
+            _bpConfig.FrequencyBands[BandpowerConstants.Delta][0] = Gamma[0];
+            _bpConfig.FrequencyBands[BandpowerConstants.Delta][1] = Gamma[1];
+
+            if (!_bpConfig.FrequencyBands.ContainsKey(BandpowerConstants.Delta) ||
+                    !_bpConfig.FrequencyBands.ContainsKey(BandpowerConstants.Theta) ||
+                    !_bpConfig.FrequencyBands.ContainsKey(BandpowerConstants.Alpha) ||
+                    !_bpConfig.FrequencyBands.ContainsKey(BandpowerConstants.BetaLow) ||
+                    !_bpConfig.FrequencyBands.ContainsKey(BandpowerConstants.BetaMid) ||
+                    !_bpConfig.FrequencyBands.ContainsKey(BandpowerConstants.BetaHigh) ||
+                    !_bpConfig.FrequencyBands.ContainsKey(BandpowerConstants.Gamma)
+                    )
+                throw new ArgumentException("Could not set frequency bands. Missing Key.");
+
+            foreach (KeyValuePair<string, double[]> kvp in _bpConfig.FrequencyBands)
+            {
+                if (kvp.Value.Length != 2)
+                    throw new ArgumentException("Two cutoff frequencies required.");
+
+                if (kvp.Value[1] < kvp.Value[0])
+                    throw new ArgumentException("Second cutoff frequency must be bigger then the first cutoff frequency.");
+            }
+
             _bpPipeline = new BandpowerPipeline();
             _bpPipeline.PipelineStateChanged += OnPipelineStateChangedInternal;
             _bpPipeline.DataAvailable += OnBandpowerDataAvailable;
@@ -316,45 +467,91 @@ namespace Gtec.Bandpower
         /// </summary>
         public void Disconnect()
         {
-            //stop acquisition
-            _device.StopAcquisition();
+            if(_device != null)
+            {
+                //stop acquisition
+                if (_device.State == States.Connected || _device.State == States.Acquiring)
+                    _device.StopAcquisition();
 
-            //destroy bandpower pipeline
-            _bpPipeline.Uninitialize();
-            _bpPipeline.PipelineStateChanged -= OnPipelineStateChangedInternal;
-            _bpPipeline.DataAvailable -= OnBandpowerDataAvailable;
-            _bpPipeline.RuntimeExceptionOccured -= OnRuntimeExceptionOccuredInternal;
+                //destroy bandpower pipeline
+                if (_bpPipeline != null)
+                {
+                    _bpPipeline.Uninitialize();
+                    _bpPipeline.PipelineStateChanged -= OnPipelineStateChangedInternal;
+                    _bpPipeline.DataAvailable -= OnBandpowerDataAvailable;
+                    _bpPipeline.RuntimeExceptionOccured -= OnRuntimeExceptionOccuredInternal;
+                }
 
-            //destroy sq pipeline
-            _sqPipeline.Uninitialize();
-            _sqPipeline.PipelineStateChanged -= OnPipelineStateChangedInternal;
-            _sqPipeline.DataAvailable -= OnBandpowerDataAvailable;
-            _sqPipeline.RuntimeExceptionOccured -= OnRuntimeExceptionOccuredInternal;
+                //destroy sq pipeline
+                if (_sqPipeline != null)
+                {
+                    _sqPipeline.Uninitialize();
+                    _sqPipeline.PipelineStateChanged -= OnPipelineStateChangedInternal;
+                    _sqPipeline.DataAvailable -= OnBandpowerDataAvailable;
+                    _sqPipeline.RuntimeExceptionOccured -= OnRuntimeExceptionOccuredInternal;
+                }
 
-            //destroy data lost pipeline
-            _dlPipeline.Uninitialize();
-            _dlPipeline.PipelineStateChanged -= OnPipelineStateChangedInternal;
-            _dlPipeline.DataAvailable -= OnBandpowerDataAvailable;
-            _dlPipeline.RuntimeExceptionOccured -= OnRuntimeExceptionOccuredInternal;
 
-            //destroy battery pipeline
-            _batPipeline.Uninitialize();
-            _batPipeline.PipelineStateChanged -= OnPipelineStateChangedInternal;
-            _batPipeline.DataAvailable -= OnBandpowerDataAvailable;
-            _batPipeline.RuntimeExceptionOccured -= OnRuntimeExceptionOccuredInternal;
+                //destroy data lost pipeline
+                if (_dlPipeline != null)
+                {
+                    _dlPipeline.Uninitialize();
+                    _dlPipeline.PipelineStateChanged -= OnPipelineStateChangedInternal;
+                    _dlPipeline.DataAvailable -= OnBandpowerDataAvailable;
+                    _dlPipeline.RuntimeExceptionOccured -= OnRuntimeExceptionOccuredInternal;
+                }
 
-            //disconnect from device
-            _device.Uninitialize();
+                //destroy battery pipeline
+                if (_batPipeline != null)
+                {
+                    _batPipeline.Uninitialize();
+                    _batPipeline.PipelineStateChanged -= OnPipelineStateChangedInternal;
+                    _batPipeline.DataAvailable -= OnBandpowerDataAvailable;
+                    _batPipeline.RuntimeExceptionOccured -= OnRuntimeExceptionOccuredInternal;
+                }
 
-            WriteDebugMessage(string.Format("Disconnected from '{0}'.", _device.Serial));
+                //disconnect from device
+                if (_device != null)
+                {
+                    _device.Uninitialize();
 
-            //detach from device events
-            _device.StateChanged -= OnDeviceStateChangedInternal;
-            _device.RuntimeExceptionOccured -= OnRuntimeExceptionOccuredInternal;
+                    //detach from device events
+                    _device.StateChanged -= OnDeviceStateChangedInternal;
+                    _device.RuntimeExceptionOccured -= OnRuntimeExceptionOccuredInternal;
+                }
 
-            _device = null;
-            _bpPipeline = null;
-            GC.Collect();
+                _device = null;
+                _bpPipeline = null;
+                _sqPipeline = null;
+                _dlPipeline = null;
+                _batPipeline = null;
+                GC.Collect();
+
+                StartDiscoveryThread();
+            }
+        }
+
+
+        /// <summary>
+        /// Simulates alpha activity for Unicorn BCI Core 4/8 devices
+        /// </summary>
+        /// <param name="alphaLevel">Alpha level in microvolts</param>
+        public void SetAlphaLevel(float alphaLevel)
+        {
+            if (_device != null && (_device.GetType().Equals(typeof(UnicornBCICore4Simulator)) || _device.GetType().Equals(typeof(UnicornBCICore8Simulator))))
+            {
+                if(_device.GetType().Equals(typeof(UnicornBCICore4Simulator)))
+                {
+                    UnicornBCICore4Simulator deviceTemp = (UnicornBCICore4Simulator)_device;
+                    deviceTemp.SetAlphaLevel(alphaLevel);
+                }
+
+                if (_device.GetType().Equals(typeof(UnicornBCICore8Simulator)))
+                {
+                    UnicornBCICore8Simulator deviceTemp = (UnicornBCICore8Simulator)_device;
+                    deviceTemp.SetAlphaLevel(alphaLevel);
+                }
+            }
         }
 
         /// <summary>
@@ -364,9 +561,20 @@ namespace Gtec.Bandpower
         /// <param name="e"></param>
         private void OnBandpowerDataAvailable(object sender, DataEventArgs e)
         {
-            BandpowerData data = (BandpowerData)e.Data;
-            EventHandler.Instance.Enqueue(() => { OnBandpowerAvailable.Invoke(data.Bandpower); });
-            EventHandler.Instance.Enqueue(() => { OnBandpowerMeanAvailable.Invoke(data.BandpowerMean); });
+            if(e.Data.GetType().Equals(typeof(BandpowerData)))
+            {
+                BandpowerData data = (BandpowerData)e.Data;
+                EventHandler.Instance.Enqueue(() => { OnBandpowerAvailable.Invoke(data.Bandpower); });
+                EventHandler.Instance.Enqueue(() => { OnMeanBandpowerAvailable.Invoke(data.BandpowerMean); });
+            }
+            
+            if (e.Data.GetType().Equals(typeof(RatioData)))
+            {
+                RatioData data = (RatioData)e.Data;
+                EventHandler.Instance.Enqueue(() => { OnRatiosAvailable.Invoke(data.Ratios); });
+                EventHandler.Instance.Enqueue(() => { OnMeanRatiosAvailable.Invoke(data.RatiosMean); });
+            }
+
         }
 
         /// <summary>
@@ -410,21 +618,12 @@ namespace Gtec.Bandpower
         }
 
         /// <summary>
-        /// Writes debug messages if enabled
-        /// </summary>
-        /// <param name="message"></param>
-        private void WriteDebugMessage(string message)
-        {
-            if (DebugMessagesEnabled)
-                Debug.Log(message);
-        }
-
-        /// <summary>
         /// Executes events on main thread
         /// </summary>
         public void Update()
         {
             EventHandler.Instance.DequeueAll();
+            SetAlphaLevel(SimulatorAlphaLevelUv);
         }
     }
 }

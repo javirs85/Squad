@@ -29,9 +29,11 @@ public class GameController : MonoBehaviour
 	//Planes used for selecting amplifier
 	private List<GameObject> PlaneOptions = new();
 
+	private bool debugSequenceRunning = false;
 
-	// Start is called once before the first execution of Update after the MonoBehaviour is created
-	void Start()
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
 	{
 		Alpha = AlphaObject.GetComponent<AlphaMarkerController>();
 		HideHUD(0.1f);
@@ -361,5 +363,45 @@ public class GameController : MonoBehaviour
 
 		return obj;
 	}
+
+    public void RunDebugSequence()
+    {
+        if (!debugSequenceRunning)
+            StartCoroutine(FullDebugSequence());
+    }
+
+    IEnumerator FullDebugSequence()
+    {
+        debugSequenceRunning = true;
+        ShowAllFriends();
+        yield return new WaitForSeconds(5);
+        ToggleObjectInScreen(Enemy);
+        yield return new WaitForSeconds(1);
+        ToggleFriendJerk(Friend1);
+        yield return new WaitForSeconds(1);
+        ToggleFriendJerk(Friend1);
+        ToggleFriendJerk(Friend2);
+        yield return new WaitForSeconds(1);
+        ToggleFriendJerk(Friend2);
+        ToggleFriendJerk(Friend3);
+        yield return new WaitForSeconds(1);
+        ToggleFriendJerk(Friend3);
+        ToggleFriendJerk(Friend4);
+        yield return new WaitForSeconds(1);
+        ToggleFriendJerk(Friend4);
+
+        for (float i = 0f; i <= 1f; i += 0.1f)
+        {
+            SetAlphaCurrentPosition(i);
+            yield return new WaitForSeconds(1);
+        }
+
+        SetAlphaCurrentPosition(0.0f);
+        HideAllFriends();
+        ToggleObjectInScreen(Enemy);
+        yield return new WaitForSeconds(2);
+
+        debugSequenceRunning = false;
+    }
 
 }

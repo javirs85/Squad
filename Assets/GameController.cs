@@ -155,7 +155,11 @@ public class GameController : MonoBehaviour
 		}
 	}
 
-	void SetAlphaCurrentPosition(float alpha)
+	/// <summary>
+	/// Set't the alpha marker position in % (0 bottom 1 top)
+	/// </summary>
+	/// <param name="alpha"></param>
+	public void SetAlphaCurrentPosition(float alpha)
 	{
 		Alpha.SetAlphaPosition(alpha);
 	}
@@ -304,6 +308,13 @@ public class GameController : MonoBehaviour
 				async () => {
 					await StartTheGameInternal();
 				});
+
+
+		await MainThreadExecutor.RunOnMainThread(
+				async () => {
+					await DestroyAmplifiersOnScreenAsync();
+				});
+
 	}
 
 	async Task StartTheGameInternal()

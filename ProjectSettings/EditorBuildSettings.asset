@@ -6,11 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/JavisScene.unity
+    path: Assets/Scenes/Unicorn Selection.unity
+    guid: d528586a19129e0419206548bf1b9d9c
+  - enabled: 1
+    path: Assets/Scenes/Main Scene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 0
-    path: Assets/Scenes/Empty Test Scene.unity
-    guid: 8e3f08707cab61444bba389fd65ceac6
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

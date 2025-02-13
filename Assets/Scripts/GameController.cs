@@ -9,7 +9,9 @@ using UnityEngine.EventSystems;
 
 public class GameController : MonoBehaviour
 {
-	[Header("Friends")]
+    public static GameController instance;
+
+    [Header("Friends")]
 	public GameObject Friend1;
 	public GameObject Friend2;
 	public GameObject Friend3;
@@ -30,6 +32,21 @@ public class GameController : MonoBehaviour
 	private List<GameObject> PlaneOptions = new();
 
 	private bool debugSequenceRunning = false;
+
+
+    private void Awake()
+    {
+		if(instance != null)
+		{
+			Debug.Log("Destroying singleton");
+			Destroy(gameObject);
+		}
+		else
+		{
+			instance = this;
+			DontDestroyOnLoad(gameObject);
+		}
+    }
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

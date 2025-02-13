@@ -12,12 +12,14 @@ using static UnityEngine.Rendering.GPUSort;
 public class BCIConnector : MonoBehaviour
 {
 	private Device _bci;
-	public GameController Game;
+	//public GameController Game;
 	private string connectedSN;
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
 	{
+		DontDestroyOnLoad(this);
+
 		_bci = GetComponent<Device>();
 		if(_bci is not null)
 		{
@@ -27,7 +29,7 @@ public class BCIConnector : MonoBehaviour
 			_bci.OnSignalQualityAvailable.AddListener(OnNewSignalQualityChanges);
 		}
 		
-		Game = GetComponent<GameController>();		
+		//Game = GetComponent<GameController>();		
 	}
 
 	List<ChannelQuality.ChannelStates> CurrentQualities = new List<ChannelQuality.ChannelStates>();
@@ -51,11 +53,11 @@ public class BCIConnector : MonoBehaviour
 			if(arg0[i] != CurrentQualities[i])
 			{
 				if (arg0[i] == ChannelQuality.ChannelStates.BadFloating)
-					Game.MakeFriendJerk(i);
-				else if (arg0[i] == ChannelQuality.ChannelStates.BadGrounded) 
-					Game.HideFriend(i);
-				else if (arg0[i] == ChannelQuality.ChannelStates.Good) 
-					Game.MakeFriendHappy(i);
+					GameController.instance.MakeFriendJerk(i);
+				else if (arg0[i] == ChannelQuality.ChannelStates.BadGrounded)
+                    GameController.instance.HideFriend(i);
+				else if (arg0[i] == ChannelQuality.ChannelStates.Good)
+                    GameController.instance.MakeFriendHappy(i);
 
 				CurrentQualities[i] = arg0[i];
 			}
@@ -89,7 +91,7 @@ public class BCIConnector : MonoBehaviour
 
 				var ScreenValue = Mathf.InverseLerp(-1.0f, 8.0f, (float)alpha);
 				Debug.Log(ScreenValue);
-				Game.SetAlphaCurrentPosition(ScreenValue);
+                GameController.instance.SetAlphaCurrentPosition(ScreenValue);
 			}
 			else
 				Debug.Log($"Loading ... {AlphaValues.Count*2}%");
@@ -101,8 +103,8 @@ public class BCIConnector : MonoBehaviour
 	private void OnDeviceStateChanged(DataAcquisitionUnit.States arg0)
 	{
 		Debug.Log(connectedSN + " changed to: " + arg0.ToString());
-		if(arg0 == DataAcquisitionUnit.States.Acquiring) Game.ShowAllFriends();
-		if(arg0 == DataAcquisitionUnit.States.Disconnected) Game.HideAllFriends();
+		if(arg0 == DataAcquisitionUnit.States.Acquiring) GameController.instance.ShowAllFriends();
+		if(arg0 == DataAcquisitionUnit.States.Disconnected) GameController.instance.HideAllFriends();
 	}
 
 	//get's the list of all available devices
@@ -132,14 +134,14 @@ public class BCIConnector : MonoBehaviour
 		while(string.IsNullOrEmpty(SelectedAmplifier))
 		{
 			Debug.Log($"Starting amp selection");
-			SelectedAmplifier = await Game.GetUserSelection(options);
+			SelectedAmplifier = await GameController.instance.GetUserSelection(options);
 		}
 		Debug.Log($"Selected amp: {SelectedAmplifier}");
 
 		_bci.Connect(SelectedAmplifier);
 
-		await Game.DestroyAmplifiersOnScreenAsync();
-		await Game.StartTheGame();
+		await GameController.instance.DestroyAmplifiersOnScreenAsync();
+		await GameController.instance.StartTheGame();
 	}
 
 	// Update is called once per frame

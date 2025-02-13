@@ -35,8 +35,8 @@ public class AmplifierSelector : MonoBehaviour
         }
         else if(AvailableDevices.Count < PlaneOptions.Count)
         {
-            var UnexistingPlane = PlaneOptions.Find(plane => AvailableDevices.Find(x=>plane.name == x) == null);    
-            DestroyPlaneOption(UnexistingPlane);
+            var NonExistingPlane = PlaneOptions.Find(plane => AvailableDevices.Find(x=>plane.name == x) == null);    
+            DestroyPlaneOption(NonExistingPlane);
         }
     }
     

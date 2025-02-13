@@ -1934,8 +1934,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Device: {fileID: 1546568200}
   MainCamera: {fileID: 330585543}
-  SimulatorModel: {fileID: 554855579}
-  RealAmplifierModel: {fileID: 1402545801}
+  SimulatorModel: {fileID: 1402545801}
+  RealAmplifierModel: {fileID: 554855579}
 --- !u!4 &708836273
 Transform:
   m_ObjectHideFlags: 0

@@ -5,6 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 0
+    path: Assets/Samples/XR Interaction Toolkit/3.0.7/Starter Assets/DemoScene.unity
+    guid: 319dafa5c80f29f428dc1e0d03f04177
   - enabled: 1
     path: Assets/Scenes/Unicorn Selection.unity
     guid: d528586a19129e0419206548bf1b9d9c
@@ -12,5 +15,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Main Scene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects:
-    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 569f4e74bbeef0742a1df971e4ceb8bc, type: 2}
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: ddfb5ea49e0efe94bbbfb59e946e2e55, type: 2}
+    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 84662a76f87288b448d72a810de0223c, type: 2}
   m_UseUCBPForAssetBundles: 0

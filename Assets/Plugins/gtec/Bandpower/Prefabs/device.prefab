@@ -41,10 +41,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7267934736238997393}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abe8ad7a8546a154081b745db73d26fd, type: 3}
+  m_Script: {fileID: -61246067, guid: 0ba26934afdcdac47818adcfabda6aad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 0
+  Signal: 2
   SimulatorAlphaLevelUv: 20
   AdvancedSettings: 0
   BuffersizeInSamples: 250
@@ -56,6 +57,7 @@ MonoBehaviour:
   BetaMid: {x: 16, y: 20}
   BetaHigh: {x: 20, y: 30}
   Gamma: {x: 30, y: 50}
+  EEGDataUpdateRateHz: 25
   OnDevicesAvailable:
     m_PersistentCalls:
       m_Calls: []
@@ -87,5 +89,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnDataLost:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEEGDataAvailable:
     m_PersistentCalls:
       m_Calls: []

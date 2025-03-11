@@ -2845,7 +2845,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd0ab6b510f5e004ea8b77dd2aa0ca61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Device: {fileID: 1546568200}
+  Device: {fileID: 0}
   MainCamera: {fileID: 330585543}
   SimulatorModel: {fileID: 1402545801}
   RealAmplifierModel: {fileID: 554855579}
@@ -6254,7 +6254,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1546568198}
-  - component: {fileID: 1546568200}
   - component: {fileID: 1546568199}
   - component: {fileID: 1546568201}
   m_Layer: 0
@@ -6291,76 +6290,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0a9292258fbea942aec8a19faa63183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1546568200
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1546568197}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abe8ad7a8546a154081b745db73d26fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Type: 0
-  Signal: 2
-  SimulatorAlphaLevelUv: 20
-  AdvancedSettings: 0
-  BuffersizeInSamples: 250
-  BufferOverlapInSamples: 225
-  Delta: {x: 1, y: 4}
-  Theta: {x: 4, y: 8}
-  Alpha: {x: 8, y: 12}
-  BetaLow: {x: 12, y: 16}
-  BetaMid: {x: 16, y: 20}
-  BetaHigh: {x: 20, y: 30}
-  Gamma: {x: 30, y: 50}
-  OnDevicesAvailable:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDeviceStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPipelineStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  OnRuntimeExceptionOccured:
-    m_PersistentCalls:
-      m_Calls: []
-  OnBandpowerAvailable:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 330585543}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnMeanBandpowerAvailable:
-    m_PersistentCalls:
-      m_Calls: []
-  OnRatiosAvailable:
-    m_PersistentCalls:
-      m_Calls: []
-  OnMeanRatiosAvailable:
-    m_PersistentCalls:
-      m_Calls: []
-  OnSignalQualityAvailable:
-    m_PersistentCalls:
-      m_Calls: []
-  OnBatteryLevelAvailable:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDataLost:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1546568201
 MonoBehaviour:
   m_ObjectHideFlags: 0

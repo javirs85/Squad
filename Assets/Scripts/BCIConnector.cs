@@ -23,7 +23,7 @@ public class BCIConnector : MonoBehaviour
 		_bci = GetComponent<Device>();
 		if(_bci is not null)
 		{
-			_bci.OnDevicesAvailable.AddListener(UpdateAvailableDevices);
+			//_bci.OnDevicesAvailable.AddListener(UpdateAvailableDevices);
 			_bci.OnDeviceStateChanged.AddListener(OnDeviceStateChanged);
 			_bci.OnMeanBandpowerAvailable.AddListener(OnBandPowerChanges);
 			_bci.OnSignalQualityAvailable.AddListener(OnNewSignalQualityChanges);
@@ -107,42 +107,6 @@ public class BCIConnector : MonoBehaviour
 		if(arg0 == DataAcquisitionUnit.States.Disconnected) GameController.instance.HideAllFriends();
 	}
 
-	//get's the list of all available devices
-	private void UpdateAvailableDevices(List<string> arg0)
-	{
-		if (arg0 is not null)
-		{
-			if (arg0.Count == 1)
-			{
-				connectedSN = arg0[0];
-				_bci.Connect(connectedSN);
-			}
-			else if (arg0.Count == 2)
-			{
-				Task.Run(() => StartDeviceSelection(arg0.ToList()));
-			}
-			else if (arg0.Count > 2) // the "only on simulator mode needs to be fixed"
-			{
-				Task.Run(() => StartDeviceSelection(arg0.ToList()));
-			}
-		}
-	}
-
-	async Task StartDeviceSelection(List<string> options)
-	{
-		var SelectedAmplifier = string.Empty;
-		while(string.IsNullOrEmpty(SelectedAmplifier))
-		{
-			Debug.Log($"Starting amp selection");
-			SelectedAmplifier = await GameController.instance.GetUserSelection(options);
-		}
-		Debug.Log($"Selected amp: {SelectedAmplifier}");
-
-		_bci.Connect(SelectedAmplifier);
-
-		await GameController.instance.DestroyAmplifiersOnScreenAsync();
-		await GameController.instance.StartTheGame();
-	}
 
 	// Update is called once per frame
 	void Update()

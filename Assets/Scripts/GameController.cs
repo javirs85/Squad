@@ -190,13 +190,20 @@ public class GameController : MonoBehaviour
 	enum ObjectPositions { OnScreen, OutsideScreen };
 	void MoveObject(ObjectPositions pos, GameObject obj)
 	{
-		var mo = obj.GetComponentInChildren<MovableObject>();
-		if (mo is not null)
+		try
 		{
-			if (pos == ObjectPositions.OutsideScreen)
-				mo.GoOut();
-			else
-				mo.GoIn();
+			var mo = obj.GetComponentInChildren<MovableObject>();
+			if (mo is not null)
+			{
+				if (pos == ObjectPositions.OutsideScreen)
+					mo.GoOut();
+				else
+					mo.GoIn();
+			}
+		}
+		catch (Exception e)
+		{
+			Debug.Log(e.Message);
 		}
 	}
 

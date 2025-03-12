@@ -38,9 +38,28 @@ public class AmplifierSelector : MonoBehaviour
             var NonExistingPlane = PlaneOptions.Find(plane => AvailableDevices.Find(x=>plane.name == x) == null);    
             DestroyPlaneOption(NonExistingPlane);
         }
-    }
-    
-    void UpdatePlanes(List<string> arg0)
+
+		//on click get raycast and select the plane
+		if (Input.GetMouseButtonDown(0))
+		{
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			RaycastHit hit;
+			if (Physics.Raycast(ray, out hit))
+			{
+				if (hit.collider != null)
+				{
+					var SelectedPlane = PlaneOptions.Find(plane => plane.name == hit.collider.name);
+					if (SelectedPlane != null)
+					{
+						Device.Connect(SelectedPlane.name);
+						SceneControl.instance.ChangeScene(SceneControl.Scenes.MainScene);
+					}
+				}
+			}
+		}
+	}
+
+	void UpdatePlanes(List<string> arg0)
     {
         AvailableDevices = arg0;
     }

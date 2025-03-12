@@ -2845,7 +2845,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd0ab6b510f5e004ea8b77dd2aa0ca61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Device: {fileID: 0}
+  Device: {fileID: 1546568202}
   MainCamera: {fileID: 330585543}
   SimulatorModel: {fileID: 1402545801}
   RealAmplifierModel: {fileID: 554855579}
@@ -6255,7 +6255,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1546568198}
   - component: {fileID: 1546568199}
-  - component: {fileID: 1546568201}
+  - component: {fileID: 1546568202}
   m_Layer: 0
   m_Name: Device Controller
   m_TagString: Untagged
@@ -6290,7 +6290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0a9292258fbea942aec8a19faa63183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1546568201
+--- !u!114 &1546568202
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6299,9 +6299,59 @@ MonoBehaviour:
   m_GameObject: {fileID: 1546568197}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4700a6464363ff24ebc660394bc94b5d, type: 3}
+  m_Script: {fileID: -61246067, guid: 0ba26934afdcdac47818adcfabda6aad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
+  Signal: 2
+  SimulatorAlphaLevelUv: 20
+  AdvancedSettings: 0
+  BuffersizeInSamples: 250
+  BufferOverlapInSamples: 225
+  Delta: {x: 1, y: 4}
+  Theta: {x: 4, y: 8}
+  Alpha: {x: 8, y: 12}
+  BetaLow: {x: 12, y: 16}
+  BetaMid: {x: 16, y: 20}
+  BetaHigh: {x: 20, y: 30}
+  Gamma: {x: 30, y: 50}
+  EEGDataUpdateRateHz: 25
+  OnDevicesAvailable:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeviceStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPipelineStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRuntimeExceptionOccured:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBandpowerAvailable:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMeanBandpowerAvailable:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRatiosAvailable:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMeanRatiosAvailable:
+    m_PersistentCalls:
+      m_Calls: []
+  OnSignalQualityAvailable:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBatteryLevelAvailable:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDataLost:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEEGDataAvailable:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &1565468389
 PrefabInstance:
   m_ObjectHideFlags: 0

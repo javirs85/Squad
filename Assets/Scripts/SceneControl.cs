@@ -22,12 +22,21 @@ public class SceneControl : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.F1))
         {
-            ChangeScene("Main Scene");
+            ChangeScene(Scenes.MainScene);
         }
     }
 
-    public void ChangeScene(string sceneName)
+    public enum Scenes { AmplfierSelector, MainScene}
+
+	public void ChangeScene(Scenes scene)
     {
-        SceneManager.LoadScene(sceneName);
+        if(scene == Scenes.AmplfierSelector)
+		{
+			SceneManager.LoadScene("Unicorn Selection");
+		}
+		else if (scene == Scenes.MainScene)
+		{
+			SceneManager.LoadScene("Main Scene");
+		}
     }
 }

@@ -22,11 +22,8 @@ public class GameController : MonoBehaviour
 
 	[Header("AlphaMarker")]
 	public GameObject AlphaObject;
-	AlphaMarkerController Alpha;
+	public iAlphaController Alpha;
 
-	[Header("HUD")]
-	public GameObject HUD;
-	public GameObject Cockpit;
 
 	//Planes used for selecting amplifier
 	private List<GameObject> PlaneOptions = new();
@@ -52,9 +49,7 @@ public class GameController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
 	{
-		Alpha = AlphaObject.GetComponent<AlphaMarkerController>();
-		HideHUD(0.1f);
-		HideCockpit();
+		Alpha = AlphaObject.GetComponent<iAlphaController>();
 	}
 
 
@@ -105,8 +100,6 @@ public class GameController : MonoBehaviour
 			SetAlphaReference(0.0f);
 		if (Input.GetKeyUp(KeyCode.X))
 			SetAlphaReference(1.0f);
-		if (Input.GetKeyUp(KeyCode.C))
-			ToggleHUD();
 
 		if (Input.GetMouseButtonDown(0))
 		{
@@ -130,35 +123,6 @@ public class GameController : MonoBehaviour
 			}
 		}
 	}
-
-
-	private bool isHUDon = false;
-	void ShowHUD() {
-		var Children = HUD.GetComponentsInChildren<Transform>();
-		foreach (var Child in Children)
-		{
-			StartCoroutine(FadeINOUTHelper.FadeInAndOut(Child.gameObject, true, 1.0f));
-		}
-		isHUDon = true;
-		HUD.SetActive(true);
-	}
-	void HideHUD(float Time = 1.0f) {
-		var Children = HUD.GetComponentsInChildren<Transform>();
-		foreach (var Child in Children)
-		{
-			StartCoroutine(FadeINOUTHelper.FadeInAndOut(Child.gameObject, false, Time));
-		}
-		isHUDon = false;
-	}
-	void ToggleHUD()
-	{
-		if (isHUDon) HideHUD();
-		else ShowHUD();
-	}
-
-	public void ShowCockpit() => Cockpit?.SetActive(true);
-	public void HideCockpit() => Cockpit?.SetActive(false);
-
 
 	void ToggleObjectInScreen(GameObject obj)
 	{
@@ -262,8 +226,9 @@ public class GameController : MonoBehaviour
 		else if (i == 1) f = Friend2;
 		else if (i == 2) f = Friend3;
 		else if (i == 3) f = Friend4;
+		else return;
 
-		MoveObject(ObjectPositions.OnScreen, f);
+			MoveObject(ObjectPositions.OnScreen, f);
 		FriendJerkStop(f);
 
 	}
@@ -343,10 +308,8 @@ public class GameController : MonoBehaviour
 
 	async Task StartTheGameInternal()
 	{
-		Cockpit.SetActive(true);
 		ShowAllFriends();
 		await Task.Delay(1400);
-		ShowHUD();
 	}
 
 	private List<GameObject> ShowAmplifiersOnScreen(List<string> options)

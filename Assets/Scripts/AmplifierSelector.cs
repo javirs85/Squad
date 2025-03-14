@@ -1,6 +1,9 @@
 using Gtec.Bandpower;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
+using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class AmplifierSelector : MonoBehaviour
@@ -8,17 +11,19 @@ public class AmplifierSelector : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     public Device Device;
-    public GameObject MainCamera;
+    private GameObject PlaneCrationPoint;
     public GameObject SimulatorModel;
     public GameObject RealAmplifierModel;
 
     List<string> AvailableDevices = new();
-    List<GameObject> PlaneOptions = new();
+    List<Tuple<GameObject,Vector3>> PlaneOptions = new();
 
 	void Start()
     {
         Device.OnDevicesAvailable.AddListener(UpdatePlanes);
-    }
+		PlaneCrationPoint = this.gameObject;
+
+	}
 
 	private void OnDestroy()
 	{
@@ -30,13 +35,13 @@ public class AmplifierSelector : MonoBehaviour
     {
         if(AvailableDevices.Count > PlaneOptions.Count)
         { 
-            var missingSN = AvailableDevices.Find(device=>PlaneOptions.Find(Plane=>Plane.name == device)  == null);
+            var missingSN = AvailableDevices.Find(device=>PlaneOptions.Find(Plane=>Plane.Item1.name == device)  == null);
             CreateNewPlaneOption(missingSN);
         }
         else if(AvailableDevices.Count < PlaneOptions.Count)
         {
-            var NonExistingPlane = PlaneOptions.Find(plane => AvailableDevices.Find(x=>plane.name == x) == null);    
-            DestroyPlaneOption(NonExistingPlane);
+            var NonExistingPlane = PlaneOptions.Find(plane => AvailableDevices.Find(x=>plane.Item1.name == x) == null);    
+            DestroyPlaneOption(NonExistingPlane.Item1);
         }
 
 		//on click get raycast and select the plane
@@ -48,31 +53,45 @@ public class AmplifierSelector : MonoBehaviour
 			{
 				if (hit.collider != null)
 				{
-					var SelectedPlane = PlaneOptions.Find(plane => plane.name == hit.collider.name);
+					var SelectedPlane = PlaneOptions.Find(plane => plane.Item1.name == hit.collider.name);
 					if (SelectedPlane != null)
 					{
-						Device.Connect(SelectedPlane.name);
-						SceneControl.instance.ChangeScene(SceneControl.Scenes.MainScene);
+						SceneControl.instance.ChangeScene(
+							SceneControl.Scenes.MainScene, 
+							() => { Device.Connect(SelectedPlane.Item1.name); },
+							true);
 					}
 				}
 			}
 		}
+
+		// lerp all planes towars the position in the tuple
+		foreach (var plane in PlaneOptions)
+		{
+			plane.Item1.transform.position = Vector3.Lerp(plane.Item1.transform.position, plane.Item2, Time.deltaTime * 3);
+		}
 	}
+
+
+	
+
+
+	public
 
 	void UpdatePlanes(List<string> arg0)
     {
         AvailableDevices = arg0;
     }
 
-    void CreateNewPlaneOption(string SN)
+	void CreateNewPlaneOption(string SN)
     {
         int i = PlaneOptions.Count;
 
-		Vector3 newPos = MainCamera.transform.localPosition;
-		//-64, -160 - 173 
+		Vector3 newPos = PlaneCrationPoint.transform.position;
+
 		newPos.x += i * 40;
-		newPos.y = -18.2f;
-		newPos.z = 85.0f;
+		newPos.y = -30;
+		newPos.z = -10;
 
 
 		GameObject F = null;
@@ -80,17 +99,32 @@ public class AmplifierSelector : MonoBehaviour
         else F = RealAmplifierModel;
 
 
-		GameObject NewOption = Instantiate(F, MainCamera.transform);
-		var textMesh = NewOption.GetComponentInChildren<TextMesh>();
+		GameObject NewOption = Instantiate(F, PlaneCrationPoint.transform);
+		NewOption.SetActive(true);
+		var textMesh = NewOption.GetComponentInChildren<TextMeshPro>();
 		textMesh.text = SN;
-		NewOption.transform.localPosition = newPos;
+		NewOption.transform.position = newPos;
 		NewOption.name = SN;
         NewOption.layer = LayerMask.NameToLayer("UI");
+		var wiggler = NewOption.GetComponentInChildren<WiggleController>();
+		if(wiggler is not null)
+		{
+			wiggler.enabled = true;
+			wiggler.wiggleIntensity = UnityEngine.Random.Range(0.22f, 0.30f);	
+			wiggler.wiggleSpeed = UnityEngine.Random.Range(0.25f, 0.35f);	
+		}
 
+		PlaneOptions.Add(new Tuple<GameObject, Vector3>(NewOption, newPos));
 
-		PlaneOptions.Add(NewOption);
+		
+		for (int j = 0; j < PlaneOptions.Count; j++)
+		{
+			var plane = PlaneOptions[j];
+			plane = new Tuple<GameObject, Vector3>(plane.Item1, new Vector3(PlaneCrationPoint.transform.position.x + (j * 40) - ((PlaneOptions.Count-1)*40/2), -10, 70));
+			PlaneOptions[j] = plane;
+		}
 	}
-    void DestroyPlaneOption(GameObject plane)
+	void DestroyPlaneOption(GameObject plane)
     {
         Destroy(plane);
     }

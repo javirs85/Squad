@@ -36,7 +36,9 @@ public class BCIConnector : MonoBehaviour
 
 	public void OnNewSignalQualityChanges(List<ChannelQuality.ChannelStates> arg0)
 	{
-		if(CurrentQualities.Count != arg0.Count)
+		if (GameController.instance is null) return;
+
+		if (CurrentQualities.Count != arg0.Count)
 		{
 			CurrentQualities.Clear();
 			for(int i=0; i<arg0.Count; i++) CurrentQualities.Add(ChannelQuality.ChannelStates.Good);
@@ -64,44 +66,20 @@ public class BCIConnector : MonoBehaviour
 		}
 	}
 
-	List<double> AlphaValues = new List<double>();
-	int FirstSamplesIgnored = 10;
-
 	public void OnBandPowerChanges(Dictionary<string, double> arg0)
 	{
+		if (GameController.instance is null) return;
 
 		double alpha = arg0["alpha"];
-
-		if (FirstSamplesIgnored >  0)
-		{ 
-			FirstSamplesIgnored--;
-		}
-		else
-		{
-			AlphaValues.Add(alpha);
-			if (AlphaValues.Count > 50)
-			{
-				AlphaValues.Add(alpha);
-				if (AlphaValues.Count > 100)
-					AlphaValues.RemoveAt(0);
-
-				//float alphaPercent = Mathf.InverseLerp((float)AlphaValues.Min(), (float)AlphaValues.Max(), (float)alpha) * 100f;
-				//Debug.Log($"{alpha.ToString("F2")}: ({AlphaValues.Min().ToString("F2")} / {AlphaValues.Max().ToString("F2")}) => {alphaPercent} [{AlphaValues.Average()}]");
-
-
-				var ScreenValue = Mathf.InverseLerp(-1.0f, 8.0f, (float)alpha);
-				Debug.Log(ScreenValue);
-                GameController.instance.SetAlphaCurrentPosition(ScreenValue);
-			}
-			else
-				Debug.Log($"Loading ... {AlphaValues.Count*2}%");
-		}
-
+		Debug.Log(alpha);
+		GameController.instance.SetAlphaCurrentPosition((float)alpha);
 	}
 
 	//only for the already connected device
 	private void OnDeviceStateChanged(DataAcquisitionUnit.States arg0)
 	{
+		if(connectedSN is null || arg0 == DataAcquisitionUnit.States.Connecting) return;
+
 		Debug.Log(connectedSN + " changed to: " + arg0.ToString());
 		if(arg0 == DataAcquisitionUnit.States.Acquiring) GameController.instance.ShowAllFriends();
 		if(arg0 == DataAcquisitionUnit.States.Disconnected) GameController.instance.HideAllFriends();

@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class AlphaMarkerController : MonoBehaviour
+public class AlphaMarkerController : MonoBehaviour, iAlphaController
 {
 	[Header("Objects")]
 	public GameObject AlphaMarker;
@@ -20,7 +20,7 @@ public class AlphaMarkerController : MonoBehaviour
 	private Vector3 Destination;
 
 	[HideInInspector]
-	public float AlphaValue = 0f;
+	public float AlphaValue { get; set; } = 0f;
 	[HideInInspector]
 	public float ReferenceValue = 0.5f;
 
@@ -91,4 +91,6 @@ public class AlphaMarkerController : MonoBehaviour
 			Destination,
 			10.0f * Time.deltaTime);
 	}
+
+	
 }

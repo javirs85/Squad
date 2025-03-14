@@ -37,7 +37,9 @@ public class AmplifierSelector : MonoBehaviour
         { 
             var missingSN = AvailableDevices.Find(device=>PlaneOptions.Find(Plane=>Plane.Item1.name == device)  == null);
             CreateNewPlaneOption(missingSN);
-        }
+			if(missingSN.Contains("0000") == false) 
+				SelectAmplifier(missingSN);
+		}
         else if(AvailableDevices.Count < PlaneOptions.Count)
         {
             var NonExistingPlane = PlaneOptions.Find(plane => AvailableDevices.Find(x=>plane.Item1.name == x) == null);    
@@ -56,10 +58,7 @@ public class AmplifierSelector : MonoBehaviour
 					var SelectedPlane = PlaneOptions.Find(plane => plane.Item1.name == hit.collider.name);
 					if (SelectedPlane != null)
 					{
-						SceneControl.instance.ChangeScene(
-							SceneControl.Scenes.MainScene, 
-							() => { Device.Connect(SelectedPlane.Item1.name); },
-							true);
+						SelectAmplifier(SelectedPlane.Item1.name);
 					}
 				}
 			}
@@ -73,7 +72,13 @@ public class AmplifierSelector : MonoBehaviour
 	}
 
 
-	
+	private void SelectAmplifier(string SN)
+	{
+		SceneControl.instance.ChangeScene(
+							SceneControl.Scenes.MainScene,
+							() => { Device.Connect(SN); },
+							true);
+	}
 
 
 	public

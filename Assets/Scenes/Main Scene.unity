@@ -7147,6 +7147,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FaderSceneLoader
       objectReference: {fileID: 0}
+    - target: {fileID: 1593055324134917554, guid: d4a39df15c0593146a4f0019ddc07262, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4141880078394120815, guid: d4a39df15c0593146a4f0019ddc07262, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

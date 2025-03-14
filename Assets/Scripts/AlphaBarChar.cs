@@ -14,7 +14,7 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 	public float AlphaValue { get; set; } = 0.0f;
 
 	enum GoingToDirections { Up, Down, noWhere};
-	GoingToDirections GoingTo = GoingToDirections.noWhere;
+	GoingToDirections GoingTo = GoingToDirections.Up;
 	public enum BarStatuses { Active, Inactive, Marker };
 
 

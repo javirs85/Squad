@@ -58,6 +58,7 @@ public class AmplifierSelector : MonoBehaviour
 					var SelectedPlane = PlaneOptions.Find(plane => plane.Item1.name == hit.collider.name);
 					if (SelectedPlane != null)
 					{
+						Debug.Log("Name: " + SelectedPlane.Item1.name);
 						SelectAmplifier(SelectedPlane.Item1.name);
 					}
 				}
@@ -72,7 +73,7 @@ public class AmplifierSelector : MonoBehaviour
 	}
 
 
-	private void SelectAmplifier(string SN)
+	public void SelectAmplifier(string SN)
 	{
 		SceneControl.instance.ChangeScene(
 							SceneControl.Scenes.MainScene,

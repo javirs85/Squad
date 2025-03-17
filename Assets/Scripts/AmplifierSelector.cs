@@ -14,8 +14,9 @@ public class AmplifierSelector : MonoBehaviour
     private GameObject PlaneCrationPoint;
     public GameObject SimulatorModel;
     public GameObject RealAmplifierModel;
+	public bool ConnectAutomaticallyToRealAmplifiers = false;
 
-    List<string> AvailableDevices = new();
+	List<string> AvailableDevices = new();
     List<Tuple<GameObject,Vector3>> PlaneOptions = new();
 
 	void Start()
@@ -37,8 +38,12 @@ public class AmplifierSelector : MonoBehaviour
         { 
             var missingSN = AvailableDevices.Find(device=>PlaneOptions.Find(Plane=>Plane.Item1.name == device)  == null);
             CreateNewPlaneOption(missingSN);
-			if(missingSN.Contains("0000") == false) 
-				SelectAmplifier(missingSN);
+
+			if(ConnectAutomaticallyToRealAmplifiers == true)
+			{
+				if (missingSN.Contains("0000") == false)
+					SelectAmplifier(missingSN);
+			}
 		}
         else if(AvailableDevices.Count < PlaneOptions.Count)
         {

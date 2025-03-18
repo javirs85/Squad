@@ -1269,6 +1269,7 @@ MonoBehaviour:
   Device: {fileID: 1546568202}
   SimulatorModel: {fileID: 1402545801}
   RealAmplifierModel: {fileID: 554855579}
+  ConnectAutomaticallyToRealAmplifiers: 1
 --- !u!4 &708836273
 Transform:
   m_ObjectHideFlags: 0

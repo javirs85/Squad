@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class SceneControl : MonoBehaviour
@@ -25,7 +26,8 @@ public class SceneControl : MonoBehaviour
 
 	void Update()
     {
-        if(Input.GetKeyDown(KeyCode.F1))
+        
+        if(Keyboard.current.f1Key.wasReleasedThisFrame)
         {
             ChangeScene(Scenes.MainScene);
         }

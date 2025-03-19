@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class AmplifierSelector : MonoBehaviour
 {
@@ -52,9 +53,9 @@ public class AmplifierSelector : MonoBehaviour
         }
 
 		//on click get raycast and select the plane
-		if (Input.GetMouseButtonDown(0))
+		if (Mouse.current is not null && Mouse.current.leftButton.wasPressedThisFrame)
 		{
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
 			RaycastHit hit;
 			if (Physics.Raycast(ray, out hit))
 			{

@@ -1,6 +1,8 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Mathematics;
+using UnityEditor.Networking.PlayerConnection;
 using UnityEngine;
 
 public class AlphaBarChar : MonoBehaviour, iAlphaController
@@ -11,6 +13,7 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 	public Material ActiveMaterial;
 	public Material InactiveMaterial;
 	public Material MarkerMaterial;
+	public TextMeshPro SerialNumberTextMesh;
 	public float AlphaValue { get; set; } = 0.0f;
 
 	enum GoingToDirections { Up, Down, noWhere};

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Missile : MonoBehaviour
 {
@@ -28,7 +29,7 @@ public class Missile : MonoBehaviour
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.M))
+        if(Keyboard.current.mKey.wasReleasedThisFrame)
         {
             if(!launched)
                 LaunchMissile();

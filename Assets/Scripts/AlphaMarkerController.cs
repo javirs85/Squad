@@ -21,6 +21,8 @@ public class AlphaMarkerController : MonoBehaviour, iAlphaController
 
 	[HideInInspector]
 	public float AlphaValue { get; set; } = 0f;
+	public string ConnnectedSerialNumber { get; set; }
+
 	[HideInInspector]
 	public float ReferenceValue = 0.5f;
 
@@ -92,5 +94,8 @@ public class AlphaMarkerController : MonoBehaviour, iAlphaController
 			10.0f * Time.deltaTime);
 	}
 
-	
+	public void SetAmplifierSerialNumber(string SN)
+	{
+		ConnnectedSerialNumber = SN;
+	}
 }

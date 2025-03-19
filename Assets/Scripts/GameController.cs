@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class GameController : MonoBehaviour
 {
@@ -58,70 +59,49 @@ public class GameController : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		if (Input.GetKeyUp(KeyCode.Q))
+		if (Keyboard.current.qKey.wasReleasedThisFrame)
 			ToggleObjectInScreen(Friend1);
-		if (Input.GetKeyUp(KeyCode.W))
+		if (Keyboard.current.wKey.wasReleasedThisFrame)
 			ToggleObjectInScreen(Friend2);
-		if (Input.GetKeyUp(KeyCode.E))
+		if (Keyboard.current.eKey.wasReleasedThisFrame)
 			ToggleObjectInScreen(Friend3);
-		if (Input.GetKeyUp(KeyCode.R))
+		if (Keyboard.current.rKey.wasReleasedThisFrame)
 			ToggleObjectInScreen(Friend4);
-		if (Input.GetKeyUp(KeyCode.T))
+		if (Keyboard.current.tKey.wasReleasedThisFrame)
 			ToggleObjectInScreen(Enemy);
-		if (Input.GetKeyUp(KeyCode.A))
+		if (Keyboard.current.aKey.wasReleasedThisFrame)
 			ToggleFriendJerk(Friend1);
-		if (Input.GetKeyUp(KeyCode.S))
+		if (Keyboard.current.sKey.wasReleasedThisFrame)
 			ToggleFriendJerk(Friend2);
-		if (Input.GetKeyUp(KeyCode.D))
+		if (Keyboard.current.dKey.wasReleasedThisFrame)
 			ToggleFriendJerk(Friend3);
-		if (Input.GetKeyUp(KeyCode.F))
+		if (Keyboard.current.fKey.wasReleasedThisFrame)
 			ToggleFriendJerk(Friend4);
-		if (Input.GetKeyUp(KeyCode.Alpha1))
+		if (Keyboard.current.digit1Key.wasReleasedThisFrame)
 			SetAlphaCurrentPosition(0.1f);
-		if (Input.GetKeyUp(KeyCode.Alpha2))
+		if (Keyboard.current.digit2Key.wasReleasedThisFrame)
 			SetAlphaCurrentPosition(0.2f);
-		if (Input.GetKeyUp(KeyCode.Alpha3))
+		if (Keyboard.current.digit3Key.wasReleasedThisFrame)
 			SetAlphaCurrentPosition(0.3f);
-		if (Input.GetKeyUp(KeyCode.Alpha4))
+		if (Keyboard.current.digit4Key.wasReleasedThisFrame)
 			SetAlphaCurrentPosition(0.4f);
-		if (Input.GetKeyUp(KeyCode.Alpha5))
+		if (Keyboard.current.digit5Key.wasReleasedThisFrame)
 			SetAlphaCurrentPosition(0.5f);
-		if (Input.GetKeyUp(KeyCode.Alpha6))
+		if (Keyboard.current.digit6Key.wasReleasedThisFrame)
 			SetAlphaCurrentPosition(0.6f);
-		if (Input.GetKeyUp(KeyCode.Alpha7))
+		if (Keyboard.current.digit7Key.wasReleasedThisFrame)
 			SetAlphaCurrentPosition(0.7f);
-		if (Input.GetKeyUp(KeyCode.Alpha8))
+		if (Keyboard.current.digit8Key.wasReleasedThisFrame)
 			SetAlphaCurrentPosition(0.8f);
-		if (Input.GetKeyUp(KeyCode.Alpha9))
+		if (Keyboard.current.digit9Key.wasReleasedThisFrame)
 			SetAlphaCurrentPosition(0.9f);
-		if (Input.GetKeyUp(KeyCode.Alpha0))
+		if (Keyboard.current.digit0Key.wasReleasedThisFrame)
 			SetAlphaCurrentPosition(1.0f);
-		if (Input.GetKeyUp(KeyCode.Z))
+		if (Keyboard.current.zKey.wasReleasedThisFrame)
 			SetAlphaReference(0.0f);
-		if (Input.GetKeyUp(KeyCode.X))
+		if (Keyboard.current.xKey.wasReleasedThisFrame)
 			SetAlphaReference(1.0f);
 
-		if (Input.GetMouseButtonDown(0))
-		{
-			ProcessClick(Input.mousePosition);
-		}
-		if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
-		{
-			ProcessClick(Input.GetTouch(0).position);
-		}
-
-	}
-	void ProcessClick(Vector2 screenPosition)
-	{
-		//We only care about selections if there is a selection requested
-		if (_RunningSelectionTaskResult is not null)
-		{
-			Ray ray = Camera.main.ScreenPointToRay(screenPosition);
-			if (Physics.Raycast(ray, out RaycastHit hit))
-			{
-				_RunningSelectionTaskResult?.TrySetResult(hit.collider.gameObject);
-			}
-		}
 	}
 
 	void ToggleObjectInScreen(GameObject obj)
@@ -257,116 +237,6 @@ public class GameController : MonoBehaviour
 	}
 
 
-
-	private TaskCompletionSource<GameObject> _RunningSelectionTaskResult;
-	public async Task<string> GetUserSelection(List<string> options)
-	{
-		//this is running on a tread that is not mainthread
-		//therefore we cannot acces the obj.name straightforwardly
-
-		await MainThreadExecutor.RunOnMainThread(
-				async () => {
-					await DestroyAmplifiersOnScreenAsync();
-				});
-		PlaneOptions.Clear();
-
-		PlaneOptions = 
-			await MainThreadExecutor.RunOnMainThread<List<GameObject>>(
-				() => {
-					return ShowAmplifiersOnScreen(options);
-				});
-
-		string SelectedAmp = string.Empty;
-		var obj = await WaitForUserClick();
-		
-		SelectedAmp = await MainThreadExecutor.GetNameFromGameObject(obj);
-
-		//Debug.Log(SelectedAmp);
-
-
-		if (options.Contains(SelectedAmp))
-			return SelectedAmp;
-		else 
-			return string.Empty;
-
-	}
-
-	public async Task StartTheGame()
-	{
-		await MainThreadExecutor.RunOnMainThread(
-				async () => {
-					await StartTheGameInternal();
-				});
-
-
-		await MainThreadExecutor.RunOnMainThread(
-				async () => {
-					await DestroyAmplifiersOnScreenAsync();
-				});
-
-	}
-
-	async Task StartTheGameInternal()
-	{
-		ShowAllFriends();
-		await Task.Delay(1400);
-	}
-
-	private List<GameObject> ShowAmplifiersOnScreen(List<string> options)
-	{
-		List<GameObject> PlaneOptions = new List<GameObject>();
-		for (int i = 0; i < options.Count; ++i)
-		{
-			Vector3 newPos = this.gameObject.transform.localPosition;
-			newPos.x += i * 40 - (20*options.Count/2);
-			newPos.y = -18.2f;
-			newPos.z = 79.0f;
-			var fnumber = i % 4;
-
-			GameObject F = Friend1;
-			if (fnumber == 0) F = Friend1; 
-			else if (fnumber == 2) F = Friend2; 
-			else if (fnumber == 3) F = Friend3; 
-			else F = Friend4;
-
-			
-
-			GameObject NewOption = Instantiate(F, this.gameObject.transform);
-			var textMesh = NewOption.GetComponentInChildren<TextMesh>();
-			textMesh.text = options[i];
-
-			var MovObj = NewOption.GetComponent<MovableObject>();
-			MovObj.enabled = false;
-			NewOption.transform.localPosition = newPos;	
-			NewOption.name = options[i];
-			NewOption.layer = LayerMask.NameToLayer("UI");
-			PlaneOptions.Add(NewOption);
-		}
-
-		return PlaneOptions;
-	}
-	public async Task DestroyAmplifiersOnScreenAsync()
-	{
-		await MainThreadExecutor.RunOnMainThread(() => {
-			foreach (var o in PlaneOptions)
-				Destroy(o);
-		});
-	}
-
-	private async Task<GameObject> WaitForUserClick()
-	{
-		_RunningSelectionTaskResult = new TaskCompletionSource<GameObject>();
-		GameObject obj = await _RunningSelectionTaskResult.Task;
-		_RunningSelectionTaskResult = null; // Reset after completion
-
-		return obj;
-	}
-
-    public void RunDebugSequence()
-    {
-        if (!debugSequenceRunning)
-            StartCoroutine(FullDebugSequence());
-    }
 
     IEnumerator FullDebugSequence()
     {

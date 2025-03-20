@@ -52,9 +52,9 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 		Transform parentTransform = FirstBar.transform.parent; // Keep reference to the parent
 		bars.Add(FirstBar);
 
-		for (int i = 1; i <= segmentCount - 1; i++)
+		for (int i = 1; i < segmentCount - 1; i++)
 		{
-			float t = (float)i / segmentCount;
+			float t = (float)i / (segmentCount-1);
 			Vector3 newPosition = Vector3.Lerp(FirstBar.transform.position, LastBar.transform.position, t);
 			GameObject newBar = Instantiate(FirstBar, newPosition, FirstBar.transform.rotation, parentTransform);
 			newBar.transform.localScale = FirstBar.transform.localScale;
@@ -66,9 +66,9 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 
 		Points.Add(FirstPointsBar);
 
-		for (int i = 1; i <= segmentCount - 1; i++)
+		for (int i = 1; i < segmentCount - 1; i++)
 		{
-			float t = (float)i / segmentCount;
+			float t = (float)i / (segmentCount-1);
 			Vector3 newPosition = Vector3.Lerp(FirstPointsBar.transform.position, LastPointsBar.transform.position, t);
 			GameObject newBar = Instantiate(FirstPointsBar, newPosition, FirstPointsBar.transform.rotation, parentTransform);
 			newBar.transform.localScale = FirstPointsBar.transform.localScale;
@@ -80,8 +80,13 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 
 
 		SetAlphaPosition(0);
+<<<<<<< Updated upstream
 		GoTo(Statuses.NothingReady);
 		//GoTo(Statuses.FreeRun);
+=======
+		//GoTo(Statuses.FreeRun);
+		GoTo(Statuses.NothingReady);
+>>>>>>> Stashed changes
 	}
 
 	float CurrentMarkerValue = 0;
@@ -96,7 +101,7 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 
 			if (CurrentMeasure.Count >= TrainingSamples)
 			{
-				MathAlphaAverage = (int)math.round(CurrentMeasure.Average() * 100);
+				MathAlphaAverage = CurrentMeasure.Average();
 
 				if(currentStatus == Statuses.MathMeasuring)
 				{
@@ -105,7 +110,7 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 				}
 				else if (currentStatus == Statuses.RelaxMeasuring)
 				{
-					RelaxAlphaAverage = MathAlphaAverage;
+					RelaxAverage = MathAlphaAverage;
 					GoTo(Statuses.FreeRun);
 				}
 
@@ -175,24 +180,34 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 		ScreenTextMesh.text = TextOnScreen;
 	}
 
+	
+
 
 	private void PaintBars(float v)
 	{
-		int activeBars =(int)math.round( math.lerp(StressAverage, RelaxAlphaAverage, v));
+		int activeBars = CalculateMeterLevel(v, StressAverage, RelaxAverage);
 
-		Debug.Log($"{StressAverage}, {RelaxAlphaAverage} [{v}] => {activeBars}");
+		Debug.Log($"{StressAverage}, {RelaxAverage} [{v}] => {activeBars}");
 
-		for (int i = 0; i <= segmentCount; i++)
+		for (int i = 0; i < bars.Count; i++)
 		{
 			var BarStatus = BarStatuses.Inactive;
 			if (i <= activeBars)
-				if (i < 9)
-					BarStatus = BarStatuses.Marker;
-				else
+				if (i <= segmentCount-2)
 					BarStatus = BarStatuses.Active;
+				else
+					BarStatus = BarStatuses.Marker;
 
 			SetBarActive(bars[i], BarStatus);
 		}
+	}
+	int CalculateMeterLevel(double v, double StressAverage, double RelaxAverage)
+	{
+		if (StressAverage == RelaxAverage)
+			throw new ArgumentException($"StressAverage and RelaxAverage cannot be the same value {StressAverage}, {RelaxAverage}.");
+
+		int level = (int)Math.Round((v - StressAverage) / (RelaxAverage - StressAverage) * 10);
+		return Math.Clamp(level, 0, 10);
 	}
 
 	public void SetReferenceValue(float alpha)
@@ -231,6 +246,15 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 				BarStatuses.Marker => MarkerMaterial,
 				_ => renderer.material
 			};
+		}
+		if(barStatus == BarStatuses.Marker)
+		{
+			CurrentPoints++;
+			int ActivePoints = (int)math.round(CurrentPoints / 10);
+			for (int i = 0; i < Points.Count; i++)
+			{
+				SetPoints(Points[i], i < ActivePoints);
+			}
 		}
 	}
 
@@ -271,8 +295,7 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 		}
 	}
 
-	public int MathAlphaAverage { get; set; } = 0;
-	public int RelaxAlphaAverage { get; set; } = 0;
+	public float MathAlphaAverage { get; set; } = 0;
 
 	enum Statuses { NothingReady, MathMeasuring, MathReady, RelaxMeasuring, FreeRun };
 	Statuses currentStatus = Statuses.NothingReady;
@@ -301,6 +324,7 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 		if(newStatus == Statuses.NothingReady)
 		{
 			HideAllBars();
+			HidePointsBars();
 			ScreenTextMesh.text = "Tap the screen to start the stress test";
 			ProgressBarObject.SetActive(false);
 		}
@@ -318,13 +342,17 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 		}
 		else if(newStatus == Statuses.MathReady)
 		{
-			HideAllBars(); 
+			HideAllBars();
+			ProgressBar.ProgressValue = 0;
 			ProgressBarObject.SetActive(false);
 			ScreenTextMesh.text = "Tap the screen to start the relax test";
 		}
 		else if(newStatus == Statuses.RelaxMeasuring)
 		{
+			HideAllBars();
+			CurrentMeasure.Clear();
 			ScreenTextMesh.text = "Keep your eyes closed until you hear a beep";
+			ProgressBar.ProgressValue = 0;
 			ProgressBarObject.SetActive(true);
 		}
 		else if (newStatus == Statuses.FreeRun)
@@ -333,6 +361,7 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 			ScreenTextMesh.text= "";
 			ProgressBarObject.SetActive(false);
 			ShowAllBars();
+			ShowPointsBars();
 		}
 
 		currentStatus = newStatus;
@@ -346,7 +375,6 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 		}
 		else if (currentStatus == Statuses.MathReady)
 		{
-			CurrentMeasure.Clear();
 			GoTo(Statuses.RelaxMeasuring);
 		}
 	}
@@ -369,6 +397,22 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 			}
 		}
 		return false;
+	}
+
+	private void HidePointsBars()
+	{
+		foreach (var bar in Points)
+		{
+			bar.SetActive(false);
+		}
+	}
+
+	private void ShowPointsBars()
+	{
+		foreach (var bar in Points)
+		{
+			bar.SetActive(true);
+		}
 	}
 
 	private void HideAllBars()

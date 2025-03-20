@@ -81,8 +81,13 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 
 		SetAlphaPosition(0);
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 		GoTo(Statuses.NothingReady);
 		//GoTo(Statuses.FreeRun);
+=======
+		//GoTo(Statuses.FreeRun);
+		GoTo(Statuses.NothingReady);
+>>>>>>> Stashed changes
 =======
 		//GoTo(Statuses.FreeRun);
 		GoTo(Statuses.NothingReady);

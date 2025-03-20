@@ -81,6 +81,7 @@ public class AmplifierSelector : MonoBehaviour
 
 	public void SelectAmplifier(string SN)
 	{
+		Device.Connect(SN);
 		SceneControl.instance.ChangeScene(
 							SceneControl.Scenes.MainScene,
 							() => { Device.Connect(SN); },

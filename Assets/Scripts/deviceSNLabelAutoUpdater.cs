@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class deviceSNLabelAutoUpdater : MonoBehaviour
 {
+    public TextMeshPro TextPro;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
 		var device = FindFirstObjectByType<Device>();
-        var text = GetComponent<TextMeshPro>();
-		if (device != null)
+		if (TextPro is not null && device != null)
         {
-            text.text = device.Serial;
+			TextPro.text = device.Serial;
         }
 	}
 

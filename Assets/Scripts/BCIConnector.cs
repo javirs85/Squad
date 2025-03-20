@@ -32,6 +32,15 @@ public class BCIConnector : MonoBehaviour
 		//Game = GetComponent<GameController>();		
 	}
 
+	public void OnBandPowerChanges(Dictionary<string, double> arg0)
+	{
+		if (GameController.instance is null) return;
+
+		double alpha = arg0["alpha"];
+		//Debug.Log(alpha);
+		GameController.instance.SetAlphaCurrentPosition((float)alpha);
+	}
+
 	List<ChannelQuality.ChannelStates> CurrentQualities = new List<ChannelQuality.ChannelStates>();
 
 	public void OnNewSignalQualityChanges(List<ChannelQuality.ChannelStates> arg0)
@@ -66,14 +75,6 @@ public class BCIConnector : MonoBehaviour
 		}
 	}
 
-	public void OnBandPowerChanges(Dictionary<string, double> arg0)
-	{
-		if (GameController.instance is null) return;
-
-		double alpha = arg0["alpha"];
-		Debug.Log(alpha);
-		GameController.instance.SetAlphaCurrentPosition((float)alpha);
-	}
 
 	//only for the already connected device
 	private void OnDeviceStateChanged(DataAcquisitionUnit.States arg0)

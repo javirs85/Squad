@@ -6,4 +6,8 @@ public interface iAlphaController
     public void SetReferenceValue(float v);
     public float AlphaValue { get; set; }
 
+    public void StartMathTraining();
+    public void StartRelaxTraining();
+    public void FreeRun();
+
 }

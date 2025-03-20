@@ -249,6 +249,12 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 			{
 				SetPoints(Points[i], i < ActivePoints);
 			}
+
+			if(CurrentPoints >= 100)
+			{
+				CurrentPoints = 0;
+				GameController.instance.FireMissiles();
+			}
 		}
 	}
 
@@ -356,6 +362,7 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 			ProgressBarObject.SetActive(false);
 			ShowAllBars();
 			ShowPointsBars();
+			GameController.instance.ShowEnemy();
 		}
 
 		currentStatus = newStatus;

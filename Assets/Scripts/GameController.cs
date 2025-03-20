@@ -21,6 +21,10 @@ public class GameController : MonoBehaviour
 	[Header("Enemy")]
 	public GameObject Enemy;
 
+	[Header("Misiles")]
+	public Missile Missile1;
+	public Missile Missile2;
+
 	[Header("AlphaMarker")]
 	public GameObject AlphaObject;
 	public iAlphaController Alpha;
@@ -151,6 +155,12 @@ public class GameController : MonoBehaviour
 		}
 	}
 
+	public void FireMissiles()
+	{
+		Missile1.LaunchMissile();
+		Missile2.LaunchMissile();
+	}
+
 	public void FriendJerkStop(GameObject obj)
 	{
 		var Wiggler = obj.GetComponentInChildren<WiggleController>();
@@ -212,6 +222,8 @@ public class GameController : MonoBehaviour
 		FriendJerkStop(f);
 
 	}
+
+	public void ShowEnemy() => ToggleObjectInScreen(Enemy);
 
 	public void ShowAllFriends() => StartCoroutine(ShowAllFriendsAnimation());
 	public void HideAllFriends() => StartCoroutine(HideAllFriendsAnimation());

@@ -836,6 +836,8 @@ MonoBehaviour:
   Friend3: {fileID: 925576107}
   Friend4: {fileID: 1402545801}
   Enemy: {fileID: 2125269090}
+  Missile1: {fileID: 8328288293404429852}
+  Missile2: {fileID: 913736056}
   AlphaObject: {fileID: 812733150}
 --- !u!1 &269172789
 GameObject:
@@ -3938,6 +3940,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f33664fe4a26ad5439616c18a793a933, type: 3}
+--- !u!114 &913736056 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8481380147131361422, guid: f33664fe4a26ad5439616c18a793a933, type: 3}
+  m_PrefabInstance: {fileID: 913736055}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b153f2d580287fe4093dc5f4dd200942, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &925576107 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 216389654091116836, guid: 81aed58e52f31dd4993677f1af01696c, type: 3}
@@ -9410,6 +9423,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f33664fe4a26ad5439616c18a793a933, type: 3}
+--- !u!114 &8328288293404429852 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8481380147131361422, guid: f33664fe4a26ad5439616c18a793a933, type: 3}
+  m_PrefabInstance: {fileID: 8328288293404429851}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b153f2d580287fe4093dc5f4dd200942, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

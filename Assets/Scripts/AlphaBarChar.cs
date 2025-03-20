@@ -88,6 +88,7 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 		//GoTo(Statuses.FreeRun);
 		GoTo(Statuses.NothingReady);
 >>>>>>> Stashed changes
+		GoTo(Statuses.NothingReady);
 =======
 		//GoTo(Statuses.FreeRun);
 		GoTo(Statuses.NothingReady);

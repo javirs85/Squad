@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.Mathematics;
-using UnityEditor.Networking.PlayerConnection;
+//using UnityEditor.Networking.PlayerConnection;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -80,8 +80,8 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 
 
 		SetAlphaPosition(0);
-		//GoTo(Statuses.NothingReady);
-		GoTo(Statuses.FreeRun);
+		GoTo(Statuses.NothingReady);
+		//GoTo(Statuses.FreeRun);
 	}
 
 	float CurrentMarkerValue = 0;

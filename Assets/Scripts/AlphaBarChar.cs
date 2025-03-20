@@ -181,7 +181,7 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 	{
 		int activeBars = CalculateMeterLevel(v, StressAverage, RelaxAverage);
 
-		Debug.Log($"{StressAverage}, {RelaxAverage} [{v}] => {activeBars}");
+		//Debug.Log($"{StressAverage}, {RelaxAverage} [{v}] => {activeBars}");
 
 		for (int i = 0; i < bars.Count; i++)
 		{

@@ -12,10 +12,14 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 {
 	public GameObject FirstBar;
 	public GameObject LastBar;
+	public GameObject FirstPointsBar;
+	public GameObject LastPointsBar;
 	public int segmentCount = 10;
 	public Material ActiveMaterial;
 	public Material InactiveMaterial;
 	public Material MarkerMaterial;
+	public Material PointNo;
+	public Material PointYes;
 	public TextMeshPro SerialNumberTextMesh;
 	public TextMeshPro ScreenTextMesh;
 	public GameObject ProgressBarObject;
@@ -23,7 +27,7 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 
 	[Header("Ouputs")]
 	public float StressAverage = 0.0f;
-	public float RelaxAverage = 0.0f;
+	public float RelaxAverage = 10.0f;
 
 	public float AlphaValue { get; set; } = 0.0f;
 
@@ -34,12 +38,17 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 	GoingToDirections GoingTo = GoingToDirections.Up;
 	public enum BarStatuses { Active, Inactive, Marker };
 
-
+	private AudioSource Audio;
 	private List<GameObject> bars = new List<GameObject>();
+	private List<GameObject> Points = new List<GameObject>();
+	private int CurrentPoints = 0;
+
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
 	{
+		Audio = GetComponent<AudioSource>();
+
 		Transform parentTransform = FirstBar.transform.parent; // Keep reference to the parent
 		bars.Add(FirstBar);
 
@@ -53,8 +62,26 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 		}
 		bars.Add(LastBar);
 
+
+
+		Points.Add(FirstPointsBar);
+
+		for (int i = 1; i <= segmentCount - 1; i++)
+		{
+			float t = (float)i / segmentCount;
+			Vector3 newPosition = Vector3.Lerp(FirstPointsBar.transform.position, LastPointsBar.transform.position, t);
+			GameObject newBar = Instantiate(FirstPointsBar, newPosition, FirstPointsBar.transform.rotation, parentTransform);
+			newBar.transform.localScale = FirstPointsBar.transform.localScale;
+			SetPoints(newBar, false);
+			Points.Add(newBar);
+		}
+		Points.Add(LastPointsBar);
+		SetPoints(LastPointsBar, false);
+
+
 		SetAlphaPosition(0);
-		GoTo(Statuses.NothingReady);
+		//GoTo(Statuses.NothingReady);
+		GoTo(Statuses.FreeRun);
 	}
 
 	float CurrentMarkerValue = 0;
@@ -145,62 +172,24 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 				MathSolution /= i;
 			}				
 		}
-
 		ScreenTextMesh.text = TextOnScreen;
 	}
 
-	int NextAutoCorrect = 0;
-	int SamplesToAutoCorrect = 10;
 
 	private void PaintBars(float v)
 	{
-		if (NextAutoCorrect == 0)
-		{
-			NextAutoCorrect = SamplesToAutoCorrect;
-			if (GoingTo == GoingToDirections.Up)
-				CurrentMarkerValue--;
-			else if (GoingTo == GoingToDirections.Down)
-				CurrentMarkerValue++;
-		}
-		else
-			NextAutoCorrect--;
+		int activeBars =(int)math.round( math.lerp(StressAverage, RelaxAlphaAverage, v));
 
-		int activeBars = (int)(v * segmentCount / 10);
-
-		activeBars = math.max(activeBars, 0);
-		activeBars = math.min(activeBars, 10);
-
-
-		activeBars = math.min(activeBars, 10);
+		Debug.Log($"{StressAverage}, {RelaxAlphaAverage} [{v}] => {activeBars}");
 
 		for (int i = 0; i <= segmentCount; i++)
 		{
 			var BarStatus = BarStatuses.Inactive;
 			if (i <= activeBars)
-				BarStatus = BarStatuses.Active;
-
-			if (GoingTo == GoingToDirections.Up)
-			{
-				if (activeBars > CurrentMarkerValue)
-				{
-					CurrentMarkerValue = activeBars;
-				}
-			}
-			else if (GoingTo == GoingToDirections.Down)
-			{
-				if (activeBars < CurrentMarkerValue)
-				{
-					CurrentMarkerValue = activeBars;
-				}
-			}
-
-			if (GoingTo != GoingToDirections.noWhere && i == CurrentMarkerValue)
-				BarStatus = BarStatuses.Marker;
-
-			if (BarStatus == BarStatuses.Marker && i == 0)
-			{
-				BarStatus = BarStatuses.Marker;
-			}
+				if (i < 9)
+					BarStatus = BarStatuses.Marker;
+				else
+					BarStatus = BarStatuses.Active;
 
 			SetBarActive(bars[i], BarStatus);
 		}
@@ -222,6 +211,14 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 			GoingTo = GoingToDirections.noWhere;
 	}
 
+	public void SetPoints(GameObject pointsBar, bool v)
+	{
+		Renderer renderer = pointsBar.GetComponent<Renderer>();
+		if (renderer != null)
+		{
+			renderer.material = v ? PointYes : PointNo;
+		}
+	}
 	public void SetBarActive(GameObject bar, BarStatuses barStatus)
 	{
 		Renderer renderer = bar.GetComponent<Renderer>();
@@ -311,8 +308,10 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 		{
 			HideAllBars();
 			CurrentMeasure.Clear();
-			MathSolution = UnityEngine.Random.Range(7, 50);
-			ScreenTextMesh.text = MathSolution.ToString();
+			int a = UnityEngine.Random.Range(7, 50);
+			int b = UnityEngine.Random.Range(7, 50);
+			MathSolution = a+b;
+			ScreenTextMesh.text = $"{a} + {b}";
 			NextMathChallengeTime = DateTime.Now.AddSeconds(3);
 			ProgressBar.ProgressValue = 0;
 			ProgressBarObject.SetActive(true);
@@ -325,17 +324,31 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 		}
 		else if(newStatus == Statuses.RelaxMeasuring)
 		{
-			ScreenTextMesh.text = "Keep your eyes closed";
+			ScreenTextMesh.text = "Keep your eyes closed until you hear a beep";
 			ProgressBarObject.SetActive(true);
 		}
 		else if (newStatus == Statuses.FreeRun)
 		{
-			ScreenTextMesh.text = "Ready! Move your alpha UP to shoot!";
+			Audio.Play();
+			ScreenTextMesh.text= "";
 			ProgressBarObject.SetActive(false);
 			ShowAllBars();
 		}
 
 		currentStatus = newStatus;
+	}
+
+	public void SimulateClick()
+	{
+		if (currentStatus == Statuses.NothingReady)
+		{
+			GoTo(Statuses.MathMeasuring);
+		}
+		else if (currentStatus == Statuses.MathReady)
+		{
+			CurrentMeasure.Clear();
+			GoTo(Statuses.RelaxMeasuring);
+		}
 	}
 
 	private bool IsScreenClicked()

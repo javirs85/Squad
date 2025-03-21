@@ -41,11 +41,11 @@ public class SceneControl : MonoBehaviour
         if (scene == Scenes.AmplfierSelector) sceneName = "Unicorn Selection";
         if (scene == Scenes.MainScene) sceneName = "Main Scene";
 
-        StartCoroutine(ChangeSceneRaw(sceneName));
+        StartCoroutine(GoToWithFadeAsync(sceneName));
         
 	}
 
-	IEnumerator GoToWithFadeAsync(string SceneName, Action action, bool doFadeOutFirst = true)
+	IEnumerator GoToWithFadeAsync(string SceneName, bool doFadeOutFirst = true)
     {
         if(doFadeOutFirst)
 			Fader.FadeOut();
@@ -58,7 +58,6 @@ public class SceneControl : MonoBehaviour
 			timer += Time.deltaTime;
 			yield return null;
 		}
-        if (action is not null) action();
 
         op.allowSceneActivation = true;
         Fader.FadeIn();

@@ -163,10 +163,19 @@ public class GameController : MonoBehaviour
 
 	public void FriendJerkStop(GameObject obj)
 	{
-		var Wiggler = obj.GetComponentInChildren<WiggleController>();
-		if (Wiggler is not null)
+		try
 		{
-			Wiggler.MakeSuperJerky = false;
+			if(obj is null) return;
+
+			var Wiggler = obj.GetComponentInChildren<WiggleController>();
+			if (Wiggler is not null)
+			{
+				Wiggler.MakeSuperJerky = false;
+			}
+		}
+		catch (Exception e)
+		{
+			//Debug.Log(e.Message);
 		}
 	}
 	public void FriendJerkStart(GameObject obj)
@@ -218,12 +227,18 @@ public class GameController : MonoBehaviour
 		else if (i == 3) f = Friend4;
 		else return;
 
+		if(f is not null)
+		{
 			MoveObject(ObjectPositions.OnScreen, f);
-		FriendJerkStop(f);
-
+			FriendJerkStop(f);
+		}
 	}
 
-	public void ShowEnemy() => ToggleObjectInScreen(Enemy);
+	public void ShowEnemy()
+	{
+		Enemy.SetActive(true);
+		ToggleObjectInScreen(Enemy);
+	}
 
 	public void ShowAllFriends() => StartCoroutine(ShowAllFriendsAnimation());
 	public void HideAllFriends() => StartCoroutine(HideAllFriendsAnimation());

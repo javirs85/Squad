@@ -5,6 +5,8 @@ public class Missile : MonoBehaviour
 {
     [SerializeField] Transform target;
     [SerializeField] float speed;
+    [SerializeField] GameObject missileModel;
+    [SerializeField] ParticleSystem missileSmoke;
     [SerializeField] GameObject explosionPrefab;
     Vector3 defaultPosition;
     bool launched = false;
@@ -13,6 +15,7 @@ public class Missile : MonoBehaviour
     void Start()
     {
         defaultPosition = transform.position;
+        missileSmoke.Stop();
     }
 
     // Update is called once per frame
@@ -38,12 +41,16 @@ public class Missile : MonoBehaviour
 
     public void LaunchMissile()
     {
+        missileModel.SetActive(true);
+        missileSmoke.Play();
         launched = true;
     }
 
     void ResetMissile()
     {
         transform.position = defaultPosition;
+        missileModel.SetActive(false);
+        missileSmoke.Stop();
         launched = false;
     }
 }

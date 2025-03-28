@@ -53,23 +53,23 @@ public class AmplifierSelector : MonoBehaviour
         }
 
 		//on click get raycast and select the plane
-		if (Mouse.current is not null && Mouse.current.leftButton.wasPressedThisFrame)
-		{
-			Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-			RaycastHit hit;
-			if (Physics.Raycast(ray, out hit))
-			{
-				if (hit.collider != null)
-				{
-					var SelectedPlane = PlaneOptions.Find(plane => plane.Item1.name == hit.collider.name);
-					if (SelectedPlane != null)
-					{
-						Debug.Log("Name: " + SelectedPlane.Item1.name);
-						SelectAmplifier(SelectedPlane.Item1.name);
-					}
-				}
-			}
-		}
+		//if (Mouse.current is not null && Mouse.current.leftButton.wasPressedThisFrame)
+		//{
+		//	Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+		//	RaycastHit hit;
+		//	if (Physics.Raycast(ray, out hit))
+		//	{
+		//		if (hit.collider != null)
+		//		{
+		//			var SelectedPlane = PlaneOptions.Find(plane => plane.Item1.name == hit.collider.name);
+		//			if (SelectedPlane != null)
+		//			{
+		//				Debug.Log("Name: " + SelectedPlane.Item1.name);
+		//				SelectAmplifier(SelectedPlane.Item1.name);
+		//			}
+		//		}
+		//	}
+		//}
 
 		// lerp all planes towars the position in the tuple
 		foreach (var plane in PlaneOptions)

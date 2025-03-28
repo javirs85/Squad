@@ -183,6 +183,7 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 
 		//Debug.Log($"{StressAverage}, {RelaxAverage} [{v}] => {activeBars}");
 
+
 		for (int i = 0; i < bars.Count; i++)
 		{
 			var BarStatus = BarStatuses.Inactive;

@@ -11,6 +11,8 @@ using UnityEngine.SceneManagement;
 
 public class DeviceProxy : MonoBehaviour
 {
+	public string ConfigurationSceneName = "TEST_UnicornConfiguration";
+
 	[Header("Events")]
 	[SerializeField]
 	[Tooltip("The event called when devices are discovered.")]
@@ -89,31 +91,33 @@ public class DeviceProxy : MonoBehaviour
         }
         else
         {
-            DevicesManager.instance.Unicorn.OnDevicesAvailable.AddListener(ForwardOnDevicesAvailable);
-            DevicesManager.instance.Unicorn.OnDeviceStateChanged.AddListener(ForwardOnDeviceStateChanged);
-            DevicesManager.instance.Unicorn.OnPipelineStateChanged.AddListener(ForwardOnPipelineStateChanged);
-            DevicesManager.instance.Unicorn.OnRuntimeExceptionOccured.AddListener(ForwardOnRuntimeExceptionOccured);
-            DevicesManager.instance.Unicorn.OnMeanBandpowerAvailable.AddListener(ForwardOnMeanBandpowerAvailable);
-            DevicesManager.instance.Unicorn.OnBandpowerAvailable.AddListener(ForwardOnBandpowerAvailable);
-            DevicesManager.instance.Unicorn.OnRatiosAvailable.AddListener(ForwardOnRatiosAvailable);
-            DevicesManager.instance.Unicorn.OnMeanRatiosAvailable.AddListener(ForwardOnMeanRatiosAvailable);
-            DevicesManager.instance.Unicorn.OnSignalQualityAvailable.AddListener(ForwardOnSignalQualityAvailable);
-            DevicesManager.instance.Unicorn.OnBatteryLevelAvailable.AddListener(ForwardOnBatteryLevelAvailable);
-            DevicesManager.instance.Unicorn.OnDataLost.AddListener(ForwardOnDataLost);
-            DevicesManager.instance.Unicorn.OnEEGDataAvailable.AddListener(ForwardOnEEGDataAvailable);
+            Join(DevicesManager.instance.Unicorn);
 		}
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	public void Join(Device Unicorn)
+	{
+		Unicorn.OnDevicesAvailable.AddListener(ForwardOnDevicesAvailable);
+		Unicorn.OnDeviceStateChanged.AddListener(ForwardOnDeviceStateChanged);
+		Unicorn.OnPipelineStateChanged.AddListener(ForwardOnPipelineStateChanged);
+		Unicorn.OnRuntimeExceptionOccured.AddListener(ForwardOnRuntimeExceptionOccured);
+		Unicorn.OnMeanBandpowerAvailable.AddListener(ForwardOnMeanBandpowerAvailable);
+		Unicorn.OnBandpowerAvailable.AddListener(ForwardOnBandpowerAvailable);
+		Unicorn.OnRatiosAvailable.AddListener(ForwardOnRatiosAvailable);
+		Unicorn.OnMeanRatiosAvailable.AddListener(ForwardOnMeanRatiosAvailable);
+		Unicorn.OnSignalQualityAvailable.AddListener(ForwardOnSignalQualityAvailable);
+		Unicorn.OnBatteryLevelAvailable.AddListener(ForwardOnBatteryLevelAvailable);
+		Unicorn.OnDataLost.AddListener(ForwardOnDataLost);
+		Unicorn.OnEEGDataAvailable.AddListener(ForwardOnEEGDataAvailable);
+
+		Unicorn.OnDeviceStateChanged.AddListener(CatchDeviceChange);
+		Unicorn.OnRuntimeExceptionOccured.AddListener(CatchDeviceException);
+	}
 
     public void GoToSettingsScene()
     {
 		DevicesManager.SceneToGoAfterConnection = SceneManager.GetActiveScene().name;
-		SceneManager.LoadScene("TEST_UnicornConfiguration");
+		SceneManager.LoadScene(ConfigurationSceneName);
     }
 
 	private void OnDestroy()
@@ -132,13 +136,22 @@ public class DeviceProxy : MonoBehaviour
 			DevicesManager.instance.Unicorn.OnBatteryLevelAvailable.RemoveListener(ForwardOnBatteryLevelAvailable);
 			DevicesManager.instance.Unicorn.OnDataLost.RemoveListener(ForwardOnDataLost);
 			DevicesManager.instance.Unicorn.OnEEGDataAvailable.RemoveListener(ForwardOnEEGDataAvailable);
+
+			DevicesManager.instance.Unicorn.OnDeviceStateChanged.RemoveListener(CatchDeviceChange);
+			DevicesManager.instance.Unicorn.OnRuntimeExceptionOccured.RemoveListener(CatchDeviceException);
 		}
 	}
 
-	//method that forwards the mena band power from the static unicorn to the proxy
-	private void ForwardMeanBandpower(Dictionary<string, double> data)
+
+	public void CatchDeviceChange(DataAcquisitionUnit.States State)
 	{
-		OnMeanBandpowerAvailable?.Invoke(data);
+		Debug.Log("Device changed catched at proxy level:" +State);
+	}
+
+	public void CatchDeviceException(Exception e)
+	{
+		Debug.Log("CatchDeviceException at proxy level:");
+		Debug.LogException(e);
 	}
 
 

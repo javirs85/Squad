@@ -1,4 +1,7 @@
+using Gtec.Bandpower;
 using Gtec.Chain.Common.Nodes.InputNodes;
+using Gtec.Chain.Common.Templates.DataAcquisitionUnit;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -7,10 +10,10 @@ using UnityEngine.SceneManagement;
 public class Test_MyGame2 : MonoBehaviour
 {
 
-    public GameObject Cube;
+	public GameObject Cube;
 
-    public GameObject Channel1;
-    public GameObject Channel2;
+	public GameObject Channel1;
+	public GameObject Channel2;
 	public GameObject Channel3;
 	public GameObject Channel4;
 	public GameObject Channel5;
@@ -18,7 +21,7 @@ public class Test_MyGame2 : MonoBehaviour
 	public GameObject Channel7;
 	public GameObject Channel8;
 
-	private List<GameObject> ChannelBoxes   = new();
+	private List<GameObject> ChannelBoxes = new();
 	private void Awake()
 	{
 		ChannelBoxes.Add(Channel1);
@@ -33,12 +36,12 @@ public class Test_MyGame2 : MonoBehaviour
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
-    {
-        
-    }
+	{
 
-    // Update is called once per frame
-    void Update()
+	}
+
+	// Update is called once per frame
+	void Update()
 	{
 		if (Keyboard.current.qKey.wasReleasedThisFrame)
 			SceneManager.LoadScene("TEST_MainScene");
@@ -48,9 +51,9 @@ public class Test_MyGame2 : MonoBehaviour
 			SceneManager.LoadScene("TEST_UnicornConfiguration");
 	}
 
-    public void ApplyBandPower(Dictionary<string, double> data)
-    {
-        float alpha = (float)data["alpha"];
+	public void ApplyBandPower(Dictionary<string, double> data)
+	{
+		float alpha = (float)data["alpha"];
 		Cube.transform.localScale = new Vector3(alpha / 10f, alpha / 10f, alpha / 10f);
 	}
 
@@ -58,7 +61,7 @@ public class Test_MyGame2 : MonoBehaviour
 	{
 		for (int i = 0; i < data.Count; i++)
 		{
-			if(i< ChannelBoxes.Count)
+			if (i < ChannelBoxes.Count)
 			{
 				if (data[i] == ChannelQuality.ChannelStates.Good)
 				{
@@ -79,4 +82,5 @@ public class Test_MyGame2 : MonoBehaviour
 			}
 		}
 	}
+
 }

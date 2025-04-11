@@ -4,9 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DevicesManager : MonoBehaviour, IDisposable
 {
+	public UnityEvent<string> AmplifierAutoConnected = new();
+
 	public static DevicesManager instance;
 	public static string SceneToGoAfterConnection { get; internal set; } = string.Empty;
 
@@ -66,11 +69,15 @@ public class DevicesManager : MonoBehaviour, IDisposable
 
 				if(!IsConnected)
 				{
-					if(AutoConnectToFavoriteAmplifier && device == FavoriteAmplifier) 
-						ConnectTo(device);
+					if(AutoConnectToFavoriteAmplifier && device == FavoriteAmplifier)
+					{
+						AmplifierAutoConnected.Invoke(device);
+					}
 
 					if (!IsConnected && AutoConnectToAnything)
-						ConnectTo(device);	
+					{
+						AmplifierAutoConnected.Invoke(device);
+					}
 				}
 			}
 		}

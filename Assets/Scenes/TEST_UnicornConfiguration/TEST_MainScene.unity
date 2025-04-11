@@ -119,98 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &42034297
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 42034299}
-  - component: {fileID: 42034298}
-  m_Layer: 0
-  m_Name: DeviceProxy
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &42034298
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 42034297}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e77a8f75e7fae2348aa2fa11eb649860, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnDevicesAvailable:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDeviceStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPipelineStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  OnRuntimeExceptionOccured:
-    m_PersistentCalls:
-      m_Calls: []
-  OnBandpowerAvailable:
-    m_PersistentCalls:
-      m_Calls: []
-  OnMeanBandpowerAvailable:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 420860907}
-        m_TargetAssemblyTypeName: Test_MyGame, Assembly-CSharp
-        m_MethodName: ApplyBandPower
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnRatiosAvailable:
-    m_PersistentCalls:
-      m_Calls: []
-  OnMeanRatiosAvailable:
-    m_PersistentCalls:
-      m_Calls: []
-  OnSignalQualityAvailable:
-    m_PersistentCalls:
-      m_Calls: []
-  OnBatteryLevelAvailable:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDataLost:
-    m_PersistentCalls:
-      m_Calls: []
-  OnEEGDataAvailable:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!4 &42034299
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 42034297}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.1574097, y: 4.2066884, z: 7.468917}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &420860905
 GameObject:
   m_ObjectHideFlags: 0
@@ -800,11 +708,76 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1001 &7798758260672397271
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 481114016318176314, guid: 15b7d0f487d74cc4ebdfabb374d2eacc, type: 3}
+      propertyPath: OnMeanBandpowerAvailable.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 420860907}
+    - target: {fileID: 481114016318176314, guid: 15b7d0f487d74cc4ebdfabb374d2eacc, type: 3}
+      propertyPath: OnMeanBandpowerAvailable.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ApplyBandPower
+      objectReference: {fileID: 0}
+    - target: {fileID: 2168864937062652304, guid: 15b7d0f487d74cc4ebdfabb374d2eacc, type: 3}
+      propertyPath: m_Name
+      value: DeviceProxy
+      objectReference: {fileID: 0}
+    - target: {fileID: 8205886060949507017, guid: 15b7d0f487d74cc4ebdfabb374d2eacc, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6.1574097
+      objectReference: {fileID: 0}
+    - target: {fileID: 8205886060949507017, guid: 15b7d0f487d74cc4ebdfabb374d2eacc, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.2066884
+      objectReference: {fileID: 0}
+    - target: {fileID: 8205886060949507017, guid: 15b7d0f487d74cc4ebdfabb374d2eacc, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 7.468917
+      objectReference: {fileID: 0}
+    - target: {fileID: 8205886060949507017, guid: 15b7d0f487d74cc4ebdfabb374d2eacc, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8205886060949507017, guid: 15b7d0f487d74cc4ebdfabb374d2eacc, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8205886060949507017, guid: 15b7d0f487d74cc4ebdfabb374d2eacc, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8205886060949507017, guid: 15b7d0f487d74cc4ebdfabb374d2eacc, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8205886060949507017, guid: 15b7d0f487d74cc4ebdfabb374d2eacc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8205886060949507017, guid: 15b7d0f487d74cc4ebdfabb374d2eacc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8205886060949507017, guid: 15b7d0f487d74cc4ebdfabb374d2eacc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 15b7d0f487d74cc4ebdfabb374d2eacc, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 528866276}
   - {fileID: 1356060917}
-  - {fileID: 42034299}
+  - {fileID: 7798758260672397271}
   - {fileID: 420860906}

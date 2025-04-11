@@ -116,7 +116,7 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 
 	}
 
-	private int MathSolution = 0;
+
 	private void PrintNextMathChallenge()
 	{
 
@@ -124,52 +124,21 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 		string TextOnScreen = "";
 		if (operation == 0)
 		{
-			TextOnScreen = "+";
-			var i = UnityEngine.Random.Range(7, 50);
-			TextOnScreen += i.ToString();
-			MathSolution += i;
+			TextOnScreen = $"{UnityEngine.Random.Range(7, 50)} + {UnityEngine.Random.Range(7, 50)}";
 		}
 		else if (operation == 1)
 		{
-			TextOnScreen = "-";
-
-			var i = 3;
-			if (MathSolution > 5)
-			{
-				i = UnityEngine.Random.Range(3, MathSolution-3);
-			}
-			TextOnScreen += i.ToString();
-			MathSolution -= i;
+			TextOnScreen = $"{UnityEngine.Random.Range(30, 50)} - {UnityEngine.Random.Range(10, 20)}";
 		}
 		else if (operation == 2)
 		{
-			TextOnScreen = "x";
-			var i = UnityEngine.Random.Range(2, 4);
-			TextOnScreen += i.ToString();
-			MathSolution *= i;
+			TextOnScreen = $"{UnityEngine.Random.Range(3, 13)} x {UnityEngine.Random.Range(3, 8)}";
 		}
 		else if (operation == 3)
 		{
-			TextOnScreen = "/";
-			var i = 0;
-			if (MathSolution % 5 == 0) i = 5;
-
-			else if (MathSolution % 4 == 0) i = 4;
-			else if (MathSolution % 3 == 0) i = 3;
-			else if (MathSolution % 2 == 0) i = 2;
-
-			if(i == 0)
-			{
-				TextOnScreen = "+";
-				var ni = UnityEngine.Random.Range(7, 50);
-				TextOnScreen += ni.ToString();
-				MathSolution += ni;
-			}
-			else
-			{
-				TextOnScreen += i.ToString();
-				MathSolution /= i;
-			}				
+			var div = UnityEngine.Random.Range(2, 5);
+			var i = UnityEngine.Random.Range(3, 9);
+			TextOnScreen = $"{i*div} / {div}";
 		}
 		ScreenTextMesh.text = TextOnScreen;
 	}
@@ -335,7 +304,6 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 			CurrentMeasure.Clear();
 			int a = UnityEngine.Random.Range(7, 50);
 			int b = UnityEngine.Random.Range(7, 50);
-			MathSolution = a+b;
 			ScreenTextMesh.text = $"{a} + {b}";
 			NextMathChallengeTime = DateTime.Now.AddSeconds(3);
 			ProgressBar.ProgressValue = 0;

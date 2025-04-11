@@ -61,7 +61,7 @@ public class AmplifierSelector : MonoBehaviour
 		//	{
 		//		if (hit.collider != null)
 		//		{
-		//			var SelectedPlane = PlaneOptions.Find(plane => plane.Item1.name == hit.collider.name);
+		//			var SelectedPlane = AmpOptions.Find(plane => plane.Item1.name == hit.collider.name);
 		//			if (SelectedPlane != null)
 		//			{
 		//				Debug.Log("Name: " + SelectedPlane.Item1.name);

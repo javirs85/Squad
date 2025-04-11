@@ -1,0 +1,126 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1413229913862213392
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1914484404753708661}
+  - component: {fileID: 5503249747959128297}
+  - component: {fileID: 1706907497745467086}
+  m_Layer: 0
+  m_Name: DevicesManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1914484404753708661
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1413229913862213392}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5503249747959128297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1413229913862213392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -61246067, guid: 0ba26934afdcdac47818adcfabda6aad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 0
+  Signal: 2
+  SimulatorAlphaLevelUv: 20
+  AdvancedSettings: 0
+  BuffersizeInSamples: 250
+  BufferOverlapInSamples: 225
+  Delta: {x: 1, y: 4}
+  Theta: {x: 4, y: 8}
+  Alpha: {x: 8, y: 12}
+  BetaLow: {x: 12, y: 16}
+  BetaMid: {x: 16, y: 20}
+  BetaHigh: {x: 20, y: 30}
+  Gamma: {x: 30, y: 50}
+  EEGDataUpdateRateHz: 25
+  OnDevicesAvailable:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnDeviceStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPipelineStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRuntimeExceptionOccured:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBandpowerAvailable:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMeanBandpowerAvailable:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRatiosAvailable:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMeanRatiosAvailable:
+    m_PersistentCalls:
+      m_Calls: []
+  OnSignalQualityAvailable:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBatteryLevelAvailable:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDataLost:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEEGDataAvailable:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1706907497745467086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1413229913862213392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9924e8453f1ebd44bd61232cee9eae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AutoConnectToFavoriteAmplifier: 0
+  AutoConnectToAnything: 0
+  Unicorn: {fileID: 0}
+  ConnectedSN: 
+  AvailableAmplifiers: []

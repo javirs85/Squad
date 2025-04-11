@@ -9,24 +9,21 @@ using System.Threading.Tasks;
 using UnityEngine;
 using static UnityEngine.Rendering.GPUSort;
 
-public class BCIConnector : MonoBehaviour
+public class BCIConnector : DevicesManager
+
 {
-	private Device _bci;
-	//public GameController Game;
-	private string connectedSN;
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
-	void Start()
+	public override void Start()
 	{
-		DontDestroyOnLoad(this);
+		base.Start();
 
-		_bci = GetComponent<Device>();
-		if(_bci is not null)
+		if(Unicorn is not null)
 		{
 			//_bci.OnDevicesAvailable.AddListener(UpdateAvailableDevices);
-			_bci.OnDeviceStateChanged.AddListener(OnDeviceStateChanged);
-			_bci.OnMeanBandpowerAvailable.AddListener(OnBandPowerChanges);
-			_bci.OnSignalQualityAvailable.AddListener(OnNewSignalQualityChanges);
+			Unicorn.OnDeviceStateChanged.AddListener(OnDeviceStateChanged);
+			Unicorn.OnMeanBandpowerAvailable.AddListener(OnBandPowerChanges);
+			Unicorn.OnSignalQualityAvailable.AddListener(OnNewSignalQualityChanges);
 		}
 		
 		//Game = GetComponent<GameController>();		
@@ -79,9 +76,9 @@ public class BCIConnector : MonoBehaviour
 	//only for the already connected device
 	private void OnDeviceStateChanged(DataAcquisitionUnit.States arg0)
 	{
-		if(connectedSN is null || arg0 == DataAcquisitionUnit.States.Connecting) return;
+		if(ConnectedSN is null || arg0 == DataAcquisitionUnit.States.Connecting) return;
 
-		Debug.Log(connectedSN + " changed to: " + arg0.ToString());
+		Debug.Log(ConnectedSN + " changed to: " + arg0.ToString());
 		if(arg0 == DataAcquisitionUnit.States.Acquiring) GameController.instance.ShowAllFriends();
 		if(arg0 == DataAcquisitionUnit.States.Disconnected) GameController.instance.HideAllFriends();
 	}

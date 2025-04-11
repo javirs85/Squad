@@ -1464,6 +1464,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1706907497745467086, guid: d27bfc1bd62ee384fbb0377129ed31a1, type: 3}
       propertyPath: AutoConnectToAnything
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1706907497745467086, guid: d27bfc1bd62ee384fbb0377129ed31a1, type: 3}
+      propertyPath: AutoConnectToFavoriteAmplifier
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1914484404753708661, guid: d27bfc1bd62ee384fbb0377129ed31a1, type: 3}

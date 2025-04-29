@@ -8,13 +8,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Samples/XR Interaction Toolkit/3.0.7/Starter Assets/DemoScene.unity
     guid: 319dafa5c80f29f428dc1e0d03f04177
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TEST_UnicornConfiguration/TEST_MainScene.unity
     guid: 9d332cf47b82d394ba9708e494ba5e52
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TEST_UnicornConfiguration/TEST_MainScene 2.unity
     guid: 735c31ef8b8e0de40ac19438ffdfe870
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TEST_UnicornConfiguration/TEST_UnicornConfiguration.unity
     guid: 92aea914553cc42409757c9bc81f3291
   - enabled: 1

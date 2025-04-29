@@ -38,7 +38,7 @@ public class TEST_UnicornSelection : UnicornSelectionBase
 	public override void AmpSelected(string ClickedSN)
 	{
 		Debug.Log("Selected amplifier: " + ClickedSN);
-		DevicesManager.ConnectTo(ClickedSN);
+		DevicesManager.instance.ConnectTo(ClickedSN);
 		if(DevicesManager.SceneToGoAfterConnection != string.Empty)
 			SceneManager.LoadScene(DevicesManager.SceneToGoAfterConnection);
 		else

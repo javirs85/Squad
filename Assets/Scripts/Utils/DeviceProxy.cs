@@ -2,6 +2,7 @@ using Gtec.Bandpower;
 using Gtec.Chain.Common.Nodes.InputNodes;
 using Gtec.Chain.Common.Templates.DataAcquisitionUnit;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -12,6 +13,12 @@ using UnityEngine.SceneManagement;
 public class DeviceProxy : MonoBehaviour
 {
 	public string ConfigurationSceneName = "TEST_UnicornConfiguration";
+
+	public GameObject DevicesManagerPrefab = null;
+
+	public enum ConnectionStyle { UserInteraction, AutoConnectToAnything, AutoConnectToUnicorn, AutoConnectoToFavoriteAmplifier };
+	public ConnectionStyle AutoConnectionMethod = ConnectionStyle.UserInteraction;
+
 
 	[Header("Events")]
 	[SerializeField]
@@ -82,13 +89,23 @@ public class DeviceProxy : MonoBehaviour
 	private void ForwardOnEEGDataAvailable(Rawdata data) => OnEEGDataAvailable?.Invoke(data);
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
-	void Start()
+	IEnumerator Start()
     {
-        if (DevicesManager.instance is null || !DevicesManager.instance.IsConnected)
+        if (DevicesManager.instance is null)
         {
-            GoToSettingsScene();
-            return;
-        }
+			if(DevicesManagerPrefab == null)
+			{
+				Debug.LogError("DevicesManagerPrefab is null. Please assign a prefab in the inspector.");
+			}
+			else
+			{
+				DevicesManagerPrefab.GetComponent<DevicesManager>().AutoConnectionSetting = AutoConnectionMethod;
+				var GO = Instantiate(DevicesManagerPrefab);
+
+				yield return null;
+				Join(DevicesManager.instance.Unicorn);
+			}				
+		}
         else
         {
             Join(DevicesManager.instance.Unicorn);

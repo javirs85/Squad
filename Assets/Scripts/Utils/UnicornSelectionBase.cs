@@ -3,32 +3,36 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public abstract class UnicornSelectionBase : MonoBehaviour
 {
-
-	public DevicesManager DevicesManager;
-
-
 	protected List<GameObject> AmpOptions = new();
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
-	void Start()
+	IEnumerator Start()
 	{
-		DevicesManager.AmplifierAutoConnected.AddListener(AmpSelected);
+		while(DevicesManager.instance is null)
+		{
+			yield return null;
+		}
+		DevicesManager.instance.AmplifierAutoConnected.AddListener(AmpSelected);
+		
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-		if (DevicesManager.AvailableAmplifiers.Count > AmpOptions.Count)
+		if (DevicesManager.instance is null) return;
+
+		if (DevicesManager.instance.AvailableAmplifiers.Count > AmpOptions.Count)
 		{
-			var missingSN = DevicesManager.AvailableAmplifiers.Find(device => AmpOptions.Find(amp => amp.name == device) == null);
+			var missingSN = DevicesManager.instance.AvailableAmplifiers.Find(device => AmpOptions.Find(amp => amp.name == device) == null);
 			CreateNewAmpOption(missingSN);
 		}
-		else if (DevicesManager.AvailableAmplifiers.Count < AmpOptions.Count)
+		else if (DevicesManager.instance.AvailableAmplifiers.Count < AmpOptions.Count)
 		{
-			var NonExistingOption = AmpOptions.Find(amp => DevicesManager.AvailableAmplifiers.Find(x => amp.name == x) == null);
+			var NonExistingOption = AmpOptions.Find(amp => DevicesManager.instance.AvailableAmplifiers.Find(x => amp.name == x) == null);
 			DestroyAmpOption(NonExistingOption);
 		}
 

@@ -44,6 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e77a8f75e7fae2348aa2fa11eb649860, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ConfigurationSceneName: TEST_UnicornConfiguration
+  DevicesManagerPrefab: {fileID: 1413229913862213392, guid: d27bfc1bd62ee384fbb0377129ed31a1, type: 3}
+  AutoConnectToFavoriteAmplifier: 0
   OnDevicesAvailable:
     m_PersistentCalls:
       m_Calls: []
@@ -61,19 +64,7 @@ MonoBehaviour:
       m_Calls: []
   OnMeanBandpowerAvailable:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Test_MyGame, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   OnRatiosAvailable:
     m_PersistentCalls:
       m_Calls: []

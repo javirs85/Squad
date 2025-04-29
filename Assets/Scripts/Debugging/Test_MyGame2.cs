@@ -3,6 +3,7 @@ using Gtec.Chain.Common.Nodes.InputNodes;
 using Gtec.Chain.Common.Templates.DataAcquisitionUnit;
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -20,6 +21,8 @@ public class Test_MyGame2 : MonoBehaviour
 	public GameObject Channel6;
 	public GameObject Channel7;
 	public GameObject Channel8;
+
+	public TextMeshPro Text;
 
 	private List<GameObject> ChannelBoxes = new();
 	private void Awake()
@@ -49,6 +52,9 @@ public class Test_MyGame2 : MonoBehaviour
 			SceneManager.LoadScene("TEST_MainScene 2");
 		if (Keyboard.current.eKey.wasReleasedThisFrame)
 			SceneManager.LoadScene("TEST_UnicornConfiguration");
+
+
+		Text.text = "GameScene 1: " + DevicesManager.instance?.ConnectedSN ?? "Not connected";
 	}
 
 	public void ApplyBandPower(Dictionary<string, double> data)

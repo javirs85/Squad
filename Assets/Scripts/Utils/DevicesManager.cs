@@ -13,8 +13,7 @@ public class DevicesManager : MonoBehaviour, IDisposable
 	public static DevicesManager instance;
 	public static string SceneToGoAfterConnection { get; internal set; } = string.Empty;
 
-	public bool AutoConnectToFavoriteAmplifier = false;
-	public bool AutoConnectToAnything = false;
+	public DeviceProxy.ConnectionStyle AutoConnectionSetting = DeviceProxy.ConnectionStyle.AutoConnectToUnicorn;
 
 	protected string FavoriteAmplifier = string.Empty;
     public Device Unicorn;
@@ -69,14 +68,22 @@ public class DevicesManager : MonoBehaviour, IDisposable
 
 				if(!IsConnected)
 				{
-					if(AutoConnectToFavoriteAmplifier && device == FavoriteAmplifier)
+					if (AutoConnectionSetting == DeviceProxy.ConnectionStyle.AutoConnectoToFavoriteAmplifier
+						&& device == FavoriteAmplifier)
 					{
 						AmplifierAutoConnected.Invoke(device);
+						ConnectTo(device);
 					}
-
-					if (!IsConnected && AutoConnectToAnything)
+					else if (AutoConnectionSetting == DeviceProxy.ConnectionStyle.AutoConnectToUnicorn
+						&& !IsSimulator(device))
 					{
 						AmplifierAutoConnected.Invoke(device);
+						ConnectTo(device);
+					}
+					else if (AutoConnectionSetting == DeviceProxy.ConnectionStyle.AutoConnectToAnything)
+					{
+						AmplifierAutoConnected.Invoke(device);
+						ConnectTo(device);
 					}
 				}
 			}

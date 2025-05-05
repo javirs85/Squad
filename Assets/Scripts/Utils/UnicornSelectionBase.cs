@@ -17,32 +17,55 @@ public abstract class UnicornSelectionBase : MonoBehaviour
 			yield return null;
 		}
 		DevicesManager.instance.AmplifierAutoConnected.AddListener(AmpSelected);
-		
+
+		IsConnecting = false;
+		ConnectingSerialNumber = "";
+
 	}
+
+	bool IsConnecting = false;
+	string ConnectingSerialNumber = "";
 
 	// Update is called once per frame
 	void Update()
 	{
 		if (DevicesManager.instance is null) return;
 
-		if (DevicesManager.instance.AvailableAmplifiers.Count > AmpOptions.Count)
+		if (IsConnecting)
 		{
-			var missingSN = DevicesManager.instance.AvailableAmplifiers.Find(device => AmpOptions.Find(amp => amp.name == device) == null);
-			CreateNewAmpOption(missingSN);
+			if(DevicesManager.instance.Unicorn.Serial != ConnectingSerialNumber)
+			{
+				return;
+			}
+			else
+			{
+				AmpSelected(ConnectingSerialNumber);
+				IsConnecting = false;
+			}
 		}
-		else if (DevicesManager.instance.AvailableAmplifiers.Count < AmpOptions.Count)
+		else
 		{
-			var NonExistingOption = AmpOptions.Find(amp => DevicesManager.instance.AvailableAmplifiers.Find(x => amp.name == x) == null);
-			DestroyAmpOption(NonExistingOption);
+			if (DevicesManager.instance.AvailableAmplifiers.Count > AmpOptions.Count)
+			{
+				var missingSN = DevicesManager.instance.AvailableAmplifiers.Find(device => AmpOptions.Find(amp => amp.name == device) == null);
+				CreateNewAmpOption(missingSN);
+			}
+			else if (DevicesManager.instance.AvailableAmplifiers.Count < AmpOptions.Count)
+			{
+				var NonExistingOption = AmpOptions.Find(amp => DevicesManager.instance.AvailableAmplifiers.Find(x => amp.name == x) == null);
+				DestroyAmpOption(NonExistingOption);
+			}
+
+			var ClickedSN = HasClickedOnAnOption();
+			if (ClickedSN != string.Empty)
+			{
+				Debug.Log("Selected amplifier: " + ClickedSN);
+				DevicesManager.instance.ConnectTo(ClickedSN);
+
+				IsConnecting = true;
+				ConnectingSerialNumber = ClickedSN;
+			}
 		}
-
-		var ClickedSN = HasClickedOnAnOption();
-		if (ClickedSN != string.Empty)
-		{
-			AmpSelected(ClickedSN);
-		}
-
-
 	}
 
 	abstract public void CreateNewAmpOption(string SN);

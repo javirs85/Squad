@@ -718,6 +718,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 481114016318176314, guid: 15b7d0f487d74cc4ebdfabb374d2eacc, type: 3}
+      propertyPath: AutoConnectionMethod
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 481114016318176314, guid: 15b7d0f487d74cc4ebdfabb374d2eacc, type: 3}
       propertyPath: DevicesManagerPrefab
       value: 
       objectReference: {fileID: 1413229913862213392, guid: d27bfc1bd62ee384fbb0377129ed31a1, type: 3}
@@ -726,12 +730,28 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 481114016318176314, guid: 15b7d0f487d74cc4ebdfabb374d2eacc, type: 3}
+      propertyPath: OnMeanBandpowerAvailable.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 481114016318176314, guid: 15b7d0f487d74cc4ebdfabb374d2eacc, type: 3}
       propertyPath: OnMeanBandpowerAvailable.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 420860907}
     - target: {fileID: 481114016318176314, guid: 15b7d0f487d74cc4ebdfabb374d2eacc, type: 3}
+      propertyPath: OnMeanBandpowerAvailable.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 481114016318176314, guid: 15b7d0f487d74cc4ebdfabb374d2eacc, type: 3}
       propertyPath: OnMeanBandpowerAvailable.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ApplyBandPower
+      objectReference: {fileID: 0}
+    - target: {fileID: 481114016318176314, guid: 15b7d0f487d74cc4ebdfabb374d2eacc, type: 3}
+      propertyPath: OnMeanBandpowerAvailable.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Test_MyGame, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 481114016318176314, guid: 15b7d0f487d74cc4ebdfabb374d2eacc, type: 3}
+      propertyPath: OnMeanBandpowerAvailable.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 2168864937062652304, guid: 15b7d0f487d74cc4ebdfabb374d2eacc, type: 3}
       propertyPath: m_Name

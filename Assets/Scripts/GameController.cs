@@ -25,9 +25,11 @@ public class GameController : MonoBehaviour
 	public Missile Missile1;
 	public Missile Missile2;
 
-	[Header("AlphaMarker")]
+	[Header("Cockpit")]
 	public GameObject AlphaObject;
 	public iAlphaController Alpha;
+	public FuelGaugeManager FuelGaugeManager;
+	public GlitchController GlitchController;
 
 
 	//Planes used for selecting amplifier
@@ -81,6 +83,8 @@ public class GameController : MonoBehaviour
 			ToggleFriendJerk(Friend3);
 		if (Keyboard.current.fKey.wasReleasedThisFrame)
 			ToggleFriendJerk(Friend4);
+
+
 		if (Keyboard.current.digit1Key.wasReleasedThisFrame)
 			SetAlphaCurrentPosition(0.1f);
 		if (Keyboard.current.digit2Key.wasReleasedThisFrame)
@@ -105,6 +109,16 @@ public class GameController : MonoBehaviour
 			SetAlphaReference(0.0f);
 		if (Keyboard.current.xKey.wasReleasedThisFrame)
 			SetAlphaReference(1.0f);
+
+		if (Keyboard.current.vKey.wasReleasedThisFrame)
+			FuelGaugeManager.SetFuelLevel(FuelGaugeManager.FuelColors.green);
+		if (Keyboard.current.bKey.wasReleasedThisFrame)
+			FuelGaugeManager.SetFuelLevel(FuelGaugeManager.FuelColors.yellow);
+		if (Keyboard.current.nKey.wasReleasedThisFrame)
+			FuelGaugeManager.SetFuelLevel(FuelGaugeManager.FuelColors.red);
+
+		if (Keyboard.current.hKey.wasReleasedThisFrame)
+			GlitchController.TriggerGlitch();
 
 	}
 
@@ -133,6 +147,14 @@ public class GameController : MonoBehaviour
 	{
 		Alpha.SetReferenceValue(alpha);
 		Alpha.SetAlphaPosition(Alpha.AlphaValue);
+	}
+
+	public void SetBatteryLevel(float val)
+	{
+		if (FuelGaugeManager != null)
+		{
+			FuelGaugeManager.SetFuelLevel(val);
+		}
 	}
 
 	enum ObjectPositions { OnScreen, OutsideScreen };

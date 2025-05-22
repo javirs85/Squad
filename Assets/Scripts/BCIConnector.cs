@@ -24,6 +24,7 @@ public class BCIConnector : DevicesManager
 			Unicorn.OnDeviceStateChanged.AddListener(OnDeviceStateChanged);
 			Unicorn.OnMeanBandpowerAvailable.AddListener(OnBandPowerChanges);
 			Unicorn.OnSignalQualityAvailable.AddListener(OnNewSignalQualityChanges);
+			Unicorn.OnBatteryLevelAvailable.AddListener(OnBatteryLevelChanges);
 		}
 		
 		//Game = GetComponent<GameController>();		
@@ -79,8 +80,15 @@ public class BCIConnector : DevicesManager
 		if(ConnectedSN is null || arg0 == DataAcquisitionUnit.States.Connecting) return;
 
 		Debug.Log(ConnectedSN + " changed to: " + arg0.ToString());
-		if(arg0 == DataAcquisitionUnit.States.Acquiring) GameController.instance.ShowAllFriends();
-		if(arg0 == DataAcquisitionUnit.States.Disconnected) GameController.instance.HideAllFriends();
+
+		//if(arg0 == DataAcquisitionUnit.States.Acquiring) GameController.instance.ShowAllFriends();
+		//if(arg0 == DataAcquisitionUnit.States.Disconnected) GameController.instance.HideAllFriends();
+	}
+
+	private void OnBatteryLevelChanges(float arg0)
+	{
+		if (GameController.instance is null) return;
+		GameController.instance.SetBatteryLevel(arg0);
 	}
 
 

@@ -50,7 +50,24 @@ public class TutorialController : MonoBehaviour
 	    new Subtitle("Keep it that way, and we’ll have a fine flight ahead.", 0.0f)
 	};
 
-    List<Subtitle> TrainingGeneralInstructions = new List<Subtitle>
+	List<Subtitle> PreTraining_Explanation = new List<Subtitle>
+	{
+		new Subtitle("Alright cadet, listen up. Before we start, you need to know how this bird fires.", 3.5f),
+		new Subtitle("Right in front of you are two meters stacked up — one red, one blue.", 3.0f),
+		new Subtitle("That big red one on the bottom? That shows how steady your mind is—how relaxed you are.", 3.5f),
+		new Subtitle("When that red bar is full—nice and glowing—that’s your sweet spot.", 3.0f),
+		new Subtitle("Hold it there long enough, and the blue bar on top starts lighting up, section by section.", 3.5f),
+		new Subtitle("Keep calm and let it fill all the way to the end—", 2.5f),
+		new Subtitle("and boom—you’ll launch a missile straight at the enemy ship ahead.", 3.0f),
+		new Subtitle("But to make that system work right, we first need to calibrate your brain signals.", 3.0f),
+		new Subtitle("We’ll do that with a short training flight.", 2.5f),
+		new Subtitle("First, a few quick math tasks to see how your brain handles action.", 3.0f),
+		new Subtitle("Then you’ll close your eyes and drift—so we can read your calm baseline.", 3.5f),
+		new Subtitle("Once we’re dialed in, you’ll be cleared to fire.", 2.5f),
+		new Subtitle("Ready? Let’s get you tuned up.", 2.0f)
+	};
+
+	List<Subtitle> TrainingGeneralInstructions = new List<Subtitle>
     {
 		new Subtitle("Alright, cadet—time to tune your controls.", 0.0f),
 		new Subtitle("To fly this craft with your mind, we need to understand how your brain behaves in different conditions.", 0.0f),
@@ -71,10 +88,10 @@ public class TutorialController : MonoBehaviour
 
 	List<Subtitle> Training_MathEnds = new List<Subtitle>
 	{
-		new Subtitle("Hmm, looks like we didn’t get a clear read this time.", 0.0f)
-		new Subtitle("Sometimes small movements or muscle signals can interfere with the reading—totally normal.", 0.0f)
-		new Subtitle("If you want, we can give it another shot. Just try to stay still and focus during the challenges.", 0.0f)
-		new Subtitle("No worries if it’s tough right now; some folks need a few tries, and others might find this just isn’t their best fit.", 0.0f)
+		new Subtitle("Hmm, looks like we didn’t get a clear read this time.", 0.0f),
+		new Subtitle("Sometimes small movements or muscle signals can interfere with the reading—totally normal.", 0.0f),
+		new Subtitle("If you want, we can give it another shot. Just try to stay still and focus during the challenges.", 0.0f),
+		new Subtitle("No worries if it’s tough right now; some folks need a few tries, and others might find this just isn’t their best fit.", 0.0f),
 		new Subtitle("Whenever you’re ready, we’ll take another pass.", 0.0f),
 		new Subtitle("Stay still until you hear the bell.", 0.0f)
 	};

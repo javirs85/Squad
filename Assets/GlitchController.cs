@@ -3,11 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Renderer))]
 [RequireComponent(typeof(AudioSource))]
 public class GlitchController : MonoBehaviour
 {
-	private Renderer GlitchRenderer; // Assign the quad's MeshRenderer
+	public Renderer GlitchRenderer; // Assign the quad's MeshRenderer
 	private Material GlitchMaterial; // Assign the material with fade support
 	private AudioSource GlitchAudioSource;
 
@@ -28,6 +27,17 @@ public class GlitchController : MonoBehaviour
 			throw new System.Exception("AudioSource is not assigned to the GlitchController.");
 		}
 		this.gameObject.SetActive(true);
+	}
+
+	public void Hide()
+	{
+		GlitchRenderer.enabled = false;
+		if (GlitchAudioSource != null)
+		{
+			GlitchAudioSource.Stop();
+			GlitchAudioSource.volume = 0f;
+		}
+		SetAlpha(0f);
 	}
 
 

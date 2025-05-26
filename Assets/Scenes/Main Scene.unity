@@ -542,6 +542,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36243b8127e513e4ebe2f4392a3ef560, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GlitchRenderer: {fileID: 0}
   ScreenBase: {fileID: 698055531}
   MaxAlpha: 0.8
 --- !u!1 &206028814

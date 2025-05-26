@@ -1,0 +1,83 @@
+**SQ for 4 channels**
+Howdy, cadet. Name’s John — your guide through this flight.
+See those cheerful little planes flying in formation around us?
+Those are our wingmen, and they’re tuned in to your BCI thingy—that brain-reading gizmo you’ve got hooked up.
+Each plane represents one electrode. If one starts bobbing through turbulence,
+its signal’s getting jittery. And if it vanishes from the sky, that signal’s gone dark.
+Right now, they’re all flying smooth and steady—that means everything's in working order, and you're in full control.
+Keep it that way, and we’ll have a fine flight ahead.
+
+**SQ for 8 channels**
+Howdy, cadet. Name’s John—your guide through this flight.
+See those cheerful little planes flying in formation around us?
+Those are our wingmen, and they’re tuned in to your BCI thingy—that brain-reading gizmo you’ve got hooked up.
+Each one is keeping watch over not just one—but two of your brain sensors.
+That’s why they’ve got numbers on their tail fins—like “1–2” or “3–4”—each pair shows which electrodes they’re watching.
+If a plane starts wobbling through turbulence, it means one of its signals is getting jittery.
+And if it vanishes from the sky, that signal’s gone dark.
+Right now, they’re all flying smooth and steady—that means everything's in working order, and you're in full control.
+Keep it that way, and we’ll have a fine flight ahead.
+
+
+
+**Fuel**
+Alright, now that we’re flying steady—let’s talk fuel.
+Look over to the left side of the cockpit. See that gauge?,
+That’s not just for show—it’s linked straight to the battery level of your BCI thingy.
+When it's green, we're good to go.
+Yellow? That means power’s running low—might want to land and recharge soon.
+But if it hits red... buckle up. The device could shut down any moment, and we’ll be flying blind.
+Keep one eye on that gauge, cadet. A sharp pilot always knows their limits.
+
+BT glitch
+Whoa—did you feel that? Bit of static just now, like the screen had a hiccup?
+That, cadet, was a Bluetooth glitch.
+Nothing to worry about—just means a few brain signals from your BCI thingy didn’t get through.
+Every now and then, it’s normal.
+But if you start seeing a lot of those, the connection might need checking.
+For now, stay sharp and keep flying—minor turbulence like that won’t bring us down.
+
+
+**Before training:**
+
+Alright cadet, listen up. Before we start, you need to know how this bird fires.
+Let me power up the system…
+There. Do you see those meters lighting up on your dash?  [We show Alpha meters on screen]
+
+Right in front of you are two meters stacked up—one red, one blue.
+That big red one on the bottom? That shows how steady your mind is—how relaxed you are.
+When that red bar is full —nice and glowing— that’s your sweet spot.
+Hold it there long enough, and the blue bar on top starts lighting up—
+Section by section, as you see happening right now.  [We light up the alpha meter and start loading the green bar]
+Keep calm and let it fill all the way to the end—
+And boom—you’ll launch a missile straight at the enemy ship ahead. [We launch misile]
+
+Now, to make that system work properly, we first need to calibrate your brain signals.
+We’ll do that with a short training flight.
+First, a few quick math tasks to see how your brain handles action.
+Then you’ll close your eyes and drift—so we can read your calm baseline.
+Once we’re dialed in, you’ll be cleared to fire.
+Ready? Let’s get you tuned up.
+
+**Math**
+Alright, cadet—focus up. Math challenge incoming. Let’s see what you’ve got.
+
+**Relax**
+Now, close your eyes and relax. Stay still until you hear the bell.
+
+**Training good**
+Signal’s clean—great work, cadet!
+Whoa! Enemy contact—dead ahead!
+It just dropped out of nowhere—follow that trail!
+Now’s your chance—keep calm and push that red meter to the max!
+Hold steady…
+Fire when it’s full!
+Take the shot, cadet—bring it down!
+
+
+**Trainign bad**
+Hmm, looks like we didn’t get a clear read this time.
+Sometimes small movements or muscle signals can interfere with the reading — totally normal.
+If you want, we can give it another shot. Just try to stay still and focus during the challenges.
+No worries if it’s tough right now; some folks need a few tries, and others might find this just isn’t their best fit.
+Whenever you’re ready, we’ll take another pass.

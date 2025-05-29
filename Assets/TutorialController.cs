@@ -183,7 +183,7 @@ public class TutorialController : MonoBehaviour
         new Subtitle("Now, close your eyes and relax. Stay still until you hear the bell.", 4.0f),
     };
 
-    List<Subtitle> Training_MathEnds = new List<Subtitle>
+    List<Subtitle> Training_Bad = new List<Subtitle>
     {
         new Subtitle("Hmm, looks like we didn’t get a clear read this time.", 3.0f),
         new Subtitle("Sometimes small movements or muscle signals can interfere with the reading — totally normal.", 5.5f),

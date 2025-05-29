@@ -28,7 +28,7 @@ public class TutorialController : MonoBehaviour
         TrainingGeneralInstructions,
         Training_MathStarts,
         Training_RelaxStarts,
-        Training_MathEnds,
+        Training_Bad,
         PreTraining_Explanation_1,
         PreTraining_Explanation_2,
         PreTraining_Explanation_3
@@ -101,8 +101,8 @@ public class TutorialController : MonoBehaviour
             case SubtitleName.Training_RelaxStarts:
                 StartCoroutine("ShowSubtitles", Training_RelaxStarts);
                 break;
-            case SubtitleName.Training_MathEnds:
-                StartCoroutine("ShowSubtitles", Training_MathEnds);
+            case SubtitleName.Training_Bad:
+                StartCoroutine("ShowSubtitles", Training_Bad);
                 break;
             case SubtitleName.PreTraining_Explanation_1:
                 StartCoroutine("ShowSubtitles", PreTraining_Explanation_1);

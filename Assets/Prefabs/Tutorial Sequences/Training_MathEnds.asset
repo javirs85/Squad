@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6545bc894de326a4f89e8939ca76a0ba, type: 3}
+  m_Name: Training_MathEnds
+  m_EditorClassIdentifier: 
+  tutorialName: Training_MathEnds
+  tutorialSubtitles: 6
+  tutorialClip: {fileID: 8300000, guid: 32568043bf54e6242bfe1000669e99d8, type: 3}
+  subtitleList:
+  - "Hmm, looks like we didn\u2019t get a clear read this time."
+  - "Sometimes small movements or muscle signals can interfere with the reading \u2014
+    totally normal."
+  - If you want, we can give it another shot. Just try to stay still and focus during
+    the challenges.
+  - "No worries if it\u2019s tough right now; some folks need a few tries, and others
+    might find this just isn\u2019t their best fit."
+  - "Whenever you\u2019re ready, we\u2019ll take another pass."

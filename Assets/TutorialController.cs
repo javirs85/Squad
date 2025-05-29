@@ -13,6 +13,12 @@ public class TutorialController : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI subtitleUI;
     [SerializeField] AudioSource tutorialAudioSource;
+    [SerializeField] Animator tutorialAnimator;
+
+    [SerializeField] TutorialSequence debugTutorial;
+
+    TutorialSequence currentTutorial;
+    int subtitleIndex = 0;
 
     public enum SubtitleName
     {
@@ -37,14 +43,38 @@ public class TutorialController : MonoBehaviour
     {
         if (Keyboard.current.uKey.wasReleasedThisFrame)
         {
-            tutorialAudioSource.Play();
-            ReproduceSubtitles(SubtitleName.Fuel);
+            currentTutorial = debugTutorial;
+
+            StartTutorialSequence(currentTutorial);
         }
     }
 
-    private void Start()
+    public void StartTutorialSequence(TutorialSequence sequence)
     {
+        subtitleIndex = 0;
 
+        tutorialAnimator.SetTrigger(currentTutorial.tutorialName);
+        tutorialAudioSource.clip = currentTutorial.tutorialClip;
+        tutorialAudioSource.Play();
+        //ReproduceSubtitles(currentTutorial.tutorialSubtitles);
+    }
+
+    public void PlayTutorialAudio()
+    {
+        tutorialAudioSource.Play();
+    }
+
+    public void NextSubtitle()
+    {
+        if (subtitleIndex < currentTutorial.subtitleList.Length)
+        {
+            subtitleUI.text = currentTutorial.subtitleList[subtitleIndex];
+            subtitleIndex++;
+        }
+        else
+        {
+            subtitleUI.text = "";
+        }
     }
 
     public void ReproduceSubtitles(SubtitleName subtitleName)

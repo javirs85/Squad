@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6545bc894de326a4f89e8939ca76a0ba, type: 3}
+  m_Name: SignalQuality
+  m_EditorClassIdentifier: 
+  tutorialName: SignalQuality
+  tutorialSubtitles: 2
+  tutorialClip: {fileID: 8300000, guid: 333ece54758137a42a55ee10d76b738d, type: 3}
+  subtitleList:
+  - "Howdy, cadet. Name\u2019s John\u2014your guide through this flight."
+  - See those cheerful little planes flying in formation around us?
+  - "Those are our wingmen, and they\u2019re tuned in to your BCI thingy\u2014that
+    brain-reading gizmo you\u2019ve got hooked up."
+  - Each plane represents one electrode. If one starts bobbing through turbulence,
+  - "its signal\u2019s getting jittery. And if it vanishes from the sky, that signal\u2019s
+    gone dark."
+  - "Right now, they\u2019re all flying smooth and steady\u2014that means everything's
+    in working order, and you're in full control."
+  - "Keep it that way, and we\u2019ll have a fine flight ahead."

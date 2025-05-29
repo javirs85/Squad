@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6545bc894de326a4f89e8939ca76a0ba, type: 3}
+  m_Name: Fuel
+  m_EditorClassIdentifier: 
+  tutorialName: Fuel
+  tutorialSubtitles: 1
+  tutorialClip: {fileID: 8300000, guid: fc8c829377bd4f6419d7f495caa4594d, type: 3}
+  subtitleList:
+  - "Alright, now that we\u2019re flying steady\u2014let\u2019s talk fuel."
+  - Look over to the left side of the cockpit. See that gauge?
+  - "That\u2019s not just for show\u2014it\u2019s linked straight to the battery
+    level of your BCI thingy."
+  - When it's green, we're good to go.
+  - "Yellow? That means power\u2019s running low\u2014might want to land and recharge
+    soon."
+  - "But if it hits red... buckle up. The device could shut down any moment, and
+    we\u2019ll be flying blind."
+  - Keep one eye on that gauge, cadet. A sharp pilot always knows their limits.

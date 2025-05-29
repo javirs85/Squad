@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6545bc894de326a4f89e8939ca76a0ba, type: 3}
+  m_Name: PreTraining_Explanation_2
+  m_EditorClassIdentifier: 
+  tutorialName: PreTraining_Explanation_2
+  tutorialSubtitles: 8
+  tutorialClip: {fileID: 8300000, guid: f7145002751c4c4429bb8b341068a561, type: 3}
+  subtitleList:
+  - There. Do you see those meters lighting up on your dash?
+  - "Right in front of you are two meters stacked up \u2014 one red, one blue."
+  - "That big red one on the bottom? That shows how steady your mind is\u2014how
+    relaxed you are."
+  - "When that red bar is full\u2014nice and glowing\u2014that\u2019s your sweet
+    spot."
+  - "Hold it there long enough, and the blue bar on top starts lighting up\u2014"
+  - Section by section, as you see happening right now.
+  - "Keep calm and let it fill all the way to the end\u2014"
+  - "And boom\u2014you\u2019ll launch a missile straight at the enemy ship ahead."

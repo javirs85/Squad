@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6545bc894de326a4f89e8939ca76a0ba, type: 3}
+  m_Name: Training_RelaxStarts
+  m_EditorClassIdentifier: 
+  tutorialName: Training_RelaxStarts
+  tutorialSubtitles: 5
+  tutorialClip: {fileID: 8300000, guid: 97891989fbf236a41a3c9c83be7cfc3a, type: 3}
+  subtitleList:
+  - Now, close your eyes and relax. Stay still until you hear the bell.

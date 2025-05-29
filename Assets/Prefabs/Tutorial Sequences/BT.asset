@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6545bc894de326a4f89e8939ca76a0ba, type: 3}
+  m_Name: BT
+  m_EditorClassIdentifier: 
+  tutorialName: BT
+  tutorialSubtitles: 0
+  tutorialClip: {fileID: 8300000, guid: 572b9e7869a022d41a1c91d61ab56291, type: 3}
+  subtitleList:
+  - "Whoa\u2014did you feel that? Bit of static just now, like the screen had a hiccup?"
+  - That, cadet, was a Bluetooth glitch.
+  - "Nothing to worry about\u2014just means a few brain signals from your BCI thingy
+    didn\u2019t get through."
+  - "Every now and then, it\u2019s normal."
+  - But if you start seeing a lot of those, the connection might need checking.
+  - "For now, stay sharp and keep flying\u2014minor turbulence like that won\u2019t
+    bring us down."

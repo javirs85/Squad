@@ -74,6 +74,7 @@ public class TutorialController : MonoBehaviour
 	public void SQPlanesOut() => gameController.HideAllFriends();
 
     public void AlphaShowBars() => AlphaController.StartDemo();
+    //public void AlphaDemo() => AlphaController.StartDemoMode();
 
 	public void BringInPlanes()
     {

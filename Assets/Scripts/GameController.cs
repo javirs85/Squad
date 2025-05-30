@@ -31,11 +31,16 @@ public class GameController : MonoBehaviour
 	public FuelGaugeManager FuelGaugeManager;
 	public GlitchController GlitchController;
 
+	private bool IsSQDemoMode = false;
+
+	public void StartSQDemoMode() => IsSQDemoMode = true;
+	public void FinishSQDemoMode() => IsSQDemoMode = false;
+
 
 	//Planes used for selecting amplifier
 	private List<GameObject> PlaneOptions = new();
 
-	private bool debugSequenceRunning = false;
+	//private bool debugSequenceRunning = false;
 
 
     private void Awake()
@@ -195,7 +200,7 @@ public class GameController : MonoBehaviour
 				Wiggler.MakeSuperJerky = false;
 			}
 		}
-		catch (Exception e)
+		catch /*(Exception e)*/
 		{
 			//Debug.Log(e.Message);
 		}
@@ -219,10 +224,21 @@ public class GameController : MonoBehaviour
 
 	public void MakeFriendJerk(int i)
 	{
+		if (IsSQDemoMode) return;
+
 		if (i == 0) FriendJerkStart(Friend1);
 		else if (i == 1) FriendJerkStart(Friend2);
 		else if (i == 2) FriendJerkStart(Friend3);
 		else if (i == 3) FriendJerkStart(Friend4);
+	}
+
+	public void MakeFriendJerkDemoMode(int i)
+	{
+		if (i == 0) FriendJerkStart(Friend1);
+		else if (i == 1) FriendJerkStart(Friend2);
+		else if (i == 2) FriendJerkStart(Friend3);
+		else if (i == 3) FriendJerkStart(Friend4);
+		else return;
 	}
 
 	public void ShowFriend(int i)
@@ -289,7 +305,7 @@ public class GameController : MonoBehaviour
 
     IEnumerator FullDebugSequence()
     {
-        debugSequenceRunning = true;
+        //debugSequenceRunning = true;
         ShowAllFriends();
         yield return new WaitForSeconds(5);
         ToggleObjectInScreen(Enemy);
@@ -318,7 +334,7 @@ public class GameController : MonoBehaviour
         ToggleObjectInScreen(Enemy);
         yield return new WaitForSeconds(2);
 
-        debugSequenceRunning = false;
+        //debugSequenceRunning = false;
     }
 
 }

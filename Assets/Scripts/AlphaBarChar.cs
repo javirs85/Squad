@@ -35,7 +35,6 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 	public int TrainingSamples = 200;
 
 	enum GoingToDirections { Up, Down, noWhere};
-	GoingToDirections GoingTo = GoingToDirections.Up;
 	public enum BarStatuses { Active, Inactive, Marker };
 
 	private AudioSource Audio;
@@ -83,7 +82,7 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 		GoTo(Statuses.NothingReady);
 	}
 
-	float CurrentMarkerValue = 0;
+	//float CurrentMarkerValue = 0;
 
 	public void SetAlphaPosition(float v)
 	{
@@ -176,18 +175,7 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 
 	public void SetReferenceValue(float alpha)
 	{
-		if(alpha == 1)
-		{
-			GoingTo = GoingToDirections.Up;
-			CurrentMarkerValue = 0;
-		}
-		else if (alpha == 0)
-		{
-			GoingTo = GoingToDirections.Down;
-			CurrentMarkerValue = 10;
-		}
-		else
-			GoingTo = GoingToDirections.noWhere;
+		// not used here
 	}
 
 	public void SetPoints(GameObject pointsBar, bool v)

@@ -23,6 +23,10 @@ public class FuelGaugeManager : MonoBehaviour
 	private Color target0Color;
 	private Color target1Color;
 
+	private bool IsDemoMode = false;
+
+	public void StartDemoMode() => IsDemoMode = true;
+	public void FinishDemoMode() => IsDemoMode = false;
 
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -85,6 +89,8 @@ public class FuelGaugeManager : MonoBehaviour
 
 	public void SetFuelLevel(float val)
 	{
+		if (IsDemoMode) return;
+
 		CurrentBatteryLevel = val;
 
 		if (val > 60) SetBaseColor(FuelColors.green);

@@ -4,8 +4,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static Gtec.Chain.Common.SignalProcessingPipelines.OSCARPipeline;
 
 public class TutorialController : MonoBehaviour
 {
@@ -14,8 +16,11 @@ public class TutorialController : MonoBehaviour
     [SerializeField] TextMeshProUGUI subtitleUI;
     [SerializeField] AudioSource tutorialAudioSource;
     [SerializeField] Animator tutorialAnimator;
+    [SerializeField] GlitchController Glitch;
+    [SerializeField] FuelGaugeManager fuelGaugeManager;
+    [SerializeField] GameController gameController;
 
-    [SerializeField] TutorialSequence debugTutorial;
+	[SerializeField] TutorialSequence debugTutorial;
 
     TutorialSequence currentTutorial;
     int subtitleIndex = 0;
@@ -37,6 +42,8 @@ public class TutorialController : MonoBehaviour
     private void Awake()
     {
         instance = this;
+
+        
     }
 
     private void Update()
@@ -49,13 +56,34 @@ public class TutorialController : MonoBehaviour
         }
     }
 
-    public void StartTutorialSequence(TutorialSequence sequence)
+    public void ShowGlitch() => Glitch.TriggerGlitch();
+
+    public void FuelDemoMode() => fuelGaugeManager.StartDemoMode();
+    public void FuelFinishDemoMode() => fuelGaugeManager.FinishDemoMode();
+    public void FuelRed() => fuelGaugeManager.SetFuelLevel(FuelGaugeManager.FuelColors.red);
+	public void FuelYellow() => fuelGaugeManager.SetFuelLevel(FuelGaugeManager.FuelColors.yellow);
+	public void FuelGreen() => fuelGaugeManager.SetFuelLevel(FuelGaugeManager.FuelColors.green);
+
+    public void SQPlanesIn() => gameController.ShowAllFriends();
+    public void SQPlanesDemoMode() => gameController.StartSQDemoMode();
+	public void SQPlanesFinishDemoMode() => gameController.FinishSQDemoMode();
+	public void SQPlanesOut() => gameController.HideAllFriends();
+
+	public void BringInPlanes()
+    {
+        GameController.instance.Friend1.SetActive(true);
+        GameController.instance.Friend2.SetActive(true);
+        GameController.instance.Friend3.SetActive(true);
+        GameController.instance.Friend4.SetActive(true);
+    }
+
+
+public void StartTutorialSequence(TutorialSequence sequence)
     {
         subtitleIndex = 0;
 
         tutorialAnimator.SetTrigger(currentTutorial.tutorialName);
         tutorialAudioSource.clip = currentTutorial.tutorialClip;
-        tutorialAudioSource.Play();
         //ReproduceSubtitles(currentTutorial.tutorialSubtitles);
     }
 
@@ -63,6 +91,14 @@ public class TutorialController : MonoBehaviour
     {
         tutorialAudioSource.Play();
     }
+
+    public void StartAudio()
+    {
+		if (!tutorialAudioSource.isPlaying)
+		{
+			tutorialAudioSource.Play();
+		}
+	}
 
     public void NextSubtitle()
     {
@@ -156,8 +192,10 @@ public class TutorialController : MonoBehaviour
         new Subtitle("Howdy, cadet. Name抯 John梱our guide through this flight.", 4.0f),
         new Subtitle("See those cheerful little planes flying in formation around us?", 3.5f),
         new Subtitle("Those are our wingmen, and they抮e tuned in to your BCI thingy梩hat brain-reading gizmo you抳e got hooked up.", 6.0f),
-        new Subtitle("Each plane represents one electrode. If one starts bobbing through turbulence,", 4.0f),
-        new Subtitle("its signal抯 getting jittery. And if it vanishes from the sky, that signal抯 gone dark.", 6.0f),
+		new Subtitle("Each one is keeping watch over not just one梑ut two of your brain sensors.", 3.0f),
+		new Subtitle("That抯 why they抳e got numbers on their tail fins條ike 𙥨� or 𚍂敆each pair shows which electrodes they抮e watching", 5.0f),
+		new Subtitle("If one starts bobbing through turbulence,its signal抯 getting jittery.", 4.0f),
+		new Subtitle("And if it vanishes from the sky, that signal抯 gone dark.", 6.0f),
         new Subtitle("Right now, they抮e all flying smooth and steady梩hat means everything's in working order, and you're in full control.", 6.5f),
         new Subtitle("Keep it that way, and we抣l have a fine flight ahead.", 3.0f)
     };

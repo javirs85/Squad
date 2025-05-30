@@ -7,6 +7,8 @@ using UnityEngine;
 public class GlitchController : MonoBehaviour
 {
 	public Renderer GlitchRenderer; // Assign the quad's MeshRenderer
+
+
 	private Material GlitchMaterial; // Assign the material with fade support
 	private AudioSource GlitchAudioSource;
 

@@ -20,9 +20,12 @@ MonoBehaviour:
   - See those cheerful little planes flying in formation around us?
   - "Those are our wingmen, and they\u2019re tuned in to your BCI thingy\u2014that
     brain-reading gizmo you\u2019ve got hooked up."
-  - Each plane represents one electrode. If one starts bobbing through turbulence,
-  - "its signal\u2019s getting jittery. And if it vanishes from the sky, that signal\u2019s
-    gone dark."
+  - "Each one is keeping watch over not just one\u2014but two of your brain sensors."
+  - "That\u2019s why they\u2019ve got numbers on their tail fins\u2014like \u201C1.2\u201D
+    or \u201C3.4\u201D\u2014each pair shows which electrodes they\u2019re watching"
+  - "If one starts bobbing through turbulence, it means one of its signal\u2019s
+    getting jittery."
+  - "And if it vanishes from the sky, that signal\u2019s gone dark."
   - "Right now, they\u2019re all flying smooth and steady\u2014that means everything's
     in working order, and you're in full control."
   - "Keep it that way, and we\u2019ll have a fine flight ahead."

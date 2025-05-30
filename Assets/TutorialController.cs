@@ -66,6 +66,9 @@ public class TutorialController : MonoBehaviour
 
     public void SQPlanesIn() => gameController.ShowAllFriends();
     public void SQPlanesDemoMode() => gameController.StartSQDemoMode();
+    public void SQPlanesWobble() => gameController.MakeFriendJerk(1, true);
+    public void SQPlaneStopWobble() => gameController.MakeFriendHappy(1, true);
+    public void SQPlaneExit() => gameController.HideFriend(3, true);
 	public void SQPlanesFinishDemoMode() => gameController.FinishSQDemoMode();
 	public void SQPlanesOut() => gameController.HideAllFriends();
 

@@ -222,9 +222,10 @@ public class GameController : MonoBehaviour
 		}
 	}
 
-	public void MakeFriendJerk(int i)
+	public void MakeFriendJerk(int i, bool forced = false)
 	{
-		if (IsSQDemoMode) return;
+		if (IsSQDemoMode)
+			if (!forced) return;
 
 		if (i == 0) FriendJerkStart(Friend1);
 		else if (i == 1) FriendJerkStart(Friend2);
@@ -232,14 +233,6 @@ public class GameController : MonoBehaviour
 		else if (i == 3) FriendJerkStart(Friend4);
 	}
 
-	public void MakeFriendJerkDemoMode(int i)
-	{
-		if (i == 0) FriendJerkStart(Friend1);
-		else if (i == 1) FriendJerkStart(Friend2);
-		else if (i == 2) FriendJerkStart(Friend3);
-		else if (i == 3) FriendJerkStart(Friend4);
-		else return;
-	}
 
 	public void ShowFriend(int i)
 	{
@@ -248,16 +241,22 @@ public class GameController : MonoBehaviour
 		else if (i == 2) MoveObject(ObjectPositions.OnScreen, Friend3);
 		else if (i == 3) MoveObject(ObjectPositions.OnScreen, Friend4);
 	}
-	public void HideFriend(int i)
+	public void HideFriend(int i, bool forced = false)
 	{
+		if (IsSQDemoMode) 
+			if(!forced) return; // In demo mode we don't hide friends unless forced
+
 		if (i == 0) MoveObject(ObjectPositions.OutsideScreen, Friend1);
 		else if (i == 1) MoveObject(ObjectPositions.OutsideScreen, Friend2);
 		else if (i == 2) MoveObject(ObjectPositions.OutsideScreen, Friend3);
 		else if (i == 3) MoveObject(ObjectPositions.OutsideScreen, Friend4);
 	}
 
-	public void MakeFriendHappy(int i)
+	public void MakeFriendHappy(int i, bool forced = false)
 	{
+		if (IsSQDemoMode)
+			if (!forced) return;
+
 		GameObject f = null;
 		if (i == 0) f = Friend1;
 		else if (i == 1) f = Friend2;
@@ -271,6 +270,7 @@ public class GameController : MonoBehaviour
 			FriendJerkStop(f);
 		}
 	}
+
 
 	public void ShowEnemy()
 	{

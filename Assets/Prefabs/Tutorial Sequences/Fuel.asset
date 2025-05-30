@@ -20,7 +20,7 @@ MonoBehaviour:
   - Look over to the left side of the cockpit. See that gauge?
   - "That\u2019s not just for show\u2014it\u2019s linked straight to the battery
     level of your BCI thingy."
-  - When it's green, we're good to go.
+  - When it's normal, we're good to go.
   - "Yellow? That means power\u2019s running low\u2014might want to land and recharge
     soon."
   - "But if it hits red... buckle up. The device could shut down any moment, and

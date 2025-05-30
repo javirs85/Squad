@@ -1061,6 +1061,7 @@ MonoBehaviour:
   Glitch: {fileID: 0}
   fuelGaugeManager: {fileID: 0}
   gameController: {fileID: 0}
+  AlphaController: {fileID: 0}
   debugTutorial: {fileID: 0}
 --- !u!1 &269172789
 GameObject:
@@ -5752,7 +5753,8 @@ MonoBehaviour:
   Glitch: {fileID: 192796269}
   fuelGaugeManager: {fileID: 6562170439925097233}
   gameController: {fileID: 228368431}
-  debugTutorial: {fileID: 11400000, guid: 798c4279f58ba8140a8ccb48821d9d31, type: 2}
+  AlphaController: {fileID: 812733151}
+  debugTutorial: {fileID: 11400000, guid: ae6b0ab420a37624da7b21e0832d0a50, type: 2}
 --- !u!114 &1276303582
 MonoBehaviour:
   m_ObjectHideFlags: 0

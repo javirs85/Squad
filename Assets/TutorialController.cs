@@ -19,6 +19,7 @@ public class TutorialController : MonoBehaviour
     [SerializeField] GlitchController Glitch;
     [SerializeField] FuelGaugeManager fuelGaugeManager;
     [SerializeField] GameController gameController;
+    [SerializeField] AlphaBarChar AlphaController;
 
 	[SerializeField] TutorialSequence debugTutorial;
 
@@ -71,6 +72,8 @@ public class TutorialController : MonoBehaviour
     public void SQPlaneExit() => gameController.HideFriend(3, true);
 	public void SQPlanesFinishDemoMode() => gameController.FinishSQDemoMode();
 	public void SQPlanesOut() => gameController.HideAllFriends();
+
+    public void AlphaShowBars() => AlphaController.StartDemo();
 
 	public void BringInPlanes()
     {

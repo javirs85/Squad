@@ -52,6 +52,13 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
+    functionName: PlayTutorialAudio
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.016666668
     functionName: NextSubtitle
     data: 
     objectReferenceParameter: {fileID: 0}
@@ -60,6 +67,13 @@ AnimationClip:
     messageOptions: 0
   - time: 5.516667
     functionName: NextSubtitle
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 5.5833335
+    functionName: AlphaShowBars
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

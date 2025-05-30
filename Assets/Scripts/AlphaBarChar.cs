@@ -255,7 +255,7 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 
 	public float MathAlphaAverage { get; set; } = 0;
 
-	enum Statuses { NothingReady, MathMeasuring, MathReady, RelaxMeasuring, FreeRun };
+	enum Statuses { NothingReady, MathMeasuring, MathReady, RelaxMeasuring, FreeRun, Demo };
 	Statuses currentStatus = Statuses.NothingReady;
 
 	List<float> CurrentMeasure = new();
@@ -274,6 +274,11 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 	public void FreeRun()
 	{
 		GoTo(Statuses.FreeRun);
+	}
+
+	public void StartDemo()
+	{
+		GoTo(Statuses.Demo);
 	}
 
 
@@ -320,6 +325,13 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 			ShowAllBars();
 			ShowPointsBars();
 			GameController.instance.ShowEnemy();
+		}
+		else if (newStatus == Statuses.Demo)
+		{
+			ScreenTextMesh.text = "";
+			ProgressBarObject.SetActive(false);
+			ShowAllBars();
+			ShowPointsBars();
 		}
 
 		currentStatus = newStatus;

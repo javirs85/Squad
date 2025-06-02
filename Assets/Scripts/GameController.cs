@@ -187,6 +187,11 @@ public class GameController : MonoBehaviour
 		Missile1.LaunchMissile();
 		Missile2.LaunchMissile();
 	}
+	public void FireMissilesDemo()
+	{
+		Missile1.LaunchMisileDemo();
+		Missile2.LaunchMisileDemo();
+	}
 
 	public void FriendJerkStop(GameObject obj)
 	{

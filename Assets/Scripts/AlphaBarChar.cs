@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.Mathematics;
+using Unity.VisualScripting;
+
 //using UnityEditor.Networking.PlayerConnection;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -42,6 +44,22 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 	private List<GameObject> Points = new List<GameObject>();
 	private int CurrentPoints = 0;
 
+	private float DemoNextValue = 0.0f;
+	private float DemoCurrentValue = 0.0f;
+
+	float noiseTime = 0f; // demo mode 
+	float noiseSpeed = 1f; // demo mode
+	int DemoCounter = 0;
+
+	public void DemoMoveAlphaValues() { 
+		GoTo(Statuses.Demo);
+		RelaxAverage = 10.0f;
+		MathAlphaAverage = 1.0f;
+	}
+	public void DemoAlphaToTop()
+	{
+		GoTo(Statuses.DemoTop);
+	}
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
@@ -112,6 +130,10 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 		}
 		else if (currentStatus == Statuses.FreeRun)
 			PaintBars(v);
+		else if(currentStatus == Statuses.Demo || currentStatus == Statuses.DemoTop)
+		{
+			 PaintBars(v);
+		}
 
 	}
 
@@ -201,7 +223,24 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 		}
 		if(barStatus == BarStatuses.Marker)
 		{
-			CurrentPoints++;
+			if(currentStatus == Statuses.DemoTop)
+			{
+				DemoCounter++;
+				if(DemoCounter == 20)
+				{
+					DemoCounter = 0;
+					CurrentPoints++;
+					if(CurrentPoints == 100)
+					{
+						DemoMoveAlphaValues();
+						CurrentPoints = 0;
+					}
+				}
+			}
+			else
+			{
+				CurrentPoints++;
+			}
 			int ActivePoints = (int)math.round(CurrentPoints / 10);
 			for (int i = 0; i < Points.Count; i++)
 			{
@@ -251,11 +290,29 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 			if (IsScreenClicked())
 				GoTo(Statuses.NothingReady);
 		}
+		else if(currentStatus == Statuses.Demo)
+		{
+			DemoCurrentValue = Mathf.Lerp(DemoCurrentValue, DemoNextValue, Time.deltaTime);
+			SetAlphaPosition(DemoCurrentValue);
+
+			// Si la diferencia es muy pequeña, busca el siguiente valor
+			if (Mathf.Abs(DemoCurrentValue - DemoNextValue) < 0.1f)
+			{
+				noiseTime += noiseSpeed*10;
+				float noise = Mathf.PerlinNoise(noiseTime+0.1f, 0.1f);
+				DemoNextValue = noise * 10;// Mathf.Lerp(1f, 10f, noise); // Escala de 1 a 10
+			}
+		}
+		else if (currentStatus == Statuses.DemoTop)
+		{
+			DemoCurrentValue = Mathf.Lerp(DemoCurrentValue, 10.1f, Time.deltaTime);
+			SetAlphaPosition(DemoCurrentValue);
+		}
 	}
 
 	public float MathAlphaAverage { get; set; } = 0;
 
-	enum Statuses { NothingReady, MathMeasuring, MathReady, RelaxMeasuring, FreeRun, Demo };
+	enum Statuses { NothingReady, MathMeasuring, MathReady, RelaxMeasuring, FreeRun, Demo, DemoTop };
 	Statuses currentStatus = Statuses.NothingReady;
 
 	List<float> CurrentMeasure = new();
@@ -279,6 +336,10 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 	public void StartDemo()
 	{
 		GoTo(Statuses.Demo);
+	}
+	public void StartDemoTop()
+	{
+		GoTo(Statuses.DemoTop);
 	}
 
 

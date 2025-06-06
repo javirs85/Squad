@@ -13,7 +13,7 @@ public class TutorialController : MonoBehaviour
 {
     static TutorialController instance;
 
-    [SerializeField] TextMeshProUGUI subtitleUI;
+    [SerializeField] TextMeshPro subtitleUI;
     [SerializeField] AudioSource tutorialAudioSource;
     [SerializeField] Animator tutorialAnimator;
     [SerializeField] GlitchController Glitch;
@@ -43,8 +43,12 @@ public class TutorialController : MonoBehaviour
     private void Awake()
     {
         instance = this;
+    }
 
-        
+    private void Start()
+    {
+        //currentTutorial = debugTutorial;
+        //StartTutorialSequence(currentTutorial);
     }
 
     private void Update()

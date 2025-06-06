@@ -63,7 +63,9 @@ public class TutorialController : MonoBehaviour
 
     public void ShowGlitch() => Glitch.TriggerGlitch();
 
-    public void FuelDemoMode() => fuelGaugeManager.StartDemoMode();
+    public void MakeScreenBlack()=> AlphaController.ScreenTextMesh.text = "";
+
+	public void FuelDemoMode() => fuelGaugeManager.StartDemoMode();
     public void FuelFinishDemoMode() => fuelGaugeManager.FinishDemoMode();
     public void FuelRed() => fuelGaugeManager.SetFuelLevel(FuelGaugeManager.FuelColors.red);
 	public void FuelYellow() => fuelGaugeManager.SetFuelLevel(FuelGaugeManager.FuelColors.yellow);
@@ -78,7 +80,9 @@ public class TutorialController : MonoBehaviour
 	public void SQPlanesOut() => gameController.HideAllFriends();
 
     public void AlphaShowBars() => AlphaController.StartDemo();
-    //public void AlphaDemo() => AlphaController.StartDemoMode();
+    public void AlphaDemo() => AlphaController.DemoMoveAlphaValues();
+    public void AlphaDemoToTop() => AlphaController.DemoAlphaToTop();
+    public void DemoLaunchMisiles() => gameController.FireMissilesDemo();
 
 	public void BringInPlanes()
     {
@@ -109,6 +113,7 @@ public void StartTutorialSequence(TutorialSequence sequence)
 		{
 			tutorialAudioSource.Play();
 		}
+        MakeScreenBlack();
 	}
 
     public void NextSubtitle()

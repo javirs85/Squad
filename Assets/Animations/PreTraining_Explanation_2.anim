@@ -52,14 +52,14 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: NextSubtitle
+    functionName: StartAudio
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0
-    functionName: StartAudio
+    functionName: NextSubtitle
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -107,13 +107,6 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 20.816668
-    functionName: DemoLaunchMisiles
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
   - time: 21
     functionName: NextSubtitle
     data: 
@@ -123,6 +116,13 @@ AnimationClip:
     messageOptions: 0
   - time: 24.516666
     functionName: NextSubtitle
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 27.283333
+    functionName: DemoLaunchMisiles
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

@@ -31,7 +31,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 42.233334
+    m_StopTime: 43.483334
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -163,15 +163,15 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 42.2
-    functionName: SQPlanesFinishDemoMode
+  - time: 42.466667
+    functionName: NextSubtitle
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 42.233334
-    functionName: NextSubtitle
+  - time: 43.483334
+    functionName: SQPlanesFinishDemoMode
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

@@ -97,7 +97,7 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 
 
 		SetAlphaPosition(0);
-		GoTo(Statuses.NothingReady);
+		GoTo(Statuses.TutorialReady);
 	}
 
 	//float CurrentMarkerValue = 0;
@@ -312,13 +312,22 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 
 	public float MathAlphaAverage { get; set; } = 0;
 
-	enum Statuses { NothingReady, MathMeasuring, MathReady, RelaxMeasuring, FreeRun, Demo, DemoTop };
-	Statuses currentStatus = Statuses.NothingReady;
+	enum Statuses { NothingReady, MathMeasuring, MathReady, RelaxMeasuring, FreeRun, Demo, DemoTop, TutorialReady, TutorialSequence };
+	Statuses currentStatus = Statuses.TutorialReady;
 
 	List<float> CurrentMeasure = new();
-	
 
-	public void StartMathTraining()
+    public void NextTutorialState()
+    {
+        GoTo(Statuses.TutorialReady);
+    }
+
+    public void EndTutorialState()
+    {
+        GoTo(Statuses.NothingReady);
+    }
+
+    public void StartMathTraining()
 	{
 		GoTo(Statuses.MathMeasuring);
 	}
@@ -345,7 +354,22 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 
 	private void GoTo(Statuses newStatus)
 	{
-		if(newStatus == Statuses.NothingReady)
+        if (newStatus == Statuses.TutorialReady)
+        {
+            HideAllBars();
+            HidePointsBars();
+            ScreenTextMesh.text = "Tap the screen to proceed with the tutorial";
+            ProgressBarObject.SetActive(false);
+        }
+        else if (newStatus == Statuses.TutorialSequence)
+        {
+            HideAllBars();
+            HidePointsBars();
+            ScreenTextMesh.text = "";
+            ProgressBarObject.SetActive(false);
+			TutorialController.instance.MainTutorialSequence();
+        }
+        else if (newStatus == Statuses.NothingReady)
 		{
 			HideAllBars();
 			HidePointsBars();
@@ -400,7 +424,11 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 
 	public void SimulateClick()
 	{
-		if (currentStatus == Statuses.NothingReady)
+        if (currentStatus == Statuses.TutorialReady)
+        {
+			GoTo(Statuses.TutorialSequence);
+        }
+        else if (currentStatus == Statuses.NothingReady)
 		{
 			GoTo(Statuses.MathMeasuring);
 		}

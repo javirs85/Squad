@@ -11,7 +11,7 @@ using static Gtec.Chain.Common.SignalProcessingPipelines.OSCARPipeline;
 
 public class TutorialController : MonoBehaviour
 {
-    static TutorialController instance;
+    public static TutorialController instance;
 
     [SerializeField] TextMeshPro subtitleUI;
     [SerializeField] AudioSource tutorialAudioSource;
@@ -25,6 +25,9 @@ public class TutorialController : MonoBehaviour
 
     TutorialSequence currentTutorial;
     int subtitleIndex = 0;
+    [SerializeField] TutorialSequence[] tutorialSeries;
+    int tutorialSeriesIndex = 0;
+    bool tutorialEnded = false;
 
     public enum SubtitleName
     {
@@ -93,7 +96,7 @@ public class TutorialController : MonoBehaviour
     }
 
 
-public void StartTutorialSequence(TutorialSequence sequence)
+    public void StartTutorialSequence(TutorialSequence sequence)
     {
         subtitleIndex = 0;
 
@@ -101,6 +104,14 @@ public void StartTutorialSequence(TutorialSequence sequence)
         tutorialAudioSource.clip = currentTutorial.tutorialClip;
         //ReproduceSubtitles(currentTutorial.tutorialSubtitles);
     }
+
+    public void MainTutorialSequence()
+    {
+        currentTutorial = tutorialSeries[tutorialSeriesIndex];
+        StartTutorialSequence(currentTutorial);
+        tutorialSeriesIndex++;
+    }
+
 
     public void PlayTutorialAudio()
     {
@@ -125,8 +136,27 @@ public void StartTutorialSequence(TutorialSequence sequence)
         }
         else
         {
-            subtitleUI.text = "";
+            TutorialSequenceEnded();
         }
+    }
+
+    void TutorialSequenceEnded()
+    {
+        subtitleUI.text = "";
+
+        if (tutorialEnded)
+            return;
+
+        if (tutorialSeriesIndex >= tutorialSeries.Length)
+        {
+            AlphaController.EndTutorialState();
+            tutorialEnded = true;
+        }
+        else
+        {
+            MainTutorialSequence();
+        }
+
     }
 
     public void ReproduceSubtitles(SubtitleName subtitleName)

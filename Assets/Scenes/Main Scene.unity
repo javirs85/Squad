@@ -1063,6 +1063,7 @@ MonoBehaviour:
   gameController: {fileID: 0}
   AlphaController: {fileID: 0}
   debugTutorial: {fileID: 0}
+  tutorialSeries: []
 --- !u!1 &269172789
 GameObject:
   m_ObjectHideFlags: 0
@@ -4792,9 +4793,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "That\u2019s why they\u2019ve got numbers on their tail fins\u2014like
-    \u201C1\u20132\u201D or \u201C3\u20134\u201D\u2014each pair shows which electrodes
-    they\u2019re watching"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8b62efb3e303a2949b46ed531b77d35c, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8b62efb3e303a2949b46ed531b77d35c, type: 2}
@@ -5933,6 +5932,13 @@ MonoBehaviour:
   gameController: {fileID: 228368431}
   AlphaController: {fileID: 812733151}
   debugTutorial: {fileID: 11400000, guid: d57323ddfb09ad747bc7568df926e8f5, type: 2}
+  tutorialSeries:
+  - {fileID: 11400000, guid: 798c4279f58ba8140a8ccb48821d9d31, type: 2}
+  - {fileID: 11400000, guid: 894761cf3b3657a4f88f8b5277dd1c8b, type: 2}
+  - {fileID: 11400000, guid: 22970abdbcd174242937e0a8397a8366, type: 2}
+  - {fileID: 11400000, guid: ae6b0ab420a37624da7b21e0832d0a50, type: 2}
+  - {fileID: 11400000, guid: 653ad861ed1f60741b1f82308826f560, type: 2}
+  - {fileID: 11400000, guid: d57323ddfb09ad747bc7568df926e8f5, type: 2}
 --- !u!114 &1276303582
 MonoBehaviour:
   m_ObjectHideFlags: 0

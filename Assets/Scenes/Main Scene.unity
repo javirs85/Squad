@@ -5931,7 +5931,7 @@ MonoBehaviour:
   fuelGaugeManager: {fileID: 6562170439925097233}
   gameController: {fileID: 228368431}
   AlphaController: {fileID: 812733151}
-  debugTutorial: {fileID: 11400000, guid: d57323ddfb09ad747bc7568df926e8f5, type: 2}
+  debugTutorial: {fileID: 11400000, guid: 894761cf3b3657a4f88f8b5277dd1c8b, type: 2}
   tutorialSeries:
   - {fileID: 11400000, guid: 798c4279f58ba8140a8ccb48821d9d31, type: 2}
   - {fileID: 11400000, guid: 894761cf3b3657a4f88f8b5277dd1c8b, type: 2}

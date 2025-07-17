@@ -405,6 +405,8 @@ GameObject:
   - component: {fileID: 1211868476}
   - component: {fileID: 1211868475}
   - component: {fileID: 1211868474}
+  - component: {fileID: 1211868480}
+  - component: {fileID: 1211868481}
   m_Layer: 7
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -429,9 +431,9 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1211868475}
-          m_TargetAssemblyTypeName: TouchInteractionDebug, Assembly-CSharp
-          m_MethodName: ChangeMaterialColor
+        - m_Target: {fileID: 1211868480}
+          m_TargetAssemblyTypeName: Test_ChangeScene, Assembly-CSharp
+          m_MethodName: ChangeScene
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -542,6 +544,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1211868480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1211868473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 211cffb8cdbbbbf42b6b006b396f7099, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1211868481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1211868473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c5e46880debd3f42b52e0046da0250b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1949555101
 GameObject:
   m_ObjectHideFlags: 0

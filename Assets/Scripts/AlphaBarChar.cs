@@ -98,7 +98,8 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 
 		SetAlphaPosition(0);
 		GoTo(Statuses.TutorialReady);
-	}
+        //GoTo(Statuses.NothingReady);
+    }
 
 	//float CurrentMarkerValue = 0;
 
@@ -250,8 +251,9 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 			if(CurrentPoints >= 100)
 			{
 				CurrentPoints = 0;
-				GameController.instance.FireMissiles();
-			}
+                //GameController.instance.FireMissiles();
+                GameController.instance.FireMissilesDemo();
+            }
 		}
 	}
 

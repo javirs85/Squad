@@ -125,7 +125,10 @@ public class GameController : MonoBehaviour
 		if (Keyboard.current.hKey.wasReleasedThisFrame)
 			GlitchController.TriggerGlitch();
 
-	}
+		if (Keyboard.current.mKey.wasReleasedThisFrame)
+			FireMissilesDemo();
+
+    }
 
 	void ToggleObjectInScreen(GameObject obj)
 	{

@@ -3296,8 +3296,8 @@ MonoBehaviour:
   AmplifierAutoConnected:
     m_PersistentCalls:
       m_Calls: []
-  AutoConnectionSetting: 2
-  Unicorn: {fileID: 0}
+  AutoConnectionSetting: 0
+  Unicorn: {fileID: 1546568202}
   ConnectedSN: 
   AvailableAmplifiers: []
 --- !u!114 &1546568202

@@ -17,6 +17,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/TEST_UnicornConfiguration/TEST_UnicornConfiguration.unity
     guid: 92aea914553cc42409757c9bc81f3291
+  - enabled: 0
+    path: Assets/Scenes/Empty Test Scene.unity
+    guid: 8e3f08707cab61444bba389fd65ceac6
+  - enabled: 1
+    path: Assets/Scenes/Permissions Scene.unity
+    guid: 77bd8f6ed640a9044b67491c97f6e714
   - enabled: 1
     path: Assets/Scenes/Unicorn Selection.unity
     guid: d528586a19129e0419206548bf1b9d9c

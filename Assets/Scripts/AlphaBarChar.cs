@@ -26,10 +26,26 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 	public TextMeshPro ScreenTextMesh;
 	public GameObject ProgressBarObject;
 	public ProgressBar ProgressBar;
+	public TextMeshPro DebugChalk;
+
+
+	private float _stressAverage;
+	private float _relaxAverage = 10.0f;
 
 	[Header("Ouputs")]
-	public float StressAverage = 0.0f;
-	public float RelaxAverage = 10.0f;
+	public float StressAverage
+	{
+		get { return _stressAverage; }
+		set { _stressAverage = value; }
+	}
+
+	public float RelaxAverage
+	{
+		get { return _relaxAverage; }
+		set { _relaxAverage = value; }
+	}
+
+
 
 	public float AlphaValue { get; set; } = 0.0f;
 
@@ -66,6 +82,8 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 	{
 		Audio = GetComponent<AudioSource>();
 
+		DebugChalk.text = "";
+
 		Transform parentTransform = FirstBar.transform.parent; // Keep reference to the parent
 		bars.Add(FirstBar);
 
@@ -97,8 +115,8 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 
 
 		SetAlphaPosition(0);
-		GoTo(Statuses.TutorialReady);
-        //GoTo(Statuses.NothingReady);
+		//GoTo(Statuses.TutorialReady);
+        GoTo(Statuses.NothingReady);
     }
 
 	//float CurrentMarkerValue = 0;
@@ -377,6 +395,7 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 			HidePointsBars();
 			ScreenTextMesh.text = "Tap the screen to start the stress test";
 			ProgressBarObject.SetActive(false);
+			DebugChalk.text = "";
 		}
 		else if(newStatus == Statuses.MathMeasuring)
 		{
@@ -388,6 +407,7 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 			NextMathChallengeTime = DateTime.Now.AddSeconds(3);
 			ProgressBar.ProgressValue = 0;
 			ProgressBarObject.SetActive(true);
+
 		}
 		else if(newStatus == Statuses.MathReady)
 		{
@@ -395,6 +415,7 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 			ProgressBar.ProgressValue = 0;
 			ProgressBarObject.SetActive(false);
 			ScreenTextMesh.text = "Tap the screen to start the relax test";
+			DebugChalk.text = $"{StressAverage:F1} / - ";
 		}
 		else if(newStatus == Statuses.RelaxMeasuring)
 		{
@@ -412,6 +433,7 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 			ShowAllBars();
 			ShowPointsBars();
 			GameController.instance.ShowEnemy();
+			DebugChalk.text = $"{StressAverage:F1} / {RelaxAverage:F1}";
 		}
 		else if (newStatus == Statuses.Demo)
 		{

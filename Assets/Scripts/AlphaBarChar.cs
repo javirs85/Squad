@@ -116,7 +116,7 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 
 		SetAlphaPosition(0);
 		//GoTo(Statuses.TutorialReady);
-        GoTo(Statuses.NothingReady);
+        GoTo(Statuses.CalibrationReady);
     }
 
 	//float CurrentMarkerValue = 0;
@@ -281,7 +281,7 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 	// Update is called once per frame
 	void Update()
 	{
-		if(currentStatus == Statuses.NothingReady)
+		if(currentStatus == Statuses.CalibrationReady)
 		{
 			if (IsScreenClicked())
 				GoTo(Statuses.MathMeasuring);
@@ -308,7 +308,7 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 		else if (currentStatus == Statuses.FreeRun)
 		{
 			if (IsScreenClicked())
-				GoTo(Statuses.NothingReady);
+				GoTo(Statuses.CalibrationReady);
 		}
 		else if(currentStatus == Statuses.Demo)
 		{
@@ -332,7 +332,7 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 
 	public float MathAlphaAverage { get; set; } = 0;
 
-	enum Statuses { NothingReady, MathMeasuring, MathReady, RelaxMeasuring, FreeRun, Demo, DemoTop, TutorialReady, TutorialSequence };
+	enum Statuses { CalibrationReady, MathMeasuring, MathReady, RelaxMeasuring, FreeRun, Demo, DemoTop, TutorialReady, TutorialSequence };
 	Statuses currentStatus = Statuses.TutorialReady;
 
 	List<float> CurrentMeasure = new();
@@ -344,7 +344,7 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 
     public void EndTutorialState()
     {
-        GoTo(Statuses.NothingReady);
+        GoTo(Statuses.CalibrationReady);
     }
 
     public void StartMathTraining()
@@ -389,7 +389,7 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
             ProgressBarObject.SetActive(false);
 			TutorialController.instance.MainTutorialSequence();
         }
-        else if (newStatus == Statuses.NothingReady)
+        else if (newStatus == Statuses.CalibrationReady)
 		{
 			HideAllBars();
 			HidePointsBars();
@@ -452,7 +452,7 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
         {
 			GoTo(Statuses.TutorialSequence);
         }
-        else if (currentStatus == Statuses.NothingReady)
+        else if (currentStatus == Statuses.CalibrationReady)
 		{
 			GoTo(Statuses.MathMeasuring);
 		}

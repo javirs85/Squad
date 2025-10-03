@@ -27,6 +27,9 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 	public GameObject ProgressBarObject;
 	public ProgressBar ProgressBar;
 	public TextMeshPro DebugChalk;
+	bool clickableScreen = true;
+
+	[SerializeField] private CliffCalibrationTest cliffTest;
 
 
 	private float _stressAverage;
@@ -284,7 +287,8 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 		if(currentStatus == Statuses.CalibrationReady)
 		{
 			if (IsScreenClicked())
-				GoTo(Statuses.MathMeasuring);
+				GoTo(Statuses.CliffMeasuring);
+				//GoTo(Statuses.MathMeasuring);
 		}
 		else if(currentStatus == Statuses.MathMeasuring)
 		{
@@ -332,7 +336,7 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 
 	public float MathAlphaAverage { get; set; } = 0;
 
-	enum Statuses { CalibrationReady, MathMeasuring, MathReady, RelaxMeasuring, FreeRun, Demo, DemoTop, TutorialReady, TutorialSequence };
+	enum Statuses { CalibrationReady, CliffMeasuring, MathMeasuring, MathReady, RelaxMeasuring, FreeRun, Demo, DemoTop, TutorialReady, TutorialSequence };
 	Statuses currentStatus = Statuses.TutorialReady;
 
 	List<float> CurrentMeasure = new();
@@ -366,6 +370,7 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 	{
 		GoTo(Statuses.Demo);
 	}
+
 	public void StartDemoTop()
 	{
 		GoTo(Statuses.DemoTop);
@@ -409,6 +414,13 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 			ProgressBarObject.SetActive(true);
 
 		}
+		else if(newStatus == Statuses.CliffMeasuring)
+		{
+			HideAllBars();
+            ScreenTextMesh.text = "Find the window pattern";
+            clickableScreen = false;
+			cliffTest.StartCliffCalibration();
+        }
 		else if(newStatus == Statuses.MathReady)
 		{
 			HideAllBars();
@@ -464,6 +476,9 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
 
 	private bool IsScreenClicked()
 	{
+		if (!clickableScreen)
+			return false;
+
 		if (Mouse.current is not null && Mouse.current.leftButton.wasPressedThisFrame)
 		{
 			Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());

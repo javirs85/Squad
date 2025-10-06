@@ -31,6 +31,8 @@ public class GameController : MonoBehaviour
 	public FuelGaugeManager FuelGaugeManager;
 	public GlitchController GlitchController;
 
+	public BCI BCI;
+
 	private bool IsSQDemoMode = false;
 
 	public void StartSQDemoMode() => IsSQDemoMode = true;
@@ -149,6 +151,11 @@ public class GameController : MonoBehaviour
 	public void SetAlphaCurrentPosition(float alpha)
 	{
 		Alpha.SetAlphaPosition(alpha);
+	}
+
+	public void SetAlphaBetaThetaValues(float alpha, float beta, float theta)
+	{
+		BCI.ProcessNewMeanBandPowerSample(alpha, beta, theta);
 	}
 
 	void SetAlphaReference(float alpha)

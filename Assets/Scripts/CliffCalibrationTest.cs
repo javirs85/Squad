@@ -7,13 +7,23 @@ public class CliffCalibrationTest : MonoBehaviour
 {
     [SerializeField] VRFader fader;
     [SerializeField] Cliff cliffs;
+    private Animator myAnimator;
     [SerializeField] AlphaBarChar testManager;
+
+    private BCI bciController;
 
     [Header("Test Attributes")]
     [SerializeField] float timeBeforeReset = 20f;
     [SerializeField] int repeats = 3;
     private bool endOfTest = false;
+    public bool freeRunMode = false;
 
+
+    private void Start()
+    {
+        bciController = FindAnyObjectByType<BCI>();
+        myAnimator = GetComponent<Animator>();
+    }
 
     private void Update()
     {
@@ -21,6 +31,11 @@ public class CliffCalibrationTest : MonoBehaviour
         {
             testManager.FreeRun();
             endOfTest = false;
+        }
+
+        if (Keyboard.current.cKey.wasPressedThisFrame)
+        {
+            StartCliffCalibration();
         }
     }
 
@@ -31,19 +46,70 @@ public class CliffCalibrationTest : MonoBehaviour
 
     private IEnumerator ActivateCliffsCoroutine()
     {
-        for (int i = 0; i < repeats; i++)
+        if(freeRunMode)
         {
             fader.FadeOut();
 
             yield return new WaitForSeconds(3);
 
-            cliffs.ResetCliffs();
             cliffs.gameObject.SetActive(true);
+            myAnimator.SetTrigger("Reset");
+
+            yield return new WaitForSeconds(1);
+
             fader.FadeIn();
-
-            yield return new WaitForSeconds(timeBeforeReset);
         }
+        else
+        {
+            for (int i = 0; i < repeats; i++)
+            {
+                fader.FadeOut();
 
+                yield return new WaitForSeconds(3);
+
+                cliffs.gameObject.SetActive(true);
+                myAnimator.SetTrigger("Reset");
+
+                yield return new WaitForSeconds(1);
+                
+                fader.FadeIn();
+
+                yield return new WaitForSeconds(timeBeforeReset);
+            }
+        }
+        
         endOfTest = true;
     }
+
+    public void EnteringCliffs()
+    {
+        if (freeRunMode)
+        {
+            bciController.StartFreeRun();
+        }
+        else
+        {
+            bciController.StartStressMeasuring();
+        }
+    }
+
+    public void ExitingCliffs()
+    {
+        if (freeRunMode)
+        {
+            bciController.FinishFreeRun();
+        }
+        else
+        {
+            bciController.FinishStressMeasuring();
+            bciController.StartRelaxMeasuring();
+        }
+    }
+
+    public void EndRelaxPeriod()
+    {
+        bciController.FinishRelaxMeasuring();
+    }
+
+
 }

@@ -6516,6 +6516,7 @@ MonoBehaviour:
   startPoint: {fileID: 577665910}
   endPoint: {fileID: 1662328873}
   speed: 200
+  myAnimator: {fileID: 0}
 --- !u!4 &293753731
 Transform:
   m_ObjectHideFlags: 0
@@ -15687,6 +15688,7 @@ MonoBehaviour:
   startPoint: {fileID: 580324026}
   endPoint: {fileID: 231852603}
   speed: 400
+  myAnimator: {fileID: 0}
 --- !u!4 &1585113612
 Transform:
   m_ObjectHideFlags: 0
@@ -20478,6 +20480,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2091436790}
   - component: {fileID: 2091436791}
+  - component: {fileID: 2091436792}
   m_Layer: 0
   m_Name: Cliff modes
   m_TagString: Untagged
@@ -20519,6 +20522,29 @@ MonoBehaviour:
   testManager: {fileID: 812733151}
   timeBeforeReset: 20
   repeats: 3
+  freeRunMode: 0
+--- !u!95 &2091436792
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2091436789}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 340b924e1402fa24f8c3115a319feba1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &2110711438
 PrefabInstance:
   m_ObjectHideFlags: 0

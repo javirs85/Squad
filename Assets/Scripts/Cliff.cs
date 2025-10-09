@@ -9,13 +9,19 @@ public class Cliff : MonoBehaviour
     [SerializeField]
     float speed = 5f;
 
+    [SerializeField] private Animator myAnimator;
+
+
     void Update()
     {
-        cliff.transform.position = Vector3.MoveTowards(cliff.transform.position, endPoint.position, speed * Time.deltaTime);    
+        //cliff.transform.position = Vector3.MoveTowards(cliff.transform.position, endPoint.position, speed * Time.deltaTime);    
     }
 
     public void ResetCliffs()
     {
-        cliff.transform.position = startPoint.position;
+        //cliff.transform.position = startPoint.position;
+        myAnimator.SetTrigger("Reset");
     }
+
+
 }

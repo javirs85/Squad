@@ -180,7 +180,14 @@ public class DevicesManager : MonoBehaviour, IDisposable
 
     public void OnApplicationQuit()
     {
-        Unicorn.Disconnect();
+		try
+		{
+			Unicorn.Disconnect();
+		}
+		catch
+		{
+
+		}
     }
 
     protected bool IsSimulator(string SN) => SN.Contains("0000");

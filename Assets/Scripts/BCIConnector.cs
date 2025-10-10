@@ -35,8 +35,11 @@ public class BCIConnector : DevicesManager
 		if (GameController.instance is null) return;
 
 		double alpha = arg0["alpha"];
+		double beta = arg0["beta-mid"];
+		double theta = arg0["theta"];
 		//Debug.Log(alpha);
-		GameController.instance.SetAlphaCurrentPosition((float)alpha);
+		//GameController.instance.SetAlphaCurrentPosition((float)alpha);
+		GameController.instance.SetAlphaBetaThetaValues((float)alpha, (float)beta, (float)theta);
 	}
 
 	List<ChannelQuality.ChannelStates> CurrentQualities = new List<ChannelQuality.ChannelStates>();

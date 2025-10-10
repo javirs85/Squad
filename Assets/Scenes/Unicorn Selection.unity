@@ -3315,14 +3315,14 @@ MonoBehaviour:
   Type: 0
   Signal: 2
   SimulatorAlphaLevelUv: 20
-  AdvancedSettings: 0
-  BuffersizeInSamples: 250
-  BufferOverlapInSamples: 225
+  AdvancedSettings: 1
+  BuffersizeInSamples: 500
+  BufferOverlapInSamples: 125
   Delta: {x: 1, y: 4}
   Theta: {x: 4, y: 8}
   Alpha: {x: 8, y: 12}
   BetaLow: {x: 12, y: 16}
-  BetaMid: {x: 16, y: 20}
+  BetaMid: {x: 13, y: 30}
   BetaHigh: {x: 20, y: 30}
   Gamma: {x: 30, y: 50}
   EEGDataUpdateRateHz: 25

@@ -155,7 +155,14 @@ public class GameController : MonoBehaviour
 
 	public void SetAlphaBetaThetaValues(float alpha, float beta, float theta)
 	{
-		BCI.ProcessNewMeanBandPowerSample(alpha, beta, theta);
+		try
+		{
+			BCI.ProcessNewMeanBandPowerSample(alpha, beta, theta);
+		}
+		catch (Exception)
+		{
+			throw;
+		}
 	}
 
 	void SetAlphaReference(float alpha)

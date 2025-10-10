@@ -16,6 +16,7 @@ public class CliffCalibrationTest : MonoBehaviour
     [SerializeField] float timeBeforeReset = 20f;
     [SerializeField] int repeats = 3;
     private bool endOfTest = false;
+    private bool cycleEnd = false;
     public bool freeRunMode = false;
 
 
@@ -65,6 +66,7 @@ public class CliffCalibrationTest : MonoBehaviour
         {
             for (int i = 0; i < repeats; i++)
             {
+                cycleEnd = false;
                 fader.FadeOut();
 
                 yield return new WaitForSeconds(3);
@@ -77,7 +79,10 @@ public class CliffCalibrationTest : MonoBehaviour
                 
                 fader.FadeIn();
 
-                yield return new WaitForSeconds(timeBeforeReset);
+                while(!cycleEnd)
+                {
+                    yield return null;
+                }
             }
         }
 
@@ -115,6 +120,7 @@ public class CliffCalibrationTest : MonoBehaviour
         if (freeRunMode)
             return;
 
+        cycleEnd = true;
         bciController.FinishRelaxMeasuring();
     }
 

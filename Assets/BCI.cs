@@ -80,7 +80,7 @@ public class BCI : MonoBehaviour
 		AlphaBasedStressAverage = StressTimeValues.Select(x => x.Alpha).Average();
 		AlphaBasedRelaxAverage = RelaxTimeValues.Select(x => x.Alpha).Average();	
 		
-		float test(float x) { return x+2};
+		float test(float x) { return x + 2; };
 		
 
 		EIBasedStressAverage = StressTimeValues

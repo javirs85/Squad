@@ -42,6 +42,7 @@ public class CliffCalibrationTest : MonoBehaviour
     public void StartCliffCalibration()
     {
         StartCoroutine(ActivateCliffsCoroutine());
+
     }
 
     private IEnumerator ActivateCliffsCoroutine()
@@ -52,6 +53,7 @@ public class CliffCalibrationTest : MonoBehaviour
 
             yield return new WaitForSeconds(3);
 
+            myAnimator.SetBool("Active", true);
             cliffs.gameObject.SetActive(true);
             myAnimator.SetTrigger("Reset");
 
@@ -67,6 +69,7 @@ public class CliffCalibrationTest : MonoBehaviour
 
                 yield return new WaitForSeconds(3);
 
+                myAnimator.SetBool("Active", true);
                 cliffs.gameObject.SetActive(true);
                 myAnimator.SetTrigger("Reset");
 
@@ -77,7 +80,8 @@ public class CliffCalibrationTest : MonoBehaviour
                 yield return new WaitForSeconds(timeBeforeReset);
             }
         }
-        
+
+        myAnimator.SetBool("Active", false);
         endOfTest = true;
     }
 
@@ -108,6 +112,9 @@ public class CliffCalibrationTest : MonoBehaviour
 
     public void EndRelaxPeriod()
     {
+        if (freeRunMode)
+            return;
+
         bciController.FinishRelaxMeasuring();
     }
 

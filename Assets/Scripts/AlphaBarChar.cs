@@ -466,7 +466,8 @@ public class AlphaBarChar : MonoBehaviour, iAlphaController
         }
         else if (currentStatus == Statuses.CalibrationReady)
 		{
-			GoTo(Statuses.MathMeasuring);
+			//GoTo(Statuses.MathMeasuring);
+			GoTo(Statuses.CliffMeasuring);
 		}
 		else if (currentStatus == Statuses.MathReady)
 		{

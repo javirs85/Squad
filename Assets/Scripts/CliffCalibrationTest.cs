@@ -8,6 +8,7 @@ public class CliffCalibrationTest : MonoBehaviour
     [SerializeField] VRFader fader;
     [SerializeField] Cliff cliffs;
     private Animator myAnimator;
+    private AudioSource myAudioSource;
 
     private BCI bciController;
 
@@ -23,6 +24,7 @@ public class CliffCalibrationTest : MonoBehaviour
     {
         bciController = FindAnyObjectByType<BCI>();
         myAnimator = GetComponent<Animator>();
+        myAudioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -30,6 +32,7 @@ public class CliffCalibrationTest : MonoBehaviour
         if (endOfTest)
         {
             bciController.StartFreeRun();
+            myAudioSource.Play();
             endOfTest = false;
         }
 
@@ -99,6 +102,8 @@ public class CliffCalibrationTest : MonoBehaviour
         {
             bciController.StartStressMeasuring();
         }
+
+        myAudioSource.Play();
     }
 
     public void ExitingCliffs()
@@ -112,6 +117,8 @@ public class CliffCalibrationTest : MonoBehaviour
             bciController.FinishStressMeasuring();
             bciController.StartRelaxMeasuring();
         }
+
+        myAudioSource.Play();
     }
 
     public void EndRelaxPeriod()
@@ -121,6 +128,8 @@ public class CliffCalibrationTest : MonoBehaviour
 
         cycleEnd = true;
         bciController.FinishRelaxMeasuring();
+
+        myAudioSource.Play();
     }
 
 

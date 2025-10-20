@@ -17,7 +17,7 @@ public class SimplePlot : MonoBehaviour
 	{
 		line = GetComponent<LineRenderer>();
 		line.useWorldSpace = false;
-		line.widthCurve = AnimationCurve.Constant(0, 1, 0.01f);
+		line.widthCurve = AnimationCurve.Constant(0, 1, 0.02f);
 
 		if (prefillWithZeros)
 			Prefill();

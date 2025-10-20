@@ -1,5 +1,6 @@
 ﻿using Gtec.Chain.Common.Nodes.FilterNodes;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -11,6 +12,7 @@ public class BCI : MonoBehaviour
 	[SerializeField] SimplePlot alphaPlot;
 	[SerializeField] SimplePlot eiPlot;
 	[SerializeField] SimplePlot TaskReference;
+	[SerializeField] SimplePlot RedOutput;
 	[SerializeField] TextMeshPro DebugChalk;
 
 	public enum Metrics { NotSet, Alpha, EI }
@@ -36,6 +38,8 @@ public class BCI : MonoBehaviour
 	private readonly List<BandPowersValue> RelaxTimeValues = new();
 	private readonly List<BandPowersValue> FreeRunValues = new();
 
+	private float debugRedPlot = -3;
+
 	// ---------------------------------------------------------
 
 	#region Measuring control
@@ -59,12 +63,30 @@ public class BCI : MonoBehaviour
 	{
 		CurrentMeasuringStatus = MeasuringStatuses.FreeRun;
 		FreeRunValues.Clear();
+
+		StartCoroutine(CallAfterDelay(10f, FinishFreeRun));
 	}
 
 	public void FinishFreeRun()
 	{
 		CurrentMeasuringStatus = MeasuringStatuses.Nothing;
 		CurrentMindStatus = CalculateFreeRunMindStatus();
+		if (CurrentMindStatus == MindStatuses.Stressed)
+		{
+			debugRedPlot = 0.5f;
+		}
+		else if (CurrentMindStatus == MindStatuses.Relaxed)
+		{
+			debugRedPlot = -0.5f;
+		}
+		StartCoroutine(CallAfterDelay(3f, () => { debugRedPlot = 0; }));
+		StartFreeRun();
+	}
+
+	IEnumerator CallAfterDelay(float delay, System.Action Callback)
+	{
+		yield return new WaitForSeconds(delay);
+		Callback?.Invoke();
 	}
 
 	#endregion
@@ -147,6 +169,7 @@ public class BCI : MonoBehaviour
 				alphaPlot.AddValue(Math.Max( Math.Min(alpha/10, 2), 0));
 				eiPlot.AddValue(ei);
 				TaskReference.AddValue(1);
+				RedOutput.AddValue(debugRedPlot);
 				break;
 
 			case MeasuringStatuses.Relax:
@@ -154,6 +177,7 @@ public class BCI : MonoBehaviour
 				alphaPlot.AddValue(Math.Max(Math.Min(alpha / 10, 2), 0));
 				eiPlot.AddValue(ei);
 				TaskReference.AddValue(-1);
+				RedOutput.AddValue(debugRedPlot);
 				break;
 
 			case MeasuringStatuses.FreeRun:
@@ -161,12 +185,14 @@ public class BCI : MonoBehaviour
 				alphaPlot.AddValue(Math.Max(Math.Min(alpha / 10, 2), 0));
 				eiPlot.AddValue(ei);
 				TaskReference.AddValue(0);
+				RedOutput.AddValue(debugRedPlot);
 				break;
 
 			case MeasuringStatuses.Nothing:
 				alphaPlot.AddValue(Math.Max(Math.Min(alpha / 10, 2), 0));
 				eiPlot.AddValue(ei);
 				TaskReference.AddValue(0);
+				RedOutput.AddValue(debugRedPlot);
 				break;
 		}
 	}

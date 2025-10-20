@@ -8,7 +8,6 @@ public class CliffCalibrationTest : MonoBehaviour
     [SerializeField] VRFader fader;
     [SerializeField] Cliff cliffs;
     private Animator myAnimator;
-    [SerializeField] AlphaBarChar testManager;
 
     private BCI bciController;
 
@@ -30,7 +29,7 @@ public class CliffCalibrationTest : MonoBehaviour
     {
         if (endOfTest)
         {
-            testManager.FreeRun();
+            bciController.StartFreeRun();
             endOfTest = false;
         }
 
